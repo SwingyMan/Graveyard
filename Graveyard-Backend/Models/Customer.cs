@@ -22,9 +22,9 @@ namespace Graveyard.Models
         public Customer() { }
     }
     [Keyless]
-    public class Admin {
-        
-     public Customer Customer { get; set; } 
+    public class Owned_Role {
+     public Customer Customer { get; set; }
+     public string Role { get; set; }
     }
     [Keyless]
     public class OwnedGrave
