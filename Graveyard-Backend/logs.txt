@@ -1,0 +1,16 @@
+2023-04-06 22:28:29.902 +02:00 [INF] Done setting up serilog!
+2023-04-06 22:28:36.061 +02:00 [INF] Listed items
+2023-04-06 23:19:44.259 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:19:58.572 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:20:07.487 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:20:57.842 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:21:23.448 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:22:05.051 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:24:18.630 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:24:25.791 +02:00 [INF] Listed items
+2023-04-06 23:29:23.420 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:35:10.249 +02:00 [INF] Done setting up serilog!
+2023-04-06 23:35:22.698 +02:00 [INF] Done setting up serilog!
+2023-04-07 11:36:50.678 +02:00 [INF] Done setting up server!
+2023-04-07 12:16:17.552 +02:00 [INF] Done setting up server!
+2023-04-07 12:17:30.133 +02:00 [INF] Done setting up server!

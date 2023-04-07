@@ -7,7 +7,6 @@ namespace Graveyard.Models
         public DbSet<Grave> grave { get; set; }
         public DbSet<ToBeBurried> burials { get; set; }
         public DbSet<Burried> burried { get; set; }
-        public DbSet<Owned_Role> owned_Roles { get; set; }
         public DbSet<Customer> customer { get; set; }
         public DbSet<Shop> shop { get; set; }
         public DbSet<ShoppingHistory> shopHistory { get; set; }
