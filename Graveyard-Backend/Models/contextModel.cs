@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard.Models
 {
@@ -13,6 +12,7 @@ namespace Graveyard.Models
         public DbSet<ShoppingHistory> shopHistory { get; set; }
         public DbSet<ShoppingList> shopList { get; set; }
         public DbSet<OwnedGrave> ownedGraves { get; set; }
+        public DbSet<GraveOwner> graveOwner { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Host=localhost;Database=graveyard;Username=postgres;Password=123");
     }
 }

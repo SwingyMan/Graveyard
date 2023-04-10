@@ -21,8 +21,9 @@ namespace Graveyard.Models
         public DateTime date_of_sell { get; set; }
     }
     [Keyless]
-    public class ShoppingList {
-        public int quantity {get; set; }
+    public class ShoppingList
+    {
+        public int quantity { get; set; }
         public string status { get; set; }
         public DateTime date_of_sell { get; set; }
         public Customer customer { get; set; }
