@@ -6,7 +6,7 @@ namespace Graveyard.Models
     public class Grave
     {
         [Key]
-        public int id_g { get; set; }
+        public int GraveID { get; set; }
         public int x { get; set; }
         public int y { get; set; }
         public string status { get; set; }
@@ -17,7 +17,7 @@ namespace Graveyard.Models
     public class Burried
     {
         [Key]
-        public int id_z { get; set; }
+        public int BurriedID { get; set; }
         public string name { get; set; }
         public string lastname { get; set; }
         public DateTime date_of_birth { get; set; }
@@ -28,7 +28,7 @@ namespace Graveyard.Models
     public class ToBeBurried
     {
         [Key]
-        public int id_b { get; set; }
+        public int ToBeBurriedID { get; set; }
         public DateTime burial_date { get; set; }
         public Burried burried { get; set; }
     }

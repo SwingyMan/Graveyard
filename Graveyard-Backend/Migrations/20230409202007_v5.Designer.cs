@@ -3,6 +3,7 @@ using System;
 using Graveyard.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Graveyard_Backend.Migrations
 {
     [DbContext(typeof(contextModel))]
-    partial class contextModelModelSnapshot : ModelSnapshot
+    [Migration("20230409202007_v5")]
+    partial class v5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,11 +54,11 @@ namespace Graveyard_Backend.Migrations
 
             modelBuilder.Entity("Graveyard.Models.Customer", b =>
                 {
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
 
                     b.Property<DateTime>("Date_of_creation")
                         .HasColumnType("timestamp without time zone");
@@ -80,7 +83,7 @@ namespace Graveyard_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("CustomerID");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("customer");
                 });
@@ -96,7 +99,7 @@ namespace Graveyard_Backend.Migrations
                     b.Property<int>("BurriedID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<string>("status")
@@ -116,20 +119,20 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasIndex("BurriedID");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("grave");
                 });
 
             modelBuilder.Entity("Graveyard.Models.OwnedGrave", b =>
                 {
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<int>("GraveID")
                         .HasColumnType("integer");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("GraveID");
 
@@ -161,7 +164,7 @@ namespace Graveyard_Backend.Migrations
 
             modelBuilder.Entity("Graveyard.Models.ShoppingHistory", b =>
                 {
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ShopItemID")
@@ -173,7 +176,7 @@ namespace Graveyard_Backend.Migrations
                     b.Property<int>("quantity")
                         .HasColumnType("integer");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ShopItemID");
 
@@ -182,7 +185,7 @@ namespace Graveyard_Backend.Migrations
 
             modelBuilder.Entity("Graveyard.Models.ShoppingList", b =>
                 {
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("date_of_sell")
@@ -198,7 +201,7 @@ namespace Graveyard_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("shopItemID");
 
@@ -226,25 +229,6 @@ namespace Graveyard_Backend.Migrations
                     b.ToTable("burials");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("identityRoles");
-                });
-
             modelBuilder.Entity("Graveyard.Models.Grave", b =>
                 {
                     b.HasOne("Graveyard.Models.Burried", "burried")
@@ -255,7 +239,7 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasOne("Graveyard.Models.Customer", "customer")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -268,7 +252,7 @@ namespace Graveyard_Backend.Migrations
                 {
                     b.HasOne("Graveyard.Models.Customer", "customer")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -287,7 +271,7 @@ namespace Graveyard_Backend.Migrations
                 {
                     b.HasOne("Graveyard.Models.Customer", "customer")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -306,7 +290,7 @@ namespace Graveyard_Backend.Migrations
                 {
                     b.HasOne("Graveyard.Models.Customer", "customer")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

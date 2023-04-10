@@ -1,5 +1,6 @@
 ﻿using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Core;

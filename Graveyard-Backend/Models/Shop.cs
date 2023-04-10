@@ -6,7 +6,7 @@ namespace Graveyard.Models
     public class Shop
     {
         [Key]
-        public int id_i { get; set; }
+        public int ItemID { get; set; }
         public string kind { get; set; }
         public decimal price { get; set; }
         public int quantity { get; set; }

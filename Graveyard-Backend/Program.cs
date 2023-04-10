@@ -1,9 +1,11 @@
 using Graveyard.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,8 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication();
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.AddSecurityDefinition("oauth2", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "bearer {token}",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+});
 builder.Services.AddDbContext<contextModel>();
 using var log = new LoggerConfiguration()
     .WriteTo.Console()
@@ -21,13 +31,11 @@ using var log = new LoggerConfiguration()
 
 builder.Services.AddSingleton<Serilog.ILogger>(log);
 log.Information("Done setting up server!");
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters()
         {
-            ClockSkew = TimeSpan.Zero,
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
@@ -39,6 +47,15 @@ builder.Services
             ),
         };
     });
+builder.Services.AddAuthorization(options =>
+{
+    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
+        JwtBearerDefaults.AuthenticationScheme);
+    defaultAuthorizationPolicyBuilder =
+        defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+
+    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+});
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
@@ -48,11 +65,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
