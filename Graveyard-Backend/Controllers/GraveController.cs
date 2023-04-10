@@ -63,5 +63,16 @@ namespace Graveyard_Backend.Controllers
             var x = _contextModel.grave.FirstOrDefault(y => y.GraveID == id);
             return Ok(x);
         }
+        [HttpGet("/api/grave/buy/{id}/{id}")]
+        public IActionResult buyGrave(int CustomerID,int GraveID)
+        {
+            var customer = _contextModel.customer.FirstOrDefault(x=> x.CustomerID == CustomerID);
+            var grave = _contextModel.grave.FirstOrDefault(x=> x.GraveID ==  GraveID);
+            GraveOwner ownedGrave = new GraveOwner(customer, grave);
+            _contextModel.graveOwner.Add(ownedGrave);
+            _contextModel.SaveChanges();
+            _log.Information("New grave " + grave.GraveID +" owner "+customer.Email+ " from ip: " + HttpContext.Request.Host);
+            return Ok(ownedGrave);
+        }
     }
 }

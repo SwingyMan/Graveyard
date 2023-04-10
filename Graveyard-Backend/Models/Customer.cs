@@ -30,10 +30,4 @@ namespace Graveyard.Models
         }
         public Customer() { }
     }
-    [Keyless]
-    public class OwnedGrave
-    {
-        public Customer customer { get; set; }
-        public Grave grave { get; set; }
-    }
 }

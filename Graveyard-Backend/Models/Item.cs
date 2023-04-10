@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Graveyard.Models
 {
-    public class Shop
+    public class Item
     {
         [Key]
         public int ItemID { get; set; }
@@ -16,7 +16,7 @@ namespace Graveyard.Models
     public class ShoppingHistory
     {
         public Customer customer { get; set; }
-        public Shop Shop { get; set; }
+        public Item Shop { get; set; }
         public int quantity { get; set; }
         public DateTime date_of_sell { get; set; }
     }
@@ -27,6 +27,11 @@ namespace Graveyard.Models
         public string status { get; set; }
         public DateTime date_of_sell { get; set; }
         public Customer customer { get; set; }
-        public Shop shop { get; set; }
+        public Item shop { get; set; }
+    }
+    public class Cart
+    {
+        public Customer Customer { get; set; }
+        public List<Item> items { get; set; }
     }
 }

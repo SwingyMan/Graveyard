@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
 namespace Graveyard_Backend.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,User")]
     public class ShopController : ControllerBase
     {
         private readonly contextModel _contextModel;
@@ -18,21 +18,35 @@ namespace Graveyard_Backend.Controllers
         [HttpGet("/api/shop")]
         public IActionResult listItems()
         {
-            _log.Information("Listed items");
+            _log.Information("Shop listed by: " + HttpContext.Request.Host);
             return Ok(_contextModel.shopList.ToList());
         }
-        [Authorize(Roles = "User,Administrator")]
         [HttpPost("/api/shop/buy/{id}")]
         public IActionResult buyItem(int id)
-        { throw new NotImplementedException(); }
-        [Authorize(Roles = "User,Administrator")]
+        {
+            _log.Information("Shop listed by: " + HttpContext.Request.Host);
+            throw new NotImplementedException(); }
         [HttpGet("/api/shop/cart")]
-        public IActionResult showCart() { throw new NotImplementedException(); }
+        public IActionResult showCart() {
+            _log.Information("Shop listed by: " + HttpContext.Request.Host);
+
+            throw new NotImplementedException(); }
         [HttpPost("/api/shop/add/{id}")]
-        public IActionResult addItem() { throw new NotImplementedException(); }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult addItem() {
+            _log.Information("Shop listed by: " + HttpContext.Request.Host);
+
+            throw new NotImplementedException(); }
         [HttpPut("/api/shop/edit/{id}")]
-        public IActionResult editItem(int id) { throw new NotImplementedException(); }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult editItem(int id) {
+            _log.Information("Shop listed by: " + HttpContext.Request.Host);
+
+            throw new NotImplementedException(); }
         [HttpDelete("/api/shop/delete/{id}")]
-        public IActionResult deleteItem(int id) { throw new NotImplementedException(); }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult deleteItem(int id) {
+            _log.Information("Shop listed by: " + HttpContext.Request.Host);    
+            throw new NotImplementedException(); }
     }
 }
