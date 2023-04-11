@@ -56,12 +56,22 @@ namespace Graveyard_Backend.Controllers
             _contextModel.SaveChanges();
             return Ok(_grave);
         }
+        [Authorize (Roles="Administrator")]
         [HttpGet("/api/grave/get/{id}")]
         public IActionResult getGrave(int id)
         {
             _log.Information("Grave accesed by: " + HttpContext.Request.Host);
             var x = _contextModel.grave.FirstOrDefault(y => y.GraveID == id);
             return Ok(x);
+        }
+
+        [HttpGet("/api/grave/getowned")]
+        public IActionResult getOwnedGrave()
+        {
+            int id = int.Parse(User.Claims.First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
+            var graves = _contextModel.graveOwner.FirstOrDefault(x => x.customer.CustomerID == id);
+            _log.Information("Owned Grave accesed by: " + HttpContext.Request.Host);
+            return Ok(graves.grave.ToList());
         }
         [HttpGet("/api/grave/buy/{id1}/{id2}")]
         public IActionResult buyGrave(int id1,int id2)

@@ -19,7 +19,7 @@ namespace Graveyard_Backend.Controllers
         public IActionResult listItems()
         {
             _log.Information("Shop listed by: " + HttpContext.Request.Host);
-            return Ok(_contextModel.shopList.ToList());
+            return Ok(_contextModel.shop.ToList());
         }
         [HttpPost("/api/shop/buy/{id}")]
         public IActionResult buyItem(int id)
@@ -35,22 +35,33 @@ namespace Graveyard_Backend.Controllers
             _log.Information("Cart requested by: " + HttpContext.Request.Host);
 
             throw new NotImplementedException(); }
-        [HttpPost("/api/shop/add/{id}")]
+        [HttpPost("/api/shop/add")]
         [Authorize(Roles = "Administrator")]
-        public IActionResult addItem() {
-            _log.Information("Shop listed by: " + HttpContext.Request.Host);
-
-            throw new NotImplementedException(); }
+        public IActionResult addItem([FromBody]Item item) {
+            _log.Information("Item added by: " + HttpContext.Request.Host);
+            _contextModel.Add(item);
+            _contextModel.SaveChanges();
+            return Ok();
+        }
         [HttpPut("/api/shop/edit/{id}")]
         [Authorize(Roles = "Administrator")]
-        public IActionResult editItem(int id) {
-            _log.Information("Shop listed by: " + HttpContext.Request.Host);
-
-            throw new NotImplementedException(); }
+        public IActionResult editItem(int id,[FromBody]Item item) {
+            _log.Information("Item eddited by: " + HttpContext.Request.Host);
+            var original = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
+            original.kind = item.kind;
+            original.price = item.price;
+            original.quantity = item.quantity;
+            _contextModel.SaveChanges();
+            return Ok();
+        }
         [HttpDelete("/api/shop/delete/{id}")]
         [Authorize(Roles = "Administrator")]
         public IActionResult deleteItem(int id) {
-            _log.Information("Shop listed by: " + HttpContext.Request.Host);    
-            throw new NotImplementedException(); }
+            _log.Information("Item deleted by: " + HttpContext.Request.Host);
+            var x = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
+            _contextModel.Remove(x);
+            _contextModel.SaveChanges();
+            return Ok();
+        }
     }
 }

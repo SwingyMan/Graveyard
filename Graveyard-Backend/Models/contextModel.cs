@@ -9,8 +9,6 @@ namespace Graveyard.Models
         public DbSet<Burried> burried { get; set; }
         public DbSet<Customer> customer { get; set; }
         public DbSet<Item> shop { get; set; }
-        public DbSet<ShoppingHistory> shopHistory { get; set; }
-        public DbSet<ShoppingList> shopList { get; set; }
         public DbSet<GraveOwner> graveOwner { get; set; }
         public DbSet<Cart> carts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Host=localhost;Database=graveyard;Username=postgres;Password=123");
