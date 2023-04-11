@@ -63,11 +63,11 @@ namespace Graveyard_Backend.Controllers
             var x = _contextModel.grave.FirstOrDefault(y => y.GraveID == id);
             return Ok(x);
         }
-        [HttpGet("/api/grave/buy/{id}/{id}")]
-        public IActionResult buyGrave(int CustomerID,int GraveID)
+        [HttpGet("/api/grave/buy/{id1}/{id2}")]
+        public IActionResult buyGrave(int id1,int id2)
         {
-            var customer = _contextModel.customer.FirstOrDefault(x=> x.CustomerID == CustomerID);
-            var grave = _contextModel.grave.FirstOrDefault(x=> x.GraveID ==  GraveID);
+            var customer = _contextModel.customer.FirstOrDefault(x=> x.CustomerID == id1);
+            var grave = _contextModel.grave.FirstOrDefault(x=> x.GraveID ==  id2);
             GraveOwner ownedGrave = new GraveOwner(customer, grave);
             _contextModel.graveOwner.Add(ownedGrave);
             _contextModel.SaveChanges();

@@ -28,9 +28,9 @@ namespace Graveyard.Models
     public class GraveOwner
     {
         public Customer customer { get; set; }
-        public Grave grave { get; set; }
+        public List<Grave> grave { get; set; }
         public GraveOwner(Customer customer, Grave grave) {
-            this.grave = grave;
+            this.grave.Add(grave);
             this.customer = customer;
         }
     }
