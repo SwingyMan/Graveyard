@@ -24,11 +24,15 @@ namespace Graveyard_Backend.Controllers
         [HttpPost("/api/shop/buy/{id}")]
         public IActionResult buyItem(int id)
         {
-            _log.Information("Shop listed by: " + HttpContext.Request.Host);
-            throw new NotImplementedException(); }
+            _log.Information("Item " + id +" added by: " + HttpContext.Request.Host);
+            int customerid = int.Parse(User.Claims.First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
+            var customer = _contextModel.customer.FirstOrDefault(x=> x.CustomerID == customerid);
+            var item = _contextModel.shop.FirstOrDefault(x=> x.ItemID==id);
+            Cart cart = new Cart(customer,item);
+            return Ok(cart); }
         [HttpGet("/api/shop/cart")]
         public IActionResult showCart() {
-            _log.Information("Shop listed by: " + HttpContext.Request.Host);
+            _log.Information("Cart requested by: " + HttpContext.Request.Host);
 
             throw new NotImplementedException(); }
         [HttpPost("/api/shop/add/{id}")]

@@ -32,6 +32,11 @@ namespace Graveyard.Models
     public class Cart
     {
         public Customer Customer { get; set; }
-        public List<Item> items { get; set; }
+        public List<Item> Items { get; set; }
+        public Cart(Customer customer, Item items)
+        {
+            Customer = customer;
+            Items.Add(items);
+        }
     }
 }
