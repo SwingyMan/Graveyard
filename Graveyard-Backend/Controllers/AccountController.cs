@@ -104,16 +104,5 @@ namespace Graveyard_Backend.Controllers
             _contextModel.SaveChanges();
             return Ok(account);
         }
-
-        [Authorize(Roles = "Administrator")]
-        [HttpGet("/api/account/grant/{id1}/{id2}")]
-        public IActionResult grantGrave(int id1, int id2) { 
-        var grave = _contextModel.grave.FirstOrDefault(x => x.GraveID == id1);
-            var customer = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id2);
-            GraveOwner graveOwner = new GraveOwner(customer, grave);
-            _contextModel.graveOwner.Add(graveOwner);
-            _contextModel.SaveChanges();
-            return Ok(customer);
-        }
     }
 }

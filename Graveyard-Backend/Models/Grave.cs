@@ -24,17 +24,6 @@ namespace Graveyard.Models
         public DateTime date_of_death { get; set; }
         public Burried(){}
     }
-    [Keyless]
-    public class GraveOwner
-    {
-        public Customer customer { get; set; }
-        public List<Grave> grave { get; set; }
-        public GraveOwner(Customer customer, Grave grave) {
-            this.grave.Add(grave);
-            this.customer = customer;
-        }
-        public GraveOwner(){}
-    }
     public class ToBeBurried
     {
         [Key]

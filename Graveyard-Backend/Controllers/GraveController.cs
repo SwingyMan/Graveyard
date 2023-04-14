@@ -15,7 +15,6 @@ namespace Graveyard_Backend.Controllers
             _contextModel = contextModel;
             _log = log;
         }
-        [Authorize(Roles = "Administrator")]
         [HttpGet("/api/grave/list")]
         public IActionResult listGraves()
         {
@@ -64,25 +63,14 @@ namespace Graveyard_Backend.Controllers
             var x = _contextModel.grave.FirstOrDefault(y => y.GraveID == id);
             return Ok(x);
         }
-
-        [HttpGet("/api/grave/getowned")]
-        public IActionResult getOwnedGrave()
+        [HttpGet("/api/grave/buy/{id}")]
+        public IActionResult extendGrave(int id)
         {
-            int id = int.Parse(User.Claims.First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-            var graves = _contextModel.graveOwner.FirstOrDefault(x => x.customer.CustomerID == id);
-            _log.Information("Owned Grave accesed by: " + HttpContext.Request.Host);
-            return Ok(graves.grave.ToList());
-        }
-        [HttpGet("/api/grave/buy/{id1}/{id2}")]
-        public IActionResult buyGrave(int id1,int id2)
-        {
-            var customer = _contextModel.customer.FirstOrDefault(x=> x.CustomerID == id1);
-            var grave = _contextModel.grave.FirstOrDefault(x=> x.GraveID ==  id2);
-            GraveOwner ownedGrave = new GraveOwner(customer, grave);
-            _contextModel.graveOwner.Add(ownedGrave);
+            var grave = _contextModel.grave.FirstOrDefault(x=> x.GraveID ==  id);
+            grave.validUntil.AddYears(5);
             _contextModel.SaveChanges();
-            _log.Information("New grave " + grave.GraveID +" owner "+customer.Email+ " from ip: " + HttpContext.Request.Host);
-            return Ok(ownedGrave);
+            _log.Information("Extended grave " + grave.GraveID + " by ip: " + HttpContext.Request.Host);
+            return Ok(grave);
         }
     }
 }
