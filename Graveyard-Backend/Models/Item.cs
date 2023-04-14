@@ -12,6 +12,7 @@ namespace Graveyard.Models
         public int quantity { get; set; }
 
     }
+    [Keyless]
     public class Cart
     {
         public Customer Customer { get; set; }
@@ -21,5 +22,6 @@ namespace Graveyard.Models
             Customer = customer;
             Items.Add(items);
         }
+        public Cart() {}
     }
 }

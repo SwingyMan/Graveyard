@@ -11,6 +11,6 @@ namespace Graveyard.Models
         public DbSet<Item> shop { get; set; }
         public DbSet<GraveOwner> graveOwner { get; set; }
         public DbSet<Cart> carts { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Host=localhost;Database=graveyard;Username=postgres;Password=123");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Host=petition.postgres.database.azure.com;Database=graveyard;Username=petition;Password=VTEX8K8HV6t3egT ");
     }
 }

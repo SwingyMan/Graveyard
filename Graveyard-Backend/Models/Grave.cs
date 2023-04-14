@@ -12,6 +12,7 @@ namespace Graveyard.Models
         public string status { get; set; }
         public Burried burried { get; set; }
         public DateTime validUntil { get; set; }
+        Grave(){}
     }
     public class Burried
     {
@@ -21,8 +22,7 @@ namespace Graveyard.Models
         public string lastname { get; set; }
         public DateTime date_of_birth { get; set; }
         public DateTime date_of_death { get; set; }
-
-
+        public Burried(){}
     }
     [Keyless]
     public class GraveOwner
@@ -33,6 +33,7 @@ namespace Graveyard.Models
             this.grave.Add(grave);
             this.customer = customer;
         }
+        public GraveOwner(){}
     }
     public class ToBeBurried
     {
@@ -40,5 +41,6 @@ namespace Graveyard.Models
         public int ToBeBurriedID { get; set; }
         public DateTime burial_date { get; set; }
         public Burried burried { get; set; }
+        ToBeBurried(){}
     }
 }
