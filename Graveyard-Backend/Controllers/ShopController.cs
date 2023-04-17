@@ -1,4 +1,5 @@
-﻿using Graveyard.Models;
+﻿using Graveyard_Backend.Models;
+using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
@@ -74,7 +75,8 @@ namespace Graveyard_Backend.Controllers
         }
         [HttpPost("/api/shop/add")]
         [Authorize(Roles = "Administrator")]
-        public IActionResult addItem([FromBody]Item item) {
+        public IActionResult addItem([FromBody]ItemDTO itemDto) {
+            Item item = new Item(itemDto.kind, itemDto.price, itemDto.quantity);
             _log.Information("Item added by: " + HttpContext.Request.Host);
             _contextModel.Add(item);
             _contextModel.SaveChanges();
@@ -82,12 +84,13 @@ namespace Graveyard_Backend.Controllers
         }
         [HttpPut("/api/shop/edit/{id}")]
         [Authorize(Roles = "Administrator")]
-        public IActionResult editItem(int id,[FromBody]Item item) {
+        public IActionResult editItem(int id,[FromBody]ItemDTO itemDto)
+        {
             _log.Information("Item eddited by: " + HttpContext.Request.Host);
             var original = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
-            original.kind = item.kind;
-            original.price = item.price;
-            original.quantity = item.quantity;
+            original.kind = itemDto.kind;
+            original.price = itemDto.price;
+            original.quantity = itemDto.quantity;
             _contextModel.SaveChanges();
             return Ok();
         }

@@ -35,4 +35,23 @@ namespace Graveyard_Backend.Models
             password = Convert.ToHexString(inputHash);
         }
     }
+
+    public class ItemDTO
+    {
+     public decimal price { get; set; }
+     public int quantity { get; set; }
+     public string kind { get; set; }
+    }
+
+    public class GraveDTO
+    {
+        public int x { get; set; }
+        public int y { get; set; }
+        public string status { get; set; }
+        public string name { get; set; }
+        public string lastname { get; set; }
+        public DateTime date_of_birth { get; set; }
+        public DateTime date_of_death { get; set; }
+        public DateTime valid_until { get; set; }
+    }
 }

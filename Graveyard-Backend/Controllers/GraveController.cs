@@ -1,4 +1,5 @@
-﻿using Graveyard.Models;
+﻿using Graveyard_Backend.Models;
+using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,9 +25,12 @@ namespace Graveyard_Backend.Controllers
         }
         [Authorize(Roles = "Administrator")]
         [HttpPost("/api/grave/add")]
-        public IActionResult addGrave([FromBody]Grave grave)
+        public IActionResult addGrave([FromBody]GraveDTO graveDto)
         {
             _log.Information("Grave added by: " + HttpContext.Request.Host);
+            Burried burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
+                graveDto.date_of_death);
+            Grave grave = new Grave(graveDto.x, graveDto.y, graveDto.status,burried, graveDto.valid_until);
             _contextModel.grave.Add(grave);
             _contextModel.SaveChanges();
             return Ok(grave);
@@ -43,15 +47,17 @@ namespace Graveyard_Backend.Controllers
         }
         [Authorize(Roles = "Administrator")]
         [HttpPut("/api/grave/edit/{id}")]
-        public IActionResult editGrave(int id, [FromBody] Grave grave)
+        public IActionResult editGrave(int id, [FromBody] GraveDTO graveDto)
         {
             _log.Information("Grave edited by: " + HttpContext.Request.Host);
             var _grave = _contextModel.grave.FirstOrDefault(x => x.GraveID ==id);
-            _grave.x = grave.x;
-            _grave.y = grave.y;
-            _grave.status = grave.status;
-            _grave.validUntil = grave.validUntil;
-            _grave.burried = grave.burried;
+            _grave.x = graveDto.x;
+            _grave.y = graveDto.y;
+            _grave.status = graveDto.status;
+            _grave.validUntil = graveDto.valid_until;
+            Burried burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
+                graveDto.date_of_death);
+            _grave.burried = burried;
             _contextModel.SaveChanges();
             return Ok(_grave);
         }
@@ -71,6 +77,28 @@ namespace Graveyard_Backend.Controllers
             _contextModel.SaveChanges();
             _log.Information("Extended grave " + grave.GraveID + " by ip: " + HttpContext.Request.Host);
             return Ok(grave);
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpPost("/api/burried/tobeburried/add")]
+        public IActionResult addToBeBurried()
+        {
+            throw new NotImplementedException();
+        }
+        [AllowAnonymous]
+        [HttpGet("/api/burried/tobeburried/list")]
+        public IActionResult listToBeBurried()
+        {
+            throw new NotImplementedException();
+        }
+        [HttpPatch("/api/burried/tobeburried/edit")]
+        public IActionResult editToBeBurried()
+        {
+            throw new NotImplementedException();
+        }
+        [HttpDelete("/api/burried/tobeburried/delete")]
+        public IActionResult deleteToBeBurried()
+        {
+            throw new NotImplementedException();
         }
     }
 }

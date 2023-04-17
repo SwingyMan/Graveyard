@@ -11,6 +11,13 @@ namespace Graveyard.Models
         public decimal price { get; set; }
         public int quantity { get; set; }
 
+        public Item(string kind, decimal price, int quantity)
+        {
+            this.kind = kind;
+            this.price = price;
+            this.quantity = quantity;
+        }
+
     }
     [Keyless]
     public class Cart
