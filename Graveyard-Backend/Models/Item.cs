@@ -1,49 +1,55 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace Graveyard.Models
+namespace Graveyard.Models;
+
+public class Item
 {
-    public class Item
+    public Item(string kind, decimal price, int quantity)
     {
-        [Key]
-        public int ItemID { get; set; }
-        public string kind { get; set; }
-        public decimal price { get; set; }
-        public int quantity { get; set; }
-
-        public Item(string kind, decimal price, int quantity)
-        {
-            this.kind = kind;
-            this.price = price;
-            this.quantity = quantity;
-        }
-
-    }
-    [Keyless]
-    public class Cart
-    {
-        public Customer Customer { get; set; }
-        public List<Item> Items { get; set; }
-        public Cart(Customer customer, Item items)  
-        {
-            Customer = customer;
-            Items.Add(items);
-        }
-        public Cart() {}
+        this.kind = kind;
+        this.price = price;
+        this.quantity = quantity;
     }
 
-    public class shopHistory
-    {
-        public Customer customer { get; set; }
-        public DateTime date_of_buyment { get; set; }
-        public List<Item> Items { get; set; }
-        public shopHistory(){}
+    [Key] public int ItemID { get; set; }
 
-        public shopHistory(Customer customer, List<Item> items)
-        {
-            this.customer = customer;
-            this.Items = items;
-            date_of_buyment= DateTime.Now;
-        }
+    public string kind { get; set; }
+    public decimal price { get; set; }
+    public int quantity { get; set; }
+}
+
+[Keyless]
+public class Cart
+{
+    public Cart(Customer customer, Item items)
+    {
+        Customer = customer;
+        Items.Add(items);
     }
+
+    public Cart()
+    {
+    }
+
+    public Customer Customer { get; set; }
+    public List<Item> Items { get; set; }
+}
+
+public class shopHistory
+{
+    public shopHistory()
+    {
+    }
+
+    public shopHistory(Customer customer, List<Item> items)
+    {
+        this.customer = customer;
+        Items = items;
+        date_of_buyment = DateTime.Now;
+    }
+
+    public Customer customer { get; set; }
+    public DateTime date_of_buyment { get; set; }
+    public List<Item> Items { get; set; }
 }
