@@ -8,13 +8,13 @@ public class Grave
     {
     }
 
-    public Grave(int x, int y, string status, Burried burried, DateTime validUntil)
+    public Grave(int x, int y, string status, Burried burried)
     {
         this.x = x;
         this.y = y;
         this.status = status;
         this.burried = burried;
-        this.validUntil = validUntil;
+        validUntil = DateTime.Now.AddYears(5);
     }
 
     [Key] public int GraveID { get; set; }
@@ -32,7 +32,7 @@ public class Burried
     {
     }
 
-    public Burried(string name, string lastname, DateTime dateOfBirth, DateTime dateOfDeath)
+    public Burried(string name, string lastname, DateOnly dateOfBirth, DateOnly dateOfDeath)
     {
         this.name = name;
         this.lastname = lastname;
@@ -44,8 +44,8 @@ public class Burried
 
     public string name { get; set; }
     public string lastname { get; set; }
-    public DateTime date_of_birth { get; set; }
-    public DateTime date_of_death { get; set; }
+    public DateOnly date_of_birth { get; set; }
+    public DateOnly date_of_death { get; set; }
 }
 
 public class ToBeBurried

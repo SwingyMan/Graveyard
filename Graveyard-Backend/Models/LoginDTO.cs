@@ -54,16 +54,15 @@ public class GraveDTO
     public string status { get; set; }
     public string name { get; set; }
     public string lastname { get; set; }
-    public DateTime date_of_birth { get; set; }
-    public DateTime date_of_death { get; set; }
-    public DateTime valid_until { get; set; }
+    public DateOnly date_of_birth { get; set; }
+    public DateOnly date_of_death { get; set; }
 }
 
 public class BurialDTO
 {
     public string name { get; set; }
     public string lastname { get; set; }
-    public DateTime date_of_birth { get; set; }
-    public DateTime date_of_death { get; set; }
+    public DateOnly date_of_birth { get; set; }
+    public DateOnly date_of_death { get; set; }
     public DateTime burial_date { get; set; }
 }

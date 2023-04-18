@@ -28,7 +28,7 @@ public class Customer
     public string Email { get; set; }
     public DateTime Date_of_creation { get; set; }
     public string Password { get; set; }
-    public string Owned_role { get; set; }
+    public string Owned_role { get; set; } = null!;
 
     private void hashPassword()
     {

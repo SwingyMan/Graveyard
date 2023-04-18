@@ -17,9 +17,10 @@ public class Item
     public string kind { get; set; }
     public decimal price { get; set; }
     public int quantity { get; set; }
+    public shopHistory shopHistory { get; set; } = null!;
+    public Cart cart { get; set; } = null!;
 }
 
-[Keyless]
 public class Cart
 {
     public Cart(Customer customer, Item items)
@@ -32,7 +33,7 @@ public class Cart
     {
     }
     
-    public int Id { get; set; }
+    public int CartId { get; set; }
     public Customer Customer { get; set; }
     public ICollection<Item> Items { get; } = new List<Item>();
 }
@@ -47,10 +48,10 @@ public class shopHistory
     {
         this.customer = customer;
         Items = items;
-        date_of_buyment = DateTime.Now;
+        date_of_purchase = DateOnly.FromDateTime(DateTime.Now);
     }
-
+    public int shopHistoryID { get; set; }
     public Customer customer { get; set; }
-    public DateTime date_of_buyment { get; set; }
+    public DateOnly date_of_purchase { get; set; }
     public ICollection<Item> Items { get; set; }
 }

@@ -34,7 +34,7 @@ public class GraveController : ControllerBase
         _log.Information("Grave added by: " + HttpContext.Request.Host);
         var burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
             graveDto.date_of_death);
-        var grave = new Grave(graveDto.x, graveDto.y, graveDto.status, burried, graveDto.valid_until);
+        var grave = new Grave(graveDto.x, graveDto.y, graveDto.status, burried);
         _contextModel.grave.Add(grave);
         _contextModel.SaveChanges();
         return Ok(grave);
@@ -60,7 +60,6 @@ public class GraveController : ControllerBase
         _grave.x = graveDto.x;
         _grave.y = graveDto.y;
         _grave.status = graveDto.status;
-        _grave.validUntil = graveDto.valid_until;
         var burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
             graveDto.date_of_death);
         _grave.burried = burried;
