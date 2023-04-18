@@ -31,9 +31,10 @@ public class Cart
     public Cart()
     {
     }
-
+    
+    public int Id { get; set; }
     public Customer Customer { get; set; }
-    public List<Item> Items { get; set; }
+    public ICollection<Item> Items { get; } = new List<Item>();
 }
 
 public class shopHistory
@@ -51,5 +52,5 @@ public class shopHistory
 
     public Customer customer { get; set; }
     public DateTime date_of_buyment { get; set; }
-    public List<Item> Items { get; set; }
+    public ICollection<Item> Items { get; set; }
 }

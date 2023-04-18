@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Runtime.InteropServices.JavaScript;
 using Graveyard_Backend.Models;
 using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -63,8 +64,7 @@ public class AccountController : ControllerBase
             var x = jwtAuth.GenerateToken(account);
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +
-                             HttpContext.Request.Host);
+            _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +HttpContext.Request.Host);
             return Ok(x);
         }
     }
@@ -94,8 +94,9 @@ public class AccountController : ControllerBase
     [HttpDelete("/api/account/delete/{id}")]
     public IActionResult deleteAccount(int id)
     {
-        var customer = new Customer { CustomerID = id };
-        _contextModel.customer.Attach(customer);
+        var customer = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
+        if (customer == null)
+            return NotFound();
         _contextModel.Remove(customer);
         _contextModel.SaveChanges();
         return Ok();
@@ -107,10 +108,15 @@ public class AccountController : ControllerBase
     {
         var account = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
         customer.hashPassword();
+        if (!String.IsNullOrEmpty(customer.FirstName))
         account.Name = customer.FirstName;
+        if(!String.IsNullOrEmpty(customer.LastName))
         account.LastName = customer.LastName;
+        if(!String.IsNullOrEmpty(customer.Owned_role))
         account.Owned_role = customer.Owned_role;
+        if(!String.IsNullOrEmpty(customer.email))
         account.Email = customer.email;
+        if(!String.IsNullOrEmpty(customer.password))
         account.Password = customer.password;
         _contextModel.SaveChanges();
         return Ok(account);

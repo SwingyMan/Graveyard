@@ -4,7 +4,7 @@ namespace Graveyard.Models;
 
 public class Grave
 {
-    private Grave()
+    public Grave()
     {
     }
 
@@ -50,7 +50,7 @@ public class Burried
 
 public class ToBeBurried
 {
-    private ToBeBurried()
+    public ToBeBurried()
     {
     }
     [Key]

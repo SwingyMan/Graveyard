@@ -30,6 +30,7 @@ public class GraveController : ControllerBase
     [HttpPost("/api/grave/add")]
     public IActionResult addGrave([FromBody] GraveDTO graveDto)
     {
+        
         _log.Information("Grave added by: " + HttpContext.Request.Host);
         var burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
             graveDto.date_of_death);
