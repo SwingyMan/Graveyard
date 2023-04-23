@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graveyard-Backend", "Graveyard-Backend\Graveyard-Backend.csproj", "{67D517F8-4177-4609-8713-A7622BE7D0DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Graveyard-Backend", "Graveyard-Backend\Graveyard-Backend.csproj", "{67D517F8-4177-4609-8713-A7622BE7D0DD}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Graveyard-Frontend", "Graveyard-Frontend\Graveyard-Frontend.esproj", "{E4A42236-AC10-472D-B05B-06C22F8E12FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendTest", "BackendTest\BackendTest.csproj", "{944ABB0F-377D-4106-9EDD-8E29B46200A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{E4A42236-AC10-472D-B05B-06C22F8E12FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4A42236-AC10-472D-B05B-06C22F8E12FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4A42236-AC10-472D-B05B-06C22F8E12FD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{944ABB0F-377D-4106-9EDD-8E29B46200A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944ABB0F-377D-4106-9EDD-8E29B46200A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944ABB0F-377D-4106-9EDD-8E29B46200A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944ABB0F-377D-4106-9EDD-8E29B46200A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

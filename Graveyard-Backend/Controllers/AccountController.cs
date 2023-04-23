@@ -13,11 +13,14 @@ public class AccountController : ControllerBase
 {
     private readonly contextModel _contextModel;
     private readonly ILogger _log;
-
-    public AccountController(contextModel contextModel, ILogger log)
+    private readonly HttpClient _httpClient;
+    private readonly JwtAuth _jwtAuth;
+    public AccountController(contextModel contextModel, ILogger log, HttpClient httpClient, JwtAuth jwtAuth)
     {
         _contextModel = contextModel;
         _log = log;
+        _httpClient = httpClient;
+        _jwtAuth = jwtAuth;
     }
 
     [AllowAnonymous]
@@ -33,14 +36,11 @@ public class AccountController : ControllerBase
                          HttpContext.Request.Host);
             return BadRequest("Email taken");
         }
-
         {
             _contextModel.customer.Add(customer);
             _contextModel.SaveChanges();
-            var jwtAuth = new JwtAuth();
-            var x = jwtAuth.GenerateToken(customer);
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
+            var x = _jwtAuth.GenerateToken(customer);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
             _log.Information("Created new user on email: " + customer.Email + " from ip" + HttpContext.Request.Host);
             return Ok(x);
         }
@@ -60,10 +60,8 @@ public class AccountController : ControllerBase
         }
 
         {
-            var jwtAuth = new JwtAuth();
-            var x = jwtAuth.GenerateToken(account);
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
+            var x = _jwtAuth.GenerateToken(account);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
             _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +HttpContext.Request.Host);
             return Ok(x);
         }
