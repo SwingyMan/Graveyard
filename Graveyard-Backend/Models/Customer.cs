@@ -10,7 +10,7 @@ public class Customer
     {
         Name = name;
         LastName = lastname;
-        Email = email;
+        Email = email.ToLower();
         Password = password;
         hashPassword();
         Date_of_creation = DateTime.Now;

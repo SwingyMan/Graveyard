@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Graveyard-Backend", "Gravey
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Graveyard-Frontend", "Graveyard-Frontend\Graveyard-Frontend.esproj", "{E4A42236-AC10-472D-B05B-06C22F8E12FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendTest", "BackendTest\BackendTest.csproj", "{944ABB0F-377D-4106-9EDD-8E29B46200A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendTest", "BackendTest\BackendTest.csproj", "{944ABB0F-377D-4106-9EDD-8E29B46200A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

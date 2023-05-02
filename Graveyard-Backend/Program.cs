@@ -1,5 +1,8 @@
 using System.Text;
 using Graveyard.Models;
+using Graveyard_Backend.Interfaces;
+using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -50,7 +53,8 @@ using var log = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("./logs.txt")
     .CreateLogger();
-
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<JwtAuth>();
 builder.Services.AddSingleton<ILogger>(log);
 log.Information("Done setting up server!");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -88,7 +92,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseCors();
 app.UseHttpsRedirection();
 

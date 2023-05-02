@@ -7,6 +7,6 @@
         Task<bool> deleteByID(int id);
         Task<bool> deleteAll();
         Task<T> getByID(int id);
-        Task<List<T>> ListAll();
+        Task<List<T>> ListAll(int page);
     }
 }

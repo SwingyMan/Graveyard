@@ -5,6 +5,7 @@ using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -15,21 +16,23 @@ public class AccountController : ControllerBase
     private readonly ILogger _log;
     private readonly HttpClient _httpClient;
     private readonly JwtAuth _jwtAuth;
+    private readonly UserRepository _userRepository;
     public AccountController(contextModel contextModel, ILogger log, HttpClient httpClient, JwtAuth jwtAuth)
     {
         _contextModel = contextModel;
         _log = log;
         _httpClient = httpClient;
         _jwtAuth = jwtAuth;
+        _userRepository = new UserRepository(_contextModel);
     }
 
     [AllowAnonymous]
     [HttpPost("/api/account/register")]
-    public IActionResult register([FromBody] RegisterDTO registerForm)
+    public async Task<IActionResult> register([FromBody] RegisterDTO registerForm)
     {
         var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
             registerForm.password);
-        var testEmail = _contextModel.customer.FirstOrDefault(x => x.Email == registerForm.email);
+        var testEmail = await _userRepository.getByEmail(registerForm.email);
         if (testEmail != null)
         {
             _log.Warning("Tried to register on taken email: " + testEmail.Email + " from ip" +
@@ -37,8 +40,7 @@ public class AccountController : ControllerBase
             return BadRequest("Email taken");
         }
         {
-            _contextModel.customer.Add(customer);
-            _contextModel.SaveChanges();
+           await _userRepository.add(customer);
             var x = _jwtAuth.GenerateToken(customer);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
             _log.Information("Created new user on email: " + customer.Email + " from ip" + HttpContext.Request.Host);
@@ -48,11 +50,10 @@ public class AccountController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("/api/account/login")]
-    public IActionResult Login([FromBody] LoginDTO loginForm)
+    public async Task<IActionResult> Login([FromBody] LoginDTO loginForm)
     {
         loginForm.hashPassword();
-        var account =
-            _contextModel.customer.FirstOrDefault(x => x.Email == loginForm.email && x.Password == loginForm.password);
+        var account = await _userRepository.getByEmailAndPassword(loginForm.email, loginForm.password);
         if (account == null)
         {
             _log.Warning("Tried to login on address: " + HttpContext.Request.Host);
@@ -68,55 +69,39 @@ public class AccountController : ControllerBase
     }
 
     [HttpDelete("/api/account/delete/self")]
-    public IActionResult removeAccount()
+    public async Task<IActionResult> removeAccount()
     {
         var id = int.Parse(User.Claims
             .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var acc = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
-        _contextModel.customer.Attach(acc);
-        _contextModel.customer.Remove(acc);
-        _contextModel.SaveChanges();
+        var acc = await _userRepository.deleteByID(id);
         _log.Information("Account with id: " + id + " deleted from: " + HttpContext.Request.Host);
         return Ok();
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpGet("/api/account/list")]
-    public IActionResult listAccount()
+    [HttpGet("/api/account/list/{id}")]
+    public async Task<IActionResult> listAccount(int id)
     {
-        var list = _contextModel.customer.ToList();
-        return Ok(list);
+        return Ok(await _userRepository.ListAll(id));
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpDelete("/api/account/delete/{id}")]
-    public IActionResult deleteAccount(int id)
+    public async Task<IActionResult> deleteAccount(int id)
     {
-        var customer = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
-        if (customer == null)
+        var value = await _userRepository.deleteByID(id);
+        if(value==false)
             return NotFound();
-        _contextModel.Remove(customer);
-        _contextModel.SaveChanges();
         return Ok();
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpPut("/api/account/edit/{id}")]
-    public IActionResult editAccount(int id, [FromBody] EditDTO customer)
+    public async Task<IActionResult> editAccount(int id, [FromBody] EditDTO customer)
     {
-        var account = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
         customer.hashPassword();
-        if (!String.IsNullOrEmpty(customer.FirstName))
-        account.Name = customer.FirstName;
-        if(!String.IsNullOrEmpty(customer.LastName))
-        account.LastName = customer.LastName;
-        if(!String.IsNullOrEmpty(customer.Owned_role))
-        account.Owned_role = customer.Owned_role;
-        if(!String.IsNullOrEmpty(customer.email))
-        account.Email = customer.email;
-        if(!String.IsNullOrEmpty(customer.password))
-        account.Password = customer.password;
-        _contextModel.SaveChanges();
-        return Ok(account);
+        await _userRepository.updateByID(id, customer);
+        return Ok(_userRepository.getByID(id));
     }
+
 }
