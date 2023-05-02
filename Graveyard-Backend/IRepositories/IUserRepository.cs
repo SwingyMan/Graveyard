@@ -1,4 +1,5 @@
 ﻿using Graveyard.Models;
+using Graveyard_Backend.Models;
 
 namespace Graveyard_Backend.Interfaces
 {
@@ -6,5 +7,6 @@ namespace Graveyard_Backend.Interfaces
     {
         Task<Customer> getByEmail(string email);
         Task<Customer> getByEmailAndPassword(string email, string password);
+        Task<Customer> updateByID(int id, EditDTO customer);
     }
 }

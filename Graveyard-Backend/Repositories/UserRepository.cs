@@ -27,5 +27,22 @@ namespace Graveyard_Backend.Repositories
                 return null;
             return account;
         }
+
+        public async Task<Customer> updateByID(int id, EditDTO customer)
+        {
+            var original = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
+            if (!String.IsNullOrEmpty(customer.FirstName))
+                original.Name = customer.FirstName;
+            if(!String.IsNullOrEmpty(customer.LastName))
+                original.LastName = customer.LastName;
+            if (!String.IsNullOrEmpty(customer.email))
+                original.Email = customer.email;
+            if(!String.IsNullOrEmpty(customer.password))
+                original.Password = customer.password;
+            if(!String.IsNullOrEmpty(customer.Owned_role))
+                original.Owned_role = customer.Owned_role;
+            await _contextModel.SaveChangesAsync();
+            return original;
+        }
     }
 }
