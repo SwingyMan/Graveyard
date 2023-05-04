@@ -3,6 +3,7 @@ using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -11,19 +12,22 @@ public class ShopController : ControllerBase
 {
     private readonly contextModel _contextModel;
     private readonly ILogger _log;
-
+    private readonly CartRepository _cartRepository;
+    private readonly ItemRepository _itemRepository;
     public ShopController(contextModel contextModel, ILogger log)
     {
         _contextModel = contextModel;
         _log = log;
+        _cartRepository = new CartRepository(_contextModel);
+        _itemRepository = new ItemRepository(_contextModel);
     }
 
     [AllowAnonymous]
-    [HttpGet("/api/shop")]
-    public IActionResult listItems()
+    [HttpGet("/api/shop/{id}")]
+    public async Task<IActionResult> listItems(int id)
     {
         _log.Information("Shop listed by: " + HttpContext.Request.Host);
-        return Ok(_contextModel.shop.ToList());
+        return Ok(await _itemRepository.ListAll(id));
     }
 
     [HttpPost("/api/shop/buy/{id}")]
@@ -79,8 +83,7 @@ public class ShopController : ControllerBase
     {
         var item = new Item(itemDto.kind, itemDto.price, itemDto.quantity);
         _log.Information("Item added by: " + HttpContext.Request.Host);
-        _contextModel.Add(item);
-        _contextModel.SaveChanges();
+        _itemRepository.add(item);
         return Ok();
     }
 
@@ -102,9 +105,7 @@ public class ShopController : ControllerBase
     public IActionResult deleteItem(int id)
     {
         _log.Information("Item deleted by: " + HttpContext.Request.Host);
-        var x = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
-        _contextModel.Remove(x);
-        _contextModel.SaveChanges();
+        _itemRepository.deleteByID(id);
         return Ok();
     }
 }

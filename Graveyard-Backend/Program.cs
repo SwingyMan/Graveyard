@@ -48,11 +48,15 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<contextModel>();
 using var log = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("./logs.txt")
+    .Enrich.WithClientIp()
+    .Enrich.WithClientAgent()
     .CreateLogger();
+builder.Host.UseSerilog(log);
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<JwtAuth>();
 builder.Services.AddSingleton<ILogger>(log);
@@ -85,7 +89,7 @@ builder.Services.AddAuthorization(options =>
 });
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
-
+app.UseSerilogRequestLogging();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -94,7 +98,6 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors();
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

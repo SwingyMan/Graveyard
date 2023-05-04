@@ -3,6 +3,7 @@ using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -11,32 +12,33 @@ public class GraveController : ControllerBase
 {
     private readonly contextModel _contextModel;
     private readonly ILogger _log;
-
+    private readonly GraveRepository _graveRepository;
+    private readonly ToBeBuriedRepository _toBeBuriedRepository;
     public GraveController(contextModel contextModel, ILogger log)
     {
         _contextModel = contextModel;
         _log = log;
+        _graveRepository = new GraveRepository(contextModel);
+        _toBeBuriedRepository = new ToBeBuriedRepository(contextModel);
     }
 
-    [HttpGet("/api/grave/list")]
-    public IActionResult listGraves()
+    [HttpGet("/api/grave/list/{id}")]
+    public IActionResult listGraves(int id)
     {
         _log.Information("Listed grave for: " + HttpContext.Request.Host);
-        var list = _contextModel.grave.ToList();
-        return Ok(list);
+        return Ok(_graveRepository.ListAll(id));
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpPost("/api/grave/add")]
-    public IActionResult addGrave([FromBody] GraveDTO graveDto)
+    public async Task<IActionResult> addGrave([FromBody] GraveDTO graveDto)
     {
         
         _log.Information("Grave added by: " + HttpContext.Request.Host);
         var burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
             graveDto.date_of_death);
         var grave = new Grave(graveDto.x, graveDto.y, graveDto.status, burried);
-        _contextModel.grave.Add(grave);
-        _contextModel.SaveChanges();
+       await _graveRepository.add(grave);
         return Ok(grave);
     }
 
@@ -45,9 +47,7 @@ public class GraveController : ControllerBase
     public IActionResult deleteGrave(int id)
     {
         _log.Information("Grave deleted by: " + HttpContext.Request.Host);
-        var x = _contextModel.grave.FirstOrDefault(x => x.GraveID == id);
-        _contextModel.grave.Remove(x);
-        _contextModel.SaveChanges();
+        _graveRepository.deleteByID(id);
         return Ok();
     }
 
@@ -72,18 +72,14 @@ public class GraveController : ControllerBase
     public IActionResult getGrave(int id)
     {
         _log.Information("Grave accesed by: " + HttpContext.Request.Host);
-        var x = _contextModel.grave.FirstOrDefault(y => y.GraveID == id);
-        return Ok(x);
+        return Ok(_graveRepository.getByID(id));
     }
 
     [HttpGet("/api/grave/buy/{id}")]
     public IActionResult extendGrave(int id)
     {
-        var grave = _contextModel.grave.FirstOrDefault(x => x.GraveID == id);
-        grave.validUntil.AddYears(5);
-        _contextModel.SaveChanges();
-        _log.Information("Extended grave " + grave.GraveID + " by ip: " + HttpContext.Request.Host);
-        return Ok(grave);
+        _log.Information("Extended grave by ip: " + HttpContext.Request.Host);
+        return Ok(_graveRepository.ExtendDate(id));
     }
 
     [Authorize(Roles = "Administrator")]
@@ -93,16 +89,14 @@ public class GraveController : ControllerBase
         Burried burried = new Burried(burialDto.name, burialDto.lastname, burialDto.date_of_birth,
             burialDto.date_of_death);
         ToBeBurried toBeBurried = new ToBeBurried(burried, burialDto.burial_date);
-        _contextModel.burials.Add(toBeBurried);
-        _contextModel.SaveChanges();
-        return Ok();
+        return Ok(_toBeBuriedRepository.add(toBeBurried));
     }
 
     [AllowAnonymous]
     [HttpGet("/api/burried/tobeburried/list")]
-    public IActionResult listToBeBurried()
+    public IActionResult listToBeBurried(int id)
     {
-        return Ok(_contextModel.burials.ToList());
+        return Ok(_toBeBuriedRepository.ListAll(id));
     }
 
     [HttpPatch("/api/burried/tobeburried/edit")]
@@ -116,12 +110,10 @@ public class GraveController : ControllerBase
         return Ok(toBeBurried);
     }
 
-    [HttpDelete("/api/burried/tobeburried/delete")]
-    public IActionResult deleteToBeBurried(int id)
+    [HttpDelete("/api/burried/tobeburried/delete/{id}")]
+    public async Task<IActionResult> deleteToBeBurried(int id)
     {
-        var x = _contextModel.burials.FirstOrDefault(x => x.ToBeBurriedID == id);
-        _contextModel.burials.Remove(x);
-        _contextModel.SaveChanges();
+        await _toBeBuriedRepository.deleteByID(id);
         return Ok();
     }
 }

@@ -22,7 +22,7 @@ namespace Graveyard_Backend.Repositories
 
         public async Task<Customer> getByEmailAndPassword(string email, string password)
         {
-            var account = await _contextModel.customer.FirstOrDefaultAsync(x => x.Equals(email) && x.Password==password);
+            var account = await _contextModel.customer.FirstOrDefaultAsync(x => x.Email == email && x.Password==password);
             if (account == null)
                 return null;
             return account;
