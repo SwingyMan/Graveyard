@@ -1,11 +1,21 @@
 ﻿using Graveyard.Models;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services
 {
     public class GraveService : IGraveService
     {
+        private readonly GraveRepository _graveRepository;
+        private readonly ToBeBuriedRepository _toBeBuriedRepository;
+        private readonly contextModel _contextModel;
+        public GraveService(contextModel contextModel)
+        {
+            _contextModel = contextModel;
+            _graveRepository = new GraveRepository(contextModel);
+            _toBeBuriedRepository = new ToBeBuriedRepository(contextModel);
+        }
         public Task<Grave> AddGrave(GraveDTO dto)
         {
             throw new NotImplementedException();

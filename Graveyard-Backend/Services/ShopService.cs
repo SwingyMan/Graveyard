@@ -1,11 +1,22 @@
 ﻿using Graveyard.Models;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services
 {
     public class ShopService : IShopService
     {
+        private readonly contextModel _contextModel;
+        private readonly CartRepository _cartRepository;
+        private readonly ItemRepository _itemRepository;
+        public ShopService(contextModel contextModel)
+        {
+            _contextModel = contextModel;
+            _cartRepository = new CartRepository(_contextModel);
+            _itemRepository = new ItemRepository(_contextModel);
+        }
+
         public Task<Item> AddItem(ItemDTO itemDTO)
         {
             throw new NotImplementedException();
