@@ -1,19 +1,20 @@
 ﻿using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
 using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Controllers;
 
 [Authorize(Roles = "Administrator,User")]
 public class ShopController : ControllerBase
 {
-    private readonly contextModel _contextModel;
-    private readonly ILogger _log;
     private readonly CartRepository _cartRepository;
+    private readonly contextModel _contextModel;
     private readonly ItemRepository _itemRepository;
+    private readonly ILogger _log;
+
     public ShopController(contextModel contextModel, ILogger log)
     {
         _contextModel = contextModel;
@@ -79,7 +80,7 @@ public class ShopController : ControllerBase
 
     [HttpPost("/api/shop/add")]
     [Authorize(Roles = "Administrator")]
-    public IActionResult addItem([FromBody] ItemDTO itemDto)
+    public IActionResult addItem([FromBody] Item itemDto)
     {
         var item = new Item(itemDto.kind, itemDto.price, itemDto.quantity);
         _log.Information("Item added by: " + HttpContext.Request.Host);
@@ -89,7 +90,7 @@ public class ShopController : ControllerBase
 
     [HttpPut("/api/shop/edit/{id}")]
     [Authorize(Roles = "Administrator")]
-    public IActionResult editItem(int id, [FromBody] ItemDTO itemDto)
+    public IActionResult editItem(int id, [FromBody] Item itemDto)
     {
         _log.Information("Item eddited by: " + HttpContext.Request.Host);
         var original = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);

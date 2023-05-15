@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard.Models;
 
@@ -32,7 +31,7 @@ public class Cart
     public Cart()
     {
     }
-    
+
     public int CartId { get; set; }
     public Customer Customer { get; set; }
     public ICollection<Item> Items { get; } = new List<Item>();
@@ -50,6 +49,7 @@ public class shopHistory
         Items = items;
         date_of_purchase = DateOnly.FromDateTime(DateTime.Now);
     }
+
     public int shopHistoryID { get; set; }
     public Customer customer { get; set; }
     public DateOnly date_of_purchase { get; set; }

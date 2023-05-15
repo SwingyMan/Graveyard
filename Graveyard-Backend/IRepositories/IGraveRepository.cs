@@ -1,11 +1,10 @@
-﻿using Graveyard.Models;
-using Graveyard_Backend.Models;
+﻿using Graveyard_Backend.Models;
+using Graveyard.Models;
 
-namespace Graveyard_Backend.Interfaces
+namespace Graveyard_Backend.Interfaces;
+
+public interface IGraveRepository : ICRUDRepository<Grave>
 {
-    public interface IGraveRepository : ICRUDRepository<Grave>
-    {
-        public Task<Grave> UpdateById(int id, GraveDTO grave);
-        public Task<Grave> ExtendDate(int id);
-    }
+    public Task<Grave> UpdateById(int id, DTOs.Grave grave);
+    public Task<Grave> ExtendDate(int id);
 }

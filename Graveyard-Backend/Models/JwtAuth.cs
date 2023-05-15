@@ -6,9 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Graveyard_Backend.Models;
 
-public class JwtAuth
+public static class JwtAuth
 {
-    public string GenerateToken(Customer customer)
+    public static string GenerateToken(Customer customer)
     {
         var claims = new List<Claim>
         {

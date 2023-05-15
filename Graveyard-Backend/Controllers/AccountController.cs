@@ -1,11 +1,12 @@
 ﻿using System.Net.Http.Headers;
-using System.Runtime.InteropServices.JavaScript;
+using Graveyard_Backend.DTOs;
 using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
+using Graveyard_Backend.Services;
 using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -13,44 +14,35 @@ namespace Graveyard_Backend.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly contextModel _contextModel;
-    private readonly ILogger _log;
     private readonly HttpClient _httpClient;
-    private readonly JwtAuth _jwtAuth;
+    private readonly ILogger _log;
     private readonly UserRepository _userRepository;
-    public AccountController(contextModel contextModel, ILogger log, HttpClient httpClient, JwtAuth jwtAuth)
+    private readonly AccountService _accountService;
+    public AccountController(contextModel contextModel, ILogger log, HttpClient httpClient)
     {
         _contextModel = contextModel;
         _log = log;
         _httpClient = httpClient;
-        _jwtAuth = jwtAuth;
         _userRepository = new UserRepository(_contextModel);
+        _accountService = new AccountService(_contextModel);
     }
 
     [AllowAnonymous]
     [HttpPost("/api/account/register")]
-    public async Task<IActionResult> register([FromBody] RegisterDTO registerForm)
+    public async Task<IActionResult> register([FromBody] Register registerForm)
     {
-        var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
-            registerForm.password);
-        var testEmail = await _userRepository.getByEmail(registerForm.email);
-        if (testEmail != null)
+        var token =await _accountService.CreateUser(registerForm, _httpClient);
+        if (token == null)
+            return NotFound("Email Taken");
+        else
         {
-            _log.Warning("Tried to register on taken email: " + testEmail.Email + " from ip" +
-                         HttpContext.Request.Host);
-            return BadRequest("Email taken");
-        }
-        {
-           await _userRepository.add(customer);
-            var x = _jwtAuth.GenerateToken(customer);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            _log.Information("Created new user on email: " + customer.Email + " from ip" + HttpContext.Request.Host);
-            return Ok(x);
+            return Ok(token);
         }
     }
 
     [AllowAnonymous]
     [HttpPost("/api/account/login")]
-    public async Task<IActionResult> Login([FromBody] LoginDTO loginForm)
+    public async Task<IActionResult> Login([FromBody] Login loginForm)
     {
         loginForm.hashPassword();
         var account = await _userRepository.getByEmailAndPassword(loginForm.email, loginForm.password);
@@ -61,9 +53,10 @@ public class AccountController : ControllerBase
         }
 
         {
-            var x = _jwtAuth.GenerateToken(account);
+            var x = JwtAuth.GenerateToken(account);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +HttpContext.Request.Host);
+            _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +
+                             HttpContext.Request.Host);
             return Ok(x);
         }
     }
@@ -90,18 +83,17 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> deleteAccount(int id)
     {
         var value = await _userRepository.deleteByID(id);
-        if(value==false)
+        if (value == false)
             return NotFound();
         return Ok();
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpPut("/api/account/edit/{id}")]
-    public async Task<IActionResult> editAccount(int id, [FromBody] EditDTO customer)
+    public async Task<IActionResult> editAccount(int id, [FromBody] Edit customer)
     {
         customer.hashPassword();
         await _userRepository.updateByID(id, customer);
         return Ok(_userRepository.getByID(id));
     }
-
 }

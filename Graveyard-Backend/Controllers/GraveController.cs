@@ -1,9 +1,9 @@
 ﻿using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
 using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -11,9 +11,10 @@ namespace Graveyard_Backend.Controllers;
 public class GraveController : ControllerBase
 {
     private readonly contextModel _contextModel;
-    private readonly ILogger _log;
     private readonly GraveRepository _graveRepository;
+    private readonly ILogger _log;
     private readonly ToBeBuriedRepository _toBeBuriedRepository;
+
     public GraveController(contextModel contextModel, ILogger log)
     {
         _contextModel = contextModel;
@@ -31,14 +32,13 @@ public class GraveController : ControllerBase
 
     [Authorize(Roles = "Administrator")]
     [HttpPost("/api/grave/add")]
-    public async Task<IActionResult> addGrave([FromBody] GraveDTO graveDto)
+    public async Task<IActionResult> addGrave([FromBody] DTOs.Grave graveDto)
     {
-        
         _log.Information("Grave added by: " + HttpContext.Request.Host);
         var burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
             graveDto.date_of_death);
         var grave = new Grave(graveDto.x, graveDto.y, graveDto.status, burried);
-       await _graveRepository.add(grave);
+        await _graveRepository.add(grave);
         return Ok(grave);
     }
 
@@ -53,7 +53,7 @@ public class GraveController : ControllerBase
 
     [Authorize(Roles = "Administrator")]
     [HttpPut("/api/grave/edit/{id}")]
-    public IActionResult editGrave(int id, [FromBody] GraveDTO graveDto)
+    public IActionResult editGrave(int id, [FromBody] DTOs.Grave graveDto)
     {
         _log.Information("Grave edited by: " + HttpContext.Request.Host);
         var _grave = _contextModel.grave.FirstOrDefault(x => x.GraveID == id);
@@ -84,11 +84,11 @@ public class GraveController : ControllerBase
 
     [Authorize(Roles = "Administrator")]
     [HttpPost("/api/burried/tobeburried/add")]
-    public IActionResult addToBeBurried([FromBody] BurialDTO burialDto)
+    public IActionResult addToBeBurried([FromBody] DTOs.Burial burialDto)
     {
-        Burried burried = new Burried(burialDto.name, burialDto.lastname, burialDto.date_of_birth,
+        var burried = new Burried(burialDto.name, burialDto.lastname, burialDto.date_of_birth,
             burialDto.date_of_death);
-        ToBeBurried toBeBurried = new ToBeBurried(burried, burialDto.burial_date);
+        var toBeBurried = new ToBeBurried(burried, burialDto.burial_date);
         return Ok(_toBeBuriedRepository.add(toBeBurried));
     }
 
@@ -100,9 +100,9 @@ public class GraveController : ControllerBase
     }
 
     [HttpPatch("/api/burried/tobeburried/edit")]
-    public IActionResult editToBeBurried(int id,[FromBody]BurialDTO burialDto)
-    {        
-        Burried burried = new Burried(burialDto.name, burialDto.lastname, burialDto.date_of_birth,burialDto.date_of_death);
+    public IActionResult editToBeBurried(int id, [FromBody] DTOs.Burial burialDto)
+    {
+        var burried = new Burried(burialDto.name, burialDto.lastname, burialDto.date_of_birth, burialDto.date_of_death);
         var toBeBurried = _contextModel.burials.FirstOrDefault(x => x.ToBeBurriedID == id);
         toBeBurried.burried = burried;
         toBeBurried.burial_date = burialDto.burial_date;

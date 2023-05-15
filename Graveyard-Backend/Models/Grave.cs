@@ -53,14 +53,15 @@ public class ToBeBurried
     public ToBeBurried()
     {
     }
-    [Key]
-    public int ToBeBurriedID { get; set; }
-    public DateTime burial_date { get; set; }
-    public Burried burried { get; set; }
-    
+
     public ToBeBurried(Burried burried, DateTime burialDate)
     {
         this.burried = burried;
-        this.burial_date = burialDate;
+        burial_date = burialDate;
     }
+
+    [Key] public int ToBeBurriedID { get; set; }
+
+    public DateTime burial_date { get; set; }
+    public Burried burried { get; set; }
 }

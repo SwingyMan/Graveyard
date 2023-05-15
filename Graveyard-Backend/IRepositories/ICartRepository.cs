@@ -1,8 +1,7 @@
 ﻿using Graveyard.Models;
 
-namespace Graveyard_Backend.Interfaces
+namespace Graveyard_Backend.Interfaces;
+
+public interface ICartRepository : ICRUDRepository<Cart>
 {
-    public interface ICartRepository : ICRUDRepository<Cart>
-    {
-    }
 }
