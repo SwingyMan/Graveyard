@@ -15,13 +15,11 @@ public class AccountController : ControllerBase
 {
     private readonly contextModel _contextModel;
     private readonly HttpClient _httpClient;
-    private readonly ILogger _log;
     private readonly UserRepository _userRepository;
     private readonly AccountService _accountService;
-    public AccountController(contextModel contextModel, ILogger log, HttpClient httpClient)
+    public AccountController(contextModel contextModel, HttpClient httpClient)
     {
         _contextModel = contextModel;
-        _log = log;
         _httpClient = httpClient;
         _userRepository = new UserRepository(_contextModel);
         _accountService = new AccountService(_contextModel);
@@ -48,15 +46,12 @@ public class AccountController : ControllerBase
         var account = await _userRepository.getByEmailAndPassword(loginForm.email, loginForm.password);
         if (account == null)
         {
-            _log.Warning("Tried to login on address: " + HttpContext.Request.Host);
             return NotFound();
         }
 
         {
             var x = JwtAuth.GenerateToken(account);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +
-                             HttpContext.Request.Host);
             return Ok(x);
         }
     }
@@ -67,7 +62,6 @@ public class AccountController : ControllerBase
         var id = int.Parse(User.Claims
             .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
         var acc = await _userRepository.deleteByID(id);
-        _log.Information("Account with id: " + id + " deleted from: " + HttpContext.Request.Host);
         return Ok();
     }
 

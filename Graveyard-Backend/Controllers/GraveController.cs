@@ -12,13 +12,11 @@ public class GraveController : ControllerBase
 {
     private readonly contextModel _contextModel;
     private readonly GraveRepository _graveRepository;
-    private readonly ILogger _log;
     private readonly ToBeBuriedRepository _toBeBuriedRepository;
 
-    public GraveController(contextModel contextModel, ILogger log)
+    public GraveController(contextModel contextModel)
     {
         _contextModel = contextModel;
-        _log = log;
         _graveRepository = new GraveRepository(contextModel);
         _toBeBuriedRepository = new ToBeBuriedRepository(contextModel);
     }
@@ -26,7 +24,6 @@ public class GraveController : ControllerBase
     [HttpGet("/api/grave/list/{id}")]
     public IActionResult listGraves(int id)
     {
-        _log.Information("Listed grave for: " + HttpContext.Request.Host);
         return Ok(_graveRepository.ListAll(id));
     }
 
@@ -34,7 +31,6 @@ public class GraveController : ControllerBase
     [HttpPost("/api/grave/add")]
     public async Task<IActionResult> addGrave([FromBody] DTOs.Grave graveDto)
     {
-        _log.Information("Grave added by: " + HttpContext.Request.Host);
         var burried = new Burried(graveDto.name, graveDto.lastname, graveDto.date_of_birth,
             graveDto.date_of_death);
         var grave = new Grave(graveDto.x, graveDto.y, graveDto.status, burried);
@@ -45,8 +41,7 @@ public class GraveController : ControllerBase
     [Authorize(Roles = "Administrator")]
     [HttpDelete("/api/grave/delete/{id}")]
     public IActionResult deleteGrave(int id)
-    {
-        _log.Information("Grave deleted by: " + HttpContext.Request.Host);
+    { 
         _graveRepository.deleteByID(id);
         return Ok();
     }
@@ -55,7 +50,6 @@ public class GraveController : ControllerBase
     [HttpPut("/api/grave/edit/{id}")]
     public IActionResult editGrave(int id, [FromBody] DTOs.Grave graveDto)
     {
-        _log.Information("Grave edited by: " + HttpContext.Request.Host);
         var _grave = _contextModel.grave.FirstOrDefault(x => x.GraveID == id);
         _grave.x = graveDto.x;
         _grave.y = graveDto.y;
@@ -71,14 +65,12 @@ public class GraveController : ControllerBase
     [HttpGet("/api/grave/get/{id}")]
     public IActionResult getGrave(int id)
     {
-        _log.Information("Grave accesed by: " + HttpContext.Request.Host);
         return Ok(_graveRepository.getByID(id));
     }
 
     [HttpGet("/api/grave/buy/{id}")]
     public IActionResult extendGrave(int id)
     {
-        _log.Information("Extended grave by ip: " + HttpContext.Request.Host);
         return Ok(_graveRepository.ExtendDate(id));
     }
 
