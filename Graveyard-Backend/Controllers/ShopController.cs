@@ -54,29 +54,7 @@ public class ShopController : ControllerBase
         }
     }
 
-    [HttpGet("/api/shop/cart")]
-    public IActionResult showCart()
-    {
-        _log.Information("Cart requested by: " + HttpContext.Request.Host);
-        var customerid = int.Parse(User.Claims.First(i =>
-            i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var cart = _contextModel.carts.FirstOrDefault(x => x.Customer.CustomerID == customerid);
-        if (cart == null)
-            return NotFound();
-        return Ok(cart);
-    }
-
-    [HttpDelete("/api/shop/cart/delete")]
-    public IActionResult deleteItemFromCart(int id)
-    {
-        var customerid = int.Parse(User.Claims.First(i =>
-            i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var cart = _contextModel.carts.FirstOrDefault(x => x.Customer.CustomerID == customerid);
-        _log.Information("Cart item " + id + " deleted by: " + HttpContext.Request.Host);
-        cart.Items.Where(x => x.ItemID == id);
-        _contextModel.SaveChanges();
-        return Ok(cart);
-    }
+   
 
     [HttpPost("/api/shop/add")]
     [Authorize(Roles = "Administrator")]

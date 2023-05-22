@@ -11,6 +11,7 @@ using ILogger = Serilog.ILogger;
 namespace Graveyard_Backend.Controllers;
 
 [Authorize(Roles = "Administrator,User")]
+[Route("/api/[controller]/[action]")]
 public class AccountController : ControllerBase
 {
     private readonly contextModel _contextModel;
@@ -28,7 +29,7 @@ public class AccountController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("/api/account/register")]
+    [HttpPost]
     public async Task<IActionResult> register([FromBody] Register registerForm)
     {
         var token =await _accountService.CreateUser(registerForm, _httpClient);
@@ -41,46 +42,42 @@ public class AccountController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("/api/account/login")]
-    public async Task<IActionResult> Login([FromBody] Login loginForm)
+    [HttpPost]
+    public async Task<IActionResult> login([FromBody] Login loginForm)
     {
         loginForm.hashPassword();
         var account = await _userRepository.getByEmailAndPassword(loginForm.email, loginForm.password);
         if (account == null)
         {
-            _log.Warning("Tried to login on address: " + HttpContext.Request.Host);
             return NotFound();
         }
 
         {
             var x = JwtAuth.GenerateToken(account);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            _log.Information("Succesfully loged on email as: " + loginForm.email + " from ip:" +
-                             HttpContext.Request.Host);
             return Ok(x);
         }
     }
 
-    [HttpDelete("/api/account/delete/self")]
-    public async Task<IActionResult> removeAccount()
+    [HttpDelete]
+    public async Task<IActionResult> deleteSelf()
     {
         var id = int.Parse(User.Claims
             .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var acc = await _userRepository.deleteByID(id);
-        _log.Information("Account with id: " + id + " deleted from: " + HttpContext.Request.Host);
+        await _userRepository.deleteByID(id);
         return Ok();
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpGet("/api/account/list/{id}")]
-    public async Task<IActionResult> listAccount(int id)
+    [HttpGet("{page}")]
+    public async Task<IActionResult> list(int page)
     {
-        return Ok(await _userRepository.ListAll(id));
+        return Ok(await _userRepository.ListAll(page));
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpDelete("/api/account/delete/{id}")]
-    public async Task<IActionResult> deleteAccount(int id)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> delete(int id)
     {
         var value = await _userRepository.deleteByID(id);
         if (value == false)
@@ -89,8 +86,8 @@ public class AccountController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpPut("/api/account/edit/{id}")]
-    public async Task<IActionResult> editAccount(int id, [FromBody] Edit customer)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> edit(int id, [FromBody] Edit customer)
     {
         customer.hashPassword();
         await _userRepository.updateByID(id, customer);
