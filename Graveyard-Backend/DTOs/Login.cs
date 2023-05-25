@@ -9,7 +9,7 @@ public class Login
     public string password { get; set; }
 
     public void hashPassword()
-    {   
+    {
         var inputBytes = Encoding.UTF8.GetBytes(password);
         var inputHash = SHA256.HashData(inputBytes);
         password = Convert.ToHexString(inputHash);

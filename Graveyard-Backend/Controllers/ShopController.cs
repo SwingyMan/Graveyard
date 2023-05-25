@@ -1,6 +1,5 @@
 ﻿using Graveyard_Backend.Models;
 using Graveyard_Backend.Repositories;
-using Graveyard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
@@ -27,64 +26,35 @@ public class ShopController : ControllerBase
     [HttpGet("/api/shop/{id}")]
     public async Task<IActionResult> listItems(int id)
     {
-        _log.Information("Shop listed by: " + HttpContext.Request.Host);
-        return Ok(await _itemRepository.ListAll(id));
-    }
+		throw new NotImplementedException();
 
-    [HttpPost("/api/shop/buy/{id}")]
+	}
+
+	[HttpPost("/api/shop/buy/{id}")]
     public IActionResult buyItem(int id)
     {
-        _log.Information("Item " + id + " added by: " + HttpContext.Request.Host);
-        var customerid = int.Parse(User.Claims.First(i =>
-            i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var cart = _contextModel.carts.FirstOrDefault(x => x.Customer.CustomerID == customerid);
-        if (cart == null)
-        {
-            var customer = _contextModel.customer.FirstOrDefault(x => x.CustomerID == customerid);
-            var item = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
-            var cart1 = new Cart(customer, item);
-            return Ok(cart1);
-        }
-        else
-        {
-            var item = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
-            cart.Items.Add(item);
-            _contextModel.SaveChanges();
-            return Ok(cart.Items.ToList());
-        }
-    }
+		throw new NotImplementedException();
+	}
 
-   
 
     [HttpPost("/api/shop/add")]
     [Authorize(Roles = "Administrator")]
-    public IActionResult addItem([FromBody] Item itemDto)
+    public IActionResult addItem([FromBody] Graveyard_Backend.DTOs.Item itemDto)
     {
-        var item = new Item(itemDto.kind, itemDto.price, itemDto.quantity);
-        _log.Information("Item added by: " + HttpContext.Request.Host);
-        _itemRepository.add(item);
-        return Ok();
+       throw new NotImplementedException();
     }
 
     [HttpPut("/api/shop/edit/{id}")]
     [Authorize(Roles = "Administrator")]
-    public IActionResult editItem(int id, [FromBody] Item itemDto)
+    public IActionResult editItem(int id, [FromBody] Graveyard_Backend.DTOs.Item itemDto)
     {
-        _log.Information("Item eddited by: " + HttpContext.Request.Host);
-        var original = _contextModel.shop.FirstOrDefault(x => x.ItemID == id);
-        original.kind = itemDto.kind;
-        original.price = itemDto.price;
-        original.quantity = itemDto.quantity;
-        _contextModel.SaveChanges();
-        return Ok();
-    }
+		throw new NotImplementedException();
+	}
 
     [HttpDelete("/api/shop/delete/{id}")]
     [Authorize(Roles = "Administrator")]
     public IActionResult deleteItem(int id)
     {
-        _log.Information("Item deleted by: " + HttpContext.Request.Host);
-        _itemRepository.deleteByID(id);
-        return Ok();
-    }
+		throw new NotImplementedException();
+	}
 }

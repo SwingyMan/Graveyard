@@ -1,16 +1,15 @@
 ﻿using Graveyard_Backend.DTOs;
-using Graveyard_Backend.Interfaces;
-using Graveyard_Backend.Models;
-using Graveyard.Models;
 using Microsoft.EntityFrameworkCore;
+using Graveyard_Backend.Models;
+using Graveyard_Backend.IRepositories;
 
 namespace Graveyard_Backend.Repositories;
 
-public class UserRepository : CRUDRepository<Customer>, IUserRepository
+public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 {
     private readonly contextModel _contextModel;
 
-    public UserRepository(contextModel contextModel)
+    public CustomerRepository(contextModel contextModel)
     {
         _contextModel = contextModel;
     }
@@ -33,7 +32,7 @@ public class UserRepository : CRUDRepository<Customer>, IUserRepository
 
     public async Task<Customer> updateByID(int id, Edit customer)
     {
-        var original = _contextModel.customer.FirstOrDefault(x => x.CustomerID == id);
+        var original = _contextModel.customer.FirstOrDefault(x => x.CustomerId == id);
         if (!string.IsNullOrEmpty(customer.FirstName))
             original.Name = customer.FirstName;
         if (!string.IsNullOrEmpty(customer.LastName))
@@ -42,8 +41,6 @@ public class UserRepository : CRUDRepository<Customer>, IUserRepository
             original.Email = customer.email;
         if (!string.IsNullOrEmpty(customer.password))
             original.Password = customer.password;
-        if (!string.IsNullOrEmpty(customer.Owned_role))
-            original.Owned_role = customer.Owned_role;
         await _contextModel.SaveChangesAsync();
         return original;
     }

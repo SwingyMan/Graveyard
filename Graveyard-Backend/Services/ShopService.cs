@@ -1,7 +1,6 @@
 ﻿using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
 using Graveyard_Backend.Repositories;
-using Graveyard.Models;
 
 namespace Graveyard_Backend.Services;
 

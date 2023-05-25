@@ -1,5 +1,5 @@
 using System.Text;
-using Graveyard.Models;
+using Graveyard_Backend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;

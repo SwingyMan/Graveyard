@@ -1,6 +1,6 @@
-﻿using Graveyard_Backend.Interfaces;
-using Graveyard.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.Models;
 
 namespace Graveyard_Backend.Repositories;
 

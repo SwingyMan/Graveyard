@@ -1,4 +1,4 @@
-﻿using Graveyard.Models;
+﻿using Graveyard_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Graveyard_Backend.Controllers;
@@ -13,27 +13,19 @@ public class CartController : ControllerBase
     {
         _contextModel = contextModel;
     }
+
     [HttpGet]
     public IActionResult showCart()
     {
-        var customerid = int.Parse(User.Claims.First(i =>
-            i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var cart = _contextModel.carts.FirstOrDefault(x => x.Customer.CustomerID == customerid);
-        if (cart == null)
-            return NotFound();
-        return Ok(cart);
-    }
+		throw new NotImplementedException();
+	}
 
     [HttpDelete]
     public IActionResult delete(int id)
     {
-        var customerid = int.Parse(User.Claims.First(i =>
-            i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
-        var cart = _contextModel.carts.FirstOrDefault(x => x.Customer.CustomerID == customerid);
-        cart.Items.Where(x => x.ItemID == id);
-        _contextModel.SaveChanges();
-        return Ok(cart);
-    }
+		throw new NotImplementedException();
+	}
+
     [HttpGet]
     public Task<IActionResult> submit()
     {

@@ -1,4 +1,4 @@
-﻿using Graveyard_Backend.Interfaces;
+﻿using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.Repositories;
 using Moq;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BackendTest
 {
-    public class Test
+	public class Test
     {
         [Key]
         public int ID { get; set; }

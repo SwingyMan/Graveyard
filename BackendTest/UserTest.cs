@@ -1,7 +1,6 @@
 using Castle.Core.Resource;
-using Graveyard.Models;
 using Graveyard_Backend.Controllers;
-using Graveyard_Backend.Interfaces;
+using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.Models;
 using Graveyard_Backend.Repositories;
 using Microsoft.Extensions.Logging;
@@ -9,18 +8,18 @@ using Moq;
 using ILogger = Serilog.ILogger;
 namespace BackendTest
 {
-    public class UserTest
+	public class UserTest
     {
-        Mock<IUserRepository> repository = new Mock<IUserRepository>();
+        Mock<ICustomerRepository> repository = new Mock<ICustomerRepository>();
         Customer customers =
             new Customer()
             {
-                CustomerID = 1,
+                CustomerId = 1,
                 Name = "Grzegorz",
                 LastName = "Mazurkiewicz",
                 Email = "grzegorz.mazurkiewicz@gmail.com",
                 Date_of_creation = DateTime.Now,
-                Owned_role = "User",
+                Owned_role = Role.User,
                 Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
             };
         [Fact]

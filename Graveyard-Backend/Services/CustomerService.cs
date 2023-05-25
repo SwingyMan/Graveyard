@@ -3,33 +3,29 @@ using Graveyard_Backend.DTOs;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
 using Graveyard_Backend.Repositories;
-using Graveyard.Models;
 
 namespace Graveyard_Backend.Services;
 
-public class AccountService : IAccountService
+public class CustomerService : IAccountService
 {
     private readonly contextModel _contextModel;
-    private readonly UserRepository _userRepository;
+    private readonly CustomerRepository _customerRepository;
 
-    public AccountService(contextModel contextModel)
+    public CustomerService(contextModel contextModel)
     {
         _contextModel = contextModel;
-        _userRepository = new UserRepository(_contextModel);
+        _customerRepository = new CustomerRepository(_contextModel);
     }
 
-    public async Task<String> CreateUser(Register registerForm,HttpClient _httpClient)
+    public async Task<string> CreateUser(Register registerForm, HttpClient _httpClient)
     {
         var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
             registerForm.password);
-        var testEmail = await _userRepository.getByEmail(registerForm.email);
-        if (testEmail != null)
-        {
-            return null;
-        }
+        var testEmail = await _customerRepository.getByEmail(registerForm.email);
+        if (testEmail != null) return null;
 
         {
-            await _userRepository.add(customer);
+            await _customerRepository.add(customer);
             var x = JwtAuth.GenerateToken(customer);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
             return x;
