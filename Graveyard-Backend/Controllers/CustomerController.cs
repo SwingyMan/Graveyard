@@ -12,11 +12,11 @@ namespace Graveyard_Backend.Controllers;
 public class CustomerController : ControllerBase
 {
     private readonly CustomerService _customerService;
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly HttpClient _httpClient;
     private readonly CustomerRepository _customerRepository;
 
-    public CustomerController(contextModel contextModel, HttpClient httpClient)
+    public CustomerController(ContextModel contextModel, HttpClient httpClient)
     {
         _contextModel = contextModel;
         _httpClient = httpClient;

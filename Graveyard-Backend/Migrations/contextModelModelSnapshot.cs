@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Graveyard_Backend.Migrations
 {
-    [DbContext(typeof(contextModel))]
+    [DbContext(typeof(ContextModel))]
     partial class contextModelModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

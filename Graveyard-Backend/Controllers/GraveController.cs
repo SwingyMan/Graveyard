@@ -1,5 +1,6 @@
 ﻿using Graveyard_Backend.Models;
 using Graveyard_Backend.Repositories;
+using Graveyard_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Grave = Graveyard_Backend.DTOs.Grave;
@@ -10,57 +11,58 @@ namespace Graveyard_Backend.Controllers;
 [Route("/api/[controller]/[action]")]
 public class GraveController : ControllerBase
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly GraveRepository _graveRepository;
-
-    public GraveController(contextModel contextModel)
+    private readonly GraveService _graveService;
+    public GraveController(ContextModel contextModel)
     {
         _contextModel = contextModel;
-        _graveRepository = new GraveRepository(contextModel);
+        _graveRepository = new GraveRepository(_contextModel);
+        _graveService = new GraveService(_graveRepository);
     }
 
     [HttpGet("{page}")]
     public async Task<IActionResult> list(int page)
     {
-		throw new NotImplementedException();
+	    return Ok(await _graveService.list(page));
 
-	}
+    }
 
 	[Authorize(Roles = "Administrator")]
     [HttpPost]
     public async Task<IActionResult> add([FromBody] Grave graveDto)
     {
-        throw new NotImplementedException();
+	    return Ok(await _graveService.add(graveDto));
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> delete(int id)
     {
-        await _graveRepository.deleteByID(id);
+	    await _graveService.delete(id);
         return Ok();
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpPut("{id}")]
-    public IActionResult edit(int id, [FromBody] Grave graveDto)
+    public async Task<IActionResult> edit(int id, [FromBody] Grave graveDto)
     {
-		throw new NotImplementedException();
+	    return Ok(await _graveService.edit(id, graveDto));
 
-	}
+    }
 
 	[Authorize(Roles = "Administrator")]
     [HttpGet("{id}")]
     public async Task<IActionResult> get(int id)
     {
-		throw new NotImplementedException();
+	    return Ok(await _graveService.getById(id));
 
-	}
+    }
 
 	[HttpGet("{id}")]
     public async Task<IActionResult> extend(int id)
     {
-		throw new NotImplementedException();
+	    return Ok(await _graveService.extendGrave(id));
 
-	}
+    }
 }

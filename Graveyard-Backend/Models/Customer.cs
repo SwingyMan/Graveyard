@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard_Backend.Models;
-
+[Index(nameof(Email),nameof(Password))]
 public class Customer
 {
 	public Customer(string name, string lastname, string email, string password)

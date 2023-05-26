@@ -46,7 +46,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddDbContext<contextModel>();
+builder.Services.AddDbContext<ContextModel>();
 using var log = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("./logs.txt")

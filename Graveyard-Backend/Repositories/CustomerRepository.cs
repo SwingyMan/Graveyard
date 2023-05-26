@@ -7,9 +7,9 @@ namespace Graveyard_Backend.Repositories;
 
 public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
 
-    public CustomerRepository(contextModel contextModel)
+    public CustomerRepository(ContextModel contextModel)
     {
         _contextModel = contextModel;
     }

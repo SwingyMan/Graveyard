@@ -6,16 +6,16 @@ namespace Graveyard_Backend.Repositories;
 
 public class CRUDRepository<T> : ICRUDRepository<T> where T : class
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly DbSet<T> table;
 
     public CRUDRepository()
     {
-        _contextModel = new contextModel();
+        _contextModel = new ContextModel();
         table = _contextModel.Set<T>();
     }
 
-    public CRUDRepository(contextModel context)
+    public CRUDRepository(ContextModel context)
     {
         _contextModel = context;
         table = _contextModel.Set<T>();
@@ -23,7 +23,7 @@ public class CRUDRepository<T> : ICRUDRepository<T> where T : class
 
     public async Task<T> add(T entity)
     {
-        table.Add(entity);
+        await table.AddAsync(entity);
         await _contextModel.SaveChangesAsync();
         return entity;
     }

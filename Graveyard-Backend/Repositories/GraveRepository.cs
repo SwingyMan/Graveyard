@@ -1,32 +1,24 @@
 ﻿using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard_Backend.Repositories;
 
 public class GraveRepository : CRUDRepository<Grave>, IGraveRepository
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
 
-    public GraveRepository(contextModel contextModel)
+    public GraveRepository(ContextModel contextModel)
     {
         _contextModel = contextModel;
     }
 
-    public async Task<Grave> ExtendDate(int id)
+    public async Task<Grave> extendDate(int id)
     {
-        var grave = _contextModel.grave.FirstOrDefault(x => x.GraveId == id);
+        var grave = await _contextModel.grave.FirstOrDefaultAsync(x => x.GraveId == id);
         grave.validUntil.AddYears(5);
+        grave.status = GraveStatus.Paid;
         await _contextModel.SaveChangesAsync();
         return grave;
-    }
-
-    public Task<Grave> ChangeStatus(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Grave> UpdateById(int id, DTOs.Grave grave)
-    {
-        throw new NotImplementedException();
     }
 }
