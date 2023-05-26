@@ -4,5 +4,6 @@ namespace Graveyard_Backend.IRepositories;
 
 public interface IToBeBurriedRepository : ICRUDRepository<ToBeBurried>
 {
-    public Task<ToBeBurried> addNewBurried(int burriedId, DateTime burialTime);
+    Task<ToBeBurried> addBurried(int burriedId, DateTime burialTime);
+    public Task<ToBeBurried> editDate(int toBeBurriedId, DateTime burialTime);
 }

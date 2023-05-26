@@ -7,9 +7,9 @@ namespace Graveyard_Backend.Controllers;
 [ApiController]
 public class CartController : ControllerBase
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
 
-    public CartController(contextModel contextModel)
+    public CartController(ContextModel contextModel)
     {
         _contextModel = contextModel;
     }

@@ -9,9 +9,9 @@ namespace Graveyard_Backend.Repositories;
 
 public class BurriedRepository : CRUDRepository<Models.Burried>,IBurriedRepository
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
 
-    public BurriedRepository(contextModel contextModel)
+    public BurriedRepository(ContextModel contextModel)
     {
         _contextModel = contextModel;
     }

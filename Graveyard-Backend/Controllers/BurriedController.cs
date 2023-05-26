@@ -11,10 +11,10 @@ namespace Graveyard_Backend.Controllers;
 [ApiController]
 public class BurriedController : ControllerBase
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly BurriedRepository _burriedRepository;
     private readonly BurriedService _burriedService;
-    public BurriedController(contextModel contextModel)
+    public BurriedController(ContextModel contextModel)
     {
         _contextModel = contextModel;
         _burriedRepository = new BurriedRepository(_contextModel);

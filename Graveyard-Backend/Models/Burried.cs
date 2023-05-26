@@ -22,5 +22,5 @@ public class Burried
     public string lastname { get; set; }
     public DateOnly date_of_birth { get; set; }
     public DateOnly date_of_death { get; set; }
-    public List<BurriedGrave> BurriedGraves { get; set; }
+    public List<GraveBurried> BurriedGraves { get; set; }
 }

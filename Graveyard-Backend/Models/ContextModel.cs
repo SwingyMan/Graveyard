@@ -3,16 +3,16 @@ using ILogger = Serilog.ILogger;
 
 namespace Graveyard_Backend.Models;
 
-public class contextModel : DbContext
+public class ContextModel : DbContext
 {
 	private static ILogger _logger;
 
-	public contextModel(DbContextOptions options, ILogger log) : base(options)
+	public ContextModel(DbContextOptions options, ILogger log) : base(options)
 	{
 		_logger = log;
 	}
 
-	public contextModel()
+	public ContextModel()
 	{
 	}
 
@@ -22,7 +22,7 @@ public class contextModel : DbContext
 	public DbSet<ToBeBurried> burials { get; set; }
 	public DbSet<Cart> carts { get; set; }
 	public DbSet<Burried> burried { get; set; }
-	public DbSet<BurriedGrave> burriedGraves { get; set; }
+	public DbSet<GraveBurried> graveBurried { get; set; }
 	public DbSet<PurchaseHistory> purchaseHistory { get; set; }
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{

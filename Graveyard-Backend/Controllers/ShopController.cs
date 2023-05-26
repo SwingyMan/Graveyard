@@ -10,11 +10,11 @@ namespace Graveyard_Backend.Controllers;
 public class ShopController : ControllerBase
 {
     private readonly CartRepository _cartRepository;
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly ItemRepository _itemRepository;
     private readonly ILogger _log;
 
-    public ShopController(contextModel contextModel, ILogger log)
+    public ShopController(ContextModel contextModel, ILogger log)
     {
         _contextModel = contextModel;
         _log = log;

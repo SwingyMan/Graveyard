@@ -8,10 +8,10 @@ namespace Graveyard_Backend.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly CustomerRepository _customerRepository;
 
-    public CustomerService(contextModel contextModel)
+    public CustomerService(ContextModel contextModel)
     {
         _contextModel = contextModel;
         _customerRepository = new CustomerRepository(_contextModel);

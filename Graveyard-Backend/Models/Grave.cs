@@ -8,11 +8,11 @@ public class Grave
 	{
 	}
 
-	public Grave(int x, int y, GraveStatus status)
+	public Grave(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
-		this.status = status;
+		this.status = GraveStatus.Paid;
 		validUntil = DateTime.Now.AddYears(5);
 	}
 
@@ -22,7 +22,7 @@ public class Grave
 	public int y { get; set; }
 	public GraveStatus status { get; set; }
 	public DateTime validUntil { get; set; }
-	public List<BurriedGrave> BurriedGraves { get; set; }
+	public List<GraveBurried> BurriedGraves { get; set; }
 	public List<Cart> Carts { get; set; }
 }
 public enum GraveStatus

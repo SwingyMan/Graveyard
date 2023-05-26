@@ -5,9 +5,9 @@ namespace Graveyard_Backend.Repositories;
 
 public class CartRepository : CRUDRepository<Cart>, ICartRepository
 {
-    private contextModel _contextModel;
+    private ContextModel _contextModel;
 
-    public CartRepository(contextModel contextModel)
+    public CartRepository(ContextModel contextModel)
     {
         _contextModel = contextModel;
     }

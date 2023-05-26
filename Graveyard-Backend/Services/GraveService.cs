@@ -6,69 +6,46 @@ namespace Graveyard_Backend.Services;
 
 public class GraveService : IGraveService
 {
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly GraveRepository _graveRepository;
-    private readonly ToBeBuriedRepository _toBeBuriedRepository;
 
-    public GraveService(contextModel contextModel)
+    public GraveService(GraveRepository graveRepository)
     {
-        _contextModel = contextModel;
-        _graveRepository = new GraveRepository(contextModel);
-        _toBeBuriedRepository = new ToBeBuriedRepository(contextModel);
+        _graveRepository = graveRepository;
     }
 
-    public Task<Grave> AddGrave(DTOs.Grave dto)
+
+    public async Task<Grave> add(DTOs.Grave grave)
     {
-        throw new NotImplementedException();
+        var gravee = new Grave(grave.x, grave.y);
+        await _graveRepository.add(gravee);
+        return gravee;
     }
 
-    public Task<ToBeBurried> AddToBeBurried(ToBeBurried toBeBurried)
+    public async Task<Grave> edit(int id,DTOs.Grave grave)
     {
-        throw new NotImplementedException();
+        var gravee = new Grave(grave.x, grave.y);
+        await _graveRepository.updateByID(id, gravee);
+        return gravee;
     }
 
-    public Task DeleteToBeBurried(int id)
+    public async Task delete(int id)
     {
-        throw new NotImplementedException();
+        await _graveRepository.deleteByID(id);
     }
 
-    public Task<Grave> ExtendGrave(int id)
+    public async Task<List<Grave>> list(int page)
     {
-        throw new NotImplementedException();
+        return await _graveRepository.ListAll(page);
     }
 
-    public Task<Grave> GetGrave(int id)
+    public async Task<Grave> getById(int id)
     {
-        throw new NotImplementedException();
+        return await _graveRepository.getByID(id);
     }
 
-    public Task<List<Grave>> GetGraveList(int id)
+    public async Task<Grave> extendGrave(int id)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<ToBeBurried> GetToBeBurried(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<ToBeBurried>> GetToBeBurriedList(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task RemoveGrave(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Grave> UpdateGrave(int id, DTOs.Grave dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<ToBeBurried> UpdateToBeBurried(ToBeBurried toBeBurried)
-    {
-        throw new NotImplementedException();
+        return await _graveRepository.extendDate(id);
     }
 }

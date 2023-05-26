@@ -7,10 +7,10 @@ namespace Graveyard_Backend.Services;
 public class ShopService : IShopService
 {
     private readonly CartRepository _cartRepository;
-    private readonly contextModel _contextModel;
+    private readonly ContextModel _contextModel;
     private readonly ItemRepository _itemRepository;
 
-    public ShopService(contextModel contextModel)
+    public ShopService(ContextModel contextModel)
     {
         _contextModel = contextModel;
         _cartRepository = new CartRepository(_contextModel);
