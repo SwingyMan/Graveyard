@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {faCoffee} from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'grv-login',
@@ -8,7 +7,6 @@ import {faCoffee} from '@fortawesome/free-solid-svg-icons'
 })
 export class LoginComponent {
 
-  icon = faCoffee
 
   username: string = '';
   password: string = '';
