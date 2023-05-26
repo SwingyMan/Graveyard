@@ -1,3 +1,5 @@
+<grv-login></grv-login>
+
 <div [ngSwitch]="role">
   <div *ngSwitchCase="'User'">
       Welcome user!
@@ -5,7 +7,7 @@
   <div *ngSwitchCase="'Admin'">
       <grv-graves></grv-graves>
   </div>
-  <div *ngSwitchDefault>
+  <!--<div *ngSwitchDefault>
       You are not authorized to view this page!
-  </div>
+  </div>-->
 </div>

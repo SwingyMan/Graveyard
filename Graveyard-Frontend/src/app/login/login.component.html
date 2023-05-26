@@ -1,0 +1,15 @@
+<div>
+    <fa-icon [icon]="icon"></fa-icon>
+    <h2>Logowanie</h2>
+    <form (ngSubmit)="login()">
+    <div>
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" [(ngModel)]="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    </div>
+    <button type="submit">Zaloguj</button>
+    </form>
+</div>
