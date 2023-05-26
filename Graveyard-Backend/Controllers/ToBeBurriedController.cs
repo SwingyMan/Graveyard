@@ -3,6 +3,7 @@ using Graveyard_Backend.Models;
 using Graveyard_Backend.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Burried = Graveyard_Backend.DTOs.Burried;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -22,7 +23,7 @@ public class ToBeBurriedController : ControllerBase
 
     [Authorize(Roles = "Administrator")]
     [HttpPost]
-    public async Task<IActionResult> add([FromBody] Burial burialDto)
+    public async Task<IActionResult> add([FromBody] Burried burriedDto)
 	{
 		throw new NotImplementedException();
 
@@ -37,7 +38,7 @@ public class ToBeBurriedController : ControllerBase
 	}
 
 	[HttpPatch("{id}")]
-    public async Task<IActionResult> edit(int id, [FromBody] Burial burialDto)
+    public async Task<IActionResult> edit(int id, [FromBody] Burried burriedDto)
     {
 		throw new NotImplementedException();
 
