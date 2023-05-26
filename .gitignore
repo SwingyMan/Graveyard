@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /Graveyard-Backend/logs.txt
 /.idea/.idea.Graveyard/.idea
 /Graveyard-Backend/Migrations
+/Graveyard-Backend/appsettings.json
