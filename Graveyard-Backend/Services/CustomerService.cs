@@ -6,7 +6,7 @@ using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
-public class CustomerService : IAccountService
+public class CustomerService : ICustomerService
 {
     private readonly contextModel _contextModel;
     private readonly CustomerRepository _customerRepository;
@@ -31,34 +31,36 @@ public class CustomerService : IAccountService
             return x;
         }
     }
-
-    public Task DeleteSelf()
+    public async Task DeleteUser(int id)
     {
-        throw new NotImplementedException();
+        await _customerRepository.deleteByID(id);
     }
 
-    public Task DeleteUser(int id)
+    public async Task<List<Customer>> GetAll(int page)
     {
-        throw new NotImplementedException();
+        return await _customerRepository.ListAll(page);
     }
 
-    public Task<List<Customer>> GetAll()
+    public async Task<Customer> GetUser(int id)
     {
-        throw new NotImplementedException();
+        return await _customerRepository.getByID(id);
     }
 
-    public Task<Customer> GetUser(int id)
+    public async Task<string> LoginUser(Login loginDTO,HttpClient _httpClient)
     {
-        throw new NotImplementedException();
+        loginDTO.hashPassword();
+        var account = await _customerRepository.getByEmailAndPassword(loginDTO.email, loginDTO.password);
+        if (account == null) return string.Empty;
+
+        {
+            var x = JwtAuth.GenerateToken(account);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
+            return x;
+        }
     }
 
-    public Task<string> LoginUser(Login loginDTO)
+    public async Task<Customer> UpdateUser(int id, Edit editDTO)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<Customer> UpdateUser(int id, Edit editDTO)
-    {
-        throw new NotImplementedException();
+        return await _customerRepository.updateByID(id, editDTO);
     }
 }

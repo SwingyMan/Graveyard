@@ -7,5 +7,7 @@ public interface ICustomerRepository : ICRUDRepository<Customer>
 {
 	Task<Customer> getByEmail(string email);
 	Task<Customer> getByEmailAndPassword(string email, string password);
-	Task<Customer> updateByID(int id, Edit customer);
+	Task<Customer> updateByID(int CustomerId, Edit customer);
+	Task<Customer> setAdminRole(int CustomerId);
+	Task<Customer> removeAdminRole(int CustomerId);
 }
