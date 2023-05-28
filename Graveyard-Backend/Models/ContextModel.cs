@@ -26,11 +26,7 @@ public class ContextModel : DbContext
 	public DbSet<PurchaseHistory> purchaseHistory { get; set; }
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		var configuration = new ConfigurationBuilder()
-			.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-			.AddJsonFile("appsettings.json")
-			.Build();
-		optionsBuilder.UseNpgsql(configuration.GetConnectionString("GraveyardDatabase"))
+				optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_GraveyardDatabase"))
 			.LogTo(_logger.Information, LogLevel.Information);
 	}
 }

@@ -29,8 +29,8 @@ public class Customer
 	public string Email { get; set; }
 	public DateTime Date_of_creation { get; set; }
 	public string Password { get; set; }
-	public Role Owned_role { get; set; }	
-	public List<Cart> carts { get; set; }
+	public Role Owned_role { get; set; }
+	public List<Cart> carts { get; set; } = null;
 	private void hashPassword()
 	{
 		var inputBytes = Encoding.UTF8.GetBytes(Password);

@@ -1,5 +1,6 @@
 ﻿using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard_Backend.Repositories;
 
@@ -12,13 +13,27 @@ public class ItemRepository : CRUDRepository<Item>, IItemRepository
         _contextModel = contextModel;
     }
 
-    public Task<Item> IncreaseQuantity(int quantity, int ItemId)
+    public async Task<Item> IncreaseQuantity(int ItemId)
     {
-        throw new NotImplementedException();
+        var x = await _contextModel.item.FirstOrDefaultAsync(x => x.ItemId == ItemId);
+        x.Quantity += 1;
+        await _contextModel.SaveChangesAsync();
+        return x;
     }
 
-    public Task<Item> DecreaseQuantity(int quantity, int ItemId)
+    public async Task<Item> DecreaseQuantity(int ItemId)
     {
-        throw new NotImplementedException();
+        var x = await _contextModel.item.FirstOrDefaultAsync(x => x.ItemId == ItemId);
+        x.Quantity -= 1;
+        await _contextModel.SaveChangesAsync();
+        return x;
+    }
+
+    public async Task<Item> ChangeQuantity(int quantity, int ItemId)
+    {
+        var x = await _contextModel.item.FirstOrDefaultAsync(x => x.ItemId == ItemId);
+        x.Quantity = quantity;
+        await _contextModel.SaveChangesAsync();
+        return x;
     }
 }

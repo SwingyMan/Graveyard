@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using Graveyard_Backend.DTOs;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
@@ -8,21 +9,21 @@ namespace Graveyard_Backend.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly ContextModel _contextModel;
     private readonly CustomerRepository _customerRepository;
 
-    public CustomerService(ContextModel contextModel)
+    public CustomerService(CustomerRepository customerRepository)
     {
-        _contextModel = contextModel;
-        _customerRepository = new CustomerRepository(_contextModel);
+        _customerRepository = customerRepository;
     }
 
     public async Task<string> CreateUser(Register registerForm, HttpClient _httpClient)
     {
+        string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        Regex regex = new Regex(pattern);
         var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
             registerForm.password);
         var testEmail = await _customerRepository.getByEmail(registerForm.email);
-        if (testEmail != null) return null;
+        if (testEmail != null || !regex.IsMatch(registerForm.email)) return null;
 
         {
             await _customerRepository.add(customer);

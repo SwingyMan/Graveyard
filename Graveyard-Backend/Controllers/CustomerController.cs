@@ -12,16 +12,13 @@ namespace Graveyard_Backend.Controllers;
 public class CustomerController : ControllerBase
 {
     private readonly CustomerService _customerService;
-    private readonly ContextModel _contextModel;
     private readonly HttpClient _httpClient;
-    private readonly CustomerRepository _customerRepository;
 
     public CustomerController(ContextModel contextModel, HttpClient httpClient)
     {
-        _contextModel = contextModel;
         _httpClient = httpClient;
-        _customerRepository = new CustomerRepository(_contextModel);
-        _customerService = new CustomerService(_contextModel);
+        var customerRepository = new CustomerRepository(contextModel);
+        _customerService = new CustomerService(customerRepository);
     }
 
     [AllowAnonymous]
@@ -30,7 +27,7 @@ public class CustomerController : ControllerBase
     {
         var token = await _customerService.CreateUser(registerForm, _httpClient);
         if (token == null)
-            return NotFound("Email Taken");
+            return BadRequest("Email Taken");
         return Ok(token);
     }
 
@@ -56,16 +53,19 @@ public class CustomerController : ControllerBase
     [HttpGet("{page}")]
     public async Task<IActionResult> list(int page)
     {
-        return Ok(await _customerRepository.ListAll(page));
+        return Ok(await _customerService.GetAll(page));
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> getById(int id)
+    {
+        return Ok(await _customerService.GetUser(id));
+    }
     [Authorize(Roles = "Administrator")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> delete(int id)
     {
-        var value = await _customerRepository.deleteByID(id);
-        if (value == false)
-            return NotFound();
+        await _customerService.DeleteUser(id);
         return Ok();
     }
 
@@ -73,8 +73,6 @@ public class CustomerController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> edit(int id, [FromBody] Edit customer)
     {
-        customer.hashPassword();
-        await _customerRepository.updateByID(id, customer);
-        return Ok(_customerRepository.getByID(id));
+        return Ok(_customerService.UpdateUser(id,customer));
     }
 }
