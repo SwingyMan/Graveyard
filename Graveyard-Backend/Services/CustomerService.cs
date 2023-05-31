@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using Graveyard_Backend.DTOs;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
@@ -8,21 +9,21 @@ namespace Graveyard_Backend.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly ContextModel _contextModel;
     private readonly CustomerRepository _customerRepository;
 
-    public CustomerService(ContextModel contextModel)
+    public CustomerService(CustomerRepository customerRepository)
     {
-        _contextModel = contextModel;
-        _customerRepository = new CustomerRepository(_contextModel);
+        _customerRepository = customerRepository;
     }
 
     public async Task<string> CreateUser(Register registerForm, HttpClient _httpClient)
     {
+        var pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        var regex = new Regex(pattern);
         var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
             registerForm.password);
         var testEmail = await _customerRepository.getByEmail(registerForm.email);
-        if (testEmail != null) return null;
+        if (testEmail != null || !regex.IsMatch(registerForm.email)) return null;
 
         {
             await _customerRepository.add(customer);
@@ -31,6 +32,7 @@ public class CustomerService : ICustomerService
             return x;
         }
     }
+
     public async Task DeleteUser(int id)
     {
         await _customerRepository.deleteByID(id);
@@ -46,7 +48,7 @@ public class CustomerService : ICustomerService
         return await _customerRepository.getByID(id);
     }
 
-    public async Task<string> LoginUser(Login loginDTO,HttpClient _httpClient)
+    public async Task<string> LoginUser(Login loginDTO, HttpClient _httpClient)
     {
         loginDTO.hashPassword();
         var account = await _customerRepository.getByEmailAndPassword(loginDTO.email, loginDTO.password);

@@ -12,13 +12,19 @@ public class GraveBurriedService : IGraveBurriedService
     {
         _graveBurriedRepository = graveBurriedRepository;
     }
-    public async Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId)
+
+    public async Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId, DateTime burialDate)
     {
-        return await _graveBurriedRepository.addBurriedToGrave(burriedId, graveId);
+        return await _graveBurriedRepository.addBurriedToGrave(burriedId, graveId, burialDate);
     }
 
     public async Task removeBurriedFromGrave(int burriedId, int graveId)
     {
         await _graveBurriedRepository.removeBurriedFromGrave(burriedId, graveId);
+    }
+
+    public async Task<List<GraveBurried>> getNewBurried()
+    {
+        return await _graveBurriedRepository.getNewBurried();
     }
 }

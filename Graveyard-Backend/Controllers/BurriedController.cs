@@ -3,6 +3,7 @@ using Graveyard_Backend.Repositories;
 using Graveyard_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Burried = Graveyard_Backend.DTOs.Burried;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -11,9 +12,10 @@ namespace Graveyard_Backend.Controllers;
 [ApiController]
 public class BurriedController : ControllerBase
 {
-    private readonly ContextModel _contextModel;
     private readonly BurriedRepository _burriedRepository;
     private readonly BurriedService _burriedService;
+    private readonly ContextModel _contextModel;
+
     public BurriedController(ContextModel contextModel)
     {
         _contextModel = contextModel;
@@ -22,12 +24,13 @@ public class BurriedController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> addBurried([FromBody]DTOs.Burried burried)
+    public async Task<IActionResult> addBurried([FromBody] Burried burried)
     {
         return Ok(await _burriedService.addBurried(burried));
     }
+
     [HttpPut("{BurriedId}")]
-    public async Task<IActionResult> editBurried(int BurriedId, [FromBody] DTOs.Burried burried)
+    public async Task<IActionResult> editBurried(int BurriedId, [FromBody] Burried burried)
     {
         return Ok(await _burriedService.editById(BurriedId, burried));
     }
@@ -45,6 +48,7 @@ public class BurriedController : ControllerBase
     {
         return Ok(await _burriedService.getById(id));
     }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> deleteById(int id)
     {
