@@ -1,4 +1,6 @@
-﻿using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
+using Graveyard_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +11,17 @@ namespace Graveyard_Backend.Controllers;
 [Authorize(Roles = "Administrator")]
 public class GraveBurriedController : ControllerBase
 {
-    private readonly IGraveBurriedService _graveBurriedService;
+    private readonly GraveBurriedService _graveBurriedService;
 
-    public GraveBurriedController(IGraveBurriedService graveBurriedService)
+    public GraveBurriedController(ContextModel contextModel)
     {
-        _graveBurriedService = graveBurriedService;
+        _graveBurriedService = new GraveBurriedService(new GraveBurriedRepository(contextModel));
     }
 
-    [HttpGet("{GraveId}/{burriedId}/{gravediggerId}")]
-    public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId, int gravediggerId,
-        DateTime burialDate)
+    [HttpGet("{GraveId}/{burriedId}")]
+    public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId, DateTime burialDate)
     {
-        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId, gravediggerId, burialDate));
+        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId, burialDate));
     }
 
     [HttpDelete("{GraveId}/{burriedId}")]
@@ -28,11 +29,5 @@ public class GraveBurriedController : ControllerBase
     {
         await _graveBurriedService.removeBurriedFromGrave(burriedId, GraveId);
         return Ok();
-    }
-    [AllowAnonymous]
-    [HttpGet("{graveId}")]
-    public async Task<IActionResult> getBurriedFromGrave(int graveId)
-    {
-        return Ok(await _graveBurriedService.getBurriedFromGrave(graveId));
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Graveyard_Backend.DTOs;
-using Graveyard_Backend.IServices;
+using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
+using Graveyard_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,13 +11,14 @@ namespace Graveyard_Backend.Controllers;
 [Route("/api/[controller]/[action]")]
 public class CustomerController : ControllerBase
 {
-    private readonly ICustomerService _customerService;
+    private readonly CustomerService _customerService;
     private readonly HttpClient _httpClient;
 
-    public CustomerController(ICustomerService customerService, HttpClient httpClient)
+    public CustomerController(ContextModel contextModel, HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _customerService = customerService;
+        var customerRepository = new CustomerRepository(contextModel);
+        _customerService = new CustomerService(customerRepository);
     }
 
     [AllowAnonymous]
@@ -33,7 +36,7 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> login([FromBody] Login loginForm)
     {
         var x = await _customerService.LoginUser(loginForm, _httpClient);
-        if (x == null)
+        if (x == string.Empty)
             return NotFound();
         return Ok(x);
     }
@@ -68,16 +71,9 @@ public class CustomerController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpPatch("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> edit(int id, [FromBody] Edit customer)
     {
         return Ok(_customerService.UpdateUser(id, customer));
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> getSelf()
-    {
-        return Ok(await _customerService.GetUser(int.Parse(User.Claims
-            .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value)));
     }
 }

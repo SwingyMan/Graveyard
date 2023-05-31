@@ -15,18 +15,18 @@ public class CartRepository : CRUDRepository<Cart>, ICartRepository
 
     public async Task<Cart> AddItemToCart(int CustomerId, int ItemId, int GraveId, int Quantity)
     {
-        var customer = await _contextModel.Customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
-        var item = await _contextModel.Item.FirstOrDefaultAsync(x => x.ItemId == ItemId);
-        var grave = await _contextModel.Grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
+        var customer = await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
+        var item = await _contextModel.item.FirstOrDefaultAsync(x => x.ItemId == ItemId);
+        var grave = await _contextModel.grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
         var cart = new Cart(customer, item, grave, Quantity);
-        await _contextModel.Carts.AddAsync(cart);
+        await _contextModel.carts.AddAsync(cart);
         await _contextModel.SaveChangesAsync();
         return cart;
     }
 
     public async Task RemoveItemFromCart(int CustomerId, int ItemId, int GraveId)
     {
-        var cart = await _contextModel.Carts.FirstOrDefaultAsync(x =>
+        var cart = await _contextModel.carts.FirstOrDefaultAsync(x =>
             x.CustomerId == CustomerId && x.ItemId == ItemId && x.GraveId == GraveId);
         _contextModel.Remove(cart);
         await _contextModel.SaveChangesAsync();
@@ -34,7 +34,7 @@ public class CartRepository : CRUDRepository<Cart>, ICartRepository
 
     public async Task removeAllItemsFromCart(int CustomerId)
     {
-        var carts = _contextModel.Carts.Where(x =>
+        var carts = _contextModel.carts.Where(x =>
             x.CustomerId == CustomerId);
         foreach (var cart in carts) _contextModel.Remove(cart);
 
@@ -43,6 +43,6 @@ public class CartRepository : CRUDRepository<Cart>, ICartRepository
 
     public async Task<List<Cart>> showCart(int CustomerId)
     {
-        return await _contextModel.Carts.Where(x => x.CustomerId == CustomerId).ToListAsync();
+        return await _contextModel.carts.Where(x => x.CustomerId == CustomerId).ToListAsync();
     }
 }

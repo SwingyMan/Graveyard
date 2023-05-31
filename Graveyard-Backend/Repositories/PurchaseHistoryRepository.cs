@@ -15,21 +15,21 @@ public class PurchaseHistoryRepository : CRUDRepository<PurchaseHistory>, IPurch
 
     public async Task<List<PurchaseHistory>> showHistory(int CustomerId)
     {
-        return await _contextModel.PurchaseHistory.Where(x => x.CustomerId == CustomerId).ToListAsync();
+        return await _contextModel.purchaseHistory.Where(x => x.CustomerId == CustomerId).ToListAsync();
     }
 
     public async Task<PurchaseHistory> addNewPurchaseHistory(List<Cart> carts, int customerid, decimal totalPrice)
     {
-        var customer = await _contextModel.Customer.FirstOrDefaultAsync(x => x.CustomerId == customerid);
+        var customer = await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == customerid);
         var purchase = new PurchaseHistory(customer, carts, totalPrice);
-        await _contextModel.PurchaseHistory.AddAsync(purchase);
+        await _contextModel.purchaseHistory.AddAsync(purchase);
         await _contextModel.SaveChangesAsync();
         return purchase;
     }
 
     public async Task<PurchaseHistory> changeStatus(int PurchaseId)
     {
-        var purchase = await _contextModel.PurchaseHistory.FirstOrDefaultAsync(x => x.ShopHistoryId == PurchaseId);
+        var purchase = await _contextModel.purchaseHistory.FirstOrDefaultAsync(x => x.ShopHistoryId == PurchaseId);
         purchase.Status = PurchaseStatus.Done;
         await _contextModel.SaveChangesAsync();
         return purchase;

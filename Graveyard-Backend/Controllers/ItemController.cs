@@ -1,20 +1,23 @@
-﻿using Graveyard_Backend.DTOs;
-using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
+using Graveyard_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Item = Graveyard_Backend.DTOs.Item;
 
 namespace Graveyard_Backend.Controllers;
 
 [Route("api/[controller]/[action]")]
-[Authorize(Roles="Administrator")]
+[Authorize("Administrator")]
 [ApiController]
 public class ItemController : ControllerBase
 {
-    private readonly IItemService _itemService;
+    private readonly ItemService _itemService;
 
-    public ItemController(IItemService itemService)
+    public ItemController(ContextModel contextModel)
     {
-        _itemService = itemService;
+        var itemrepository = new ItemRepository(contextModel);
+        _itemService = new ItemService(itemrepository);
     }
 
     [HttpPost]
@@ -36,7 +39,7 @@ public class ItemController : ControllerBase
         return Ok();
     }
 
-    [HttpPatch("{ItemId}/{quantity}")]
+    [HttpPut("{ItemId}/{quantity}")]
     public async Task<IActionResult> changeItemQuantity(int quantity, int ItemId)
     {
         return Ok(await _itemService.changeQuantity(ItemId, quantity));
@@ -47,7 +50,7 @@ public class ItemController : ControllerBase
     {
         return Ok(await _itemService.updateItem(ItemId, item));
     }
-    [AllowAnonymous]
+
     [HttpGet("{page}")]
     public async Task<IActionResult> getItems(int page)
     {

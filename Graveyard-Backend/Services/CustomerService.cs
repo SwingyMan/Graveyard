@@ -1,22 +1,22 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Graveyard_Backend.DTOs;
-using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly CustomerRepository _customerRepository;
 
-    public CustomerService(ICustomerRepository customerRepository)
+    public CustomerService(CustomerRepository customerRepository)
     {
         _customerRepository = customerRepository;
     }
 
-    public async Task<Token> CreateUser(Register registerForm, HttpClient _httpClient)
+    public async Task<string> CreateUser(Register registerForm, HttpClient _httpClient)
     {
         var pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         var regex = new Regex(pattern);
@@ -29,8 +29,7 @@ public class CustomerService : ICustomerService
             await _customerRepository.add(customer);
             var x = JwtAuth.GenerateToken(customer);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            var token = new Token(x);
-            return token;
+            return x;
         }
     }
 
@@ -49,18 +48,16 @@ public class CustomerService : ICustomerService
         return await _customerRepository.getByID(id);
     }
 
-    public async Task<Token> LoginUser(Login loginDTO, HttpClient _httpClient)
+    public async Task<string> LoginUser(Login loginDTO, HttpClient _httpClient)
     {
         loginDTO.hashPassword();
         var account = await _customerRepository.getByEmailAndPassword(loginDTO.email, loginDTO.password);
-        if (account == null) return null;
+        if (account == null) return string.Empty;
 
         {
-            
             var x = JwtAuth.GenerateToken(account);
-            var token = new Token(x);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            return token;
+            return x;
         }
     }
 

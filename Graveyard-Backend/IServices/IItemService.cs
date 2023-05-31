@@ -1,13 +1,13 @@
-﻿using Graveyard_Backend.DTOs;
+﻿using Graveyard_Backend.Models;
 
 namespace Graveyard_Backend.IServices;
 
 public interface IItemService
 {
-    public Task<Models.Item> addItem(Item item);
+    public Task<Item> addItem(DTOs.Item item);
     public Task removeItem(int ItemId);
-    public Task<Models.Item> updateItem(int ItemId, Item item);
-    public Task<List<Models.Item>> getItems(int page);
-    public Task<Models.Item> getItemById(int id);
-    public Task<Models.Item> changeQuantity(int id, int quantity);
+    public Task<Item> updateItem(int ItemId, DTOs.Item item);
+    public Task<List<Item>> getItems(int page);
+    public Task<Item> getItemById(int id);
+    public Task<Item> changeQuantity(int id, int quantity);
 }

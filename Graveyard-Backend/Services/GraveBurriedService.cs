@@ -1,24 +1,21 @@
-﻿using Graveyard_Backend.IRepositories;
-using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
-using Burried = Graveyard_Backend.DTOs.Burried;
+using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class GraveBurriedService : IGraveBurriedService
 {
-    private readonly IGraveBurriedRepository _graveBurriedRepository;
-    private readonly IBurriedRepository _burriedRepository;
-    public GraveBurriedService(IGraveBurriedRepository graveBurriedRepository,IBurriedRepository burriedRepository)
+    private readonly GraveBurriedRepository _graveBurriedRepository;
+
+    public GraveBurriedService(GraveBurriedRepository graveBurriedRepository)
     {
         _graveBurriedRepository = graveBurriedRepository;
-        _burriedRepository = burriedRepository;
     }
 
-    public async Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId, int gravediggerId,
-        DateTime burialDate)
+    public async Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId, DateTime burialDate)
     {
-        return await _graveBurriedRepository.addBurriedToGrave(burriedId, graveId, gravediggerId, burialDate);
+        return await _graveBurriedRepository.addBurriedToGrave(burriedId, graveId, burialDate);
     }
 
     public async Task removeBurriedFromGrave(int burriedId, int graveId)
@@ -26,11 +23,8 @@ public class GraveBurriedService : IGraveBurriedService
         await _graveBurriedRepository.removeBurriedFromGrave(burriedId, graveId);
     }
 
-    public async Task<List<Models.Burried>> getBurriedFromGrave(int GraveId)
+    public async Task<List<GraveBurried>> getNewBurried()
     {
-        var x = await _graveBurriedRepository.getBurriedFromGrave(GraveId);
-        return x.Select(x => x.Burried).ToList();
-
-
+        return await _graveBurriedRepository.getNewBurried();
     }
 }
