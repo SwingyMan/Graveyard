@@ -18,10 +18,10 @@ public class GraveBurriedController : ControllerBase
         _graveBurriedService = new GraveBurriedService(new GraveBurriedRepository(contextModel));
     }
 
-    [HttpGet("{GraveId}/{burriedId}")]
-    public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId, DateTime burialDate)
+    [HttpGet("{GraveId}/{burriedId}/{gravediggerId}")]
+    public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId,int gravediggerId, DateTime burialDate)
     {
-        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId, burialDate));
+        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId,gravediggerId, burialDate));
     }
 
     [HttpDelete("{GraveId}/{burriedId}")]

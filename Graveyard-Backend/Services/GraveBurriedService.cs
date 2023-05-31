@@ -13,9 +13,9 @@ public class GraveBurriedService : IGraveBurriedService
         _graveBurriedRepository = graveBurriedRepository;
     }
 
-    public async Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId, DateTime burialDate)
+    public async Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId,int gravediggerId, DateTime burialDate)
     {
-        return await _graveBurriedRepository.addBurriedToGrave(burriedId, graveId, burialDate);
+        return await _graveBurriedRepository.addBurriedToGrave(burriedId, graveId,gravediggerId, burialDate);
     }
 
     public async Task removeBurriedFromGrave(int burriedId, int graveId)
