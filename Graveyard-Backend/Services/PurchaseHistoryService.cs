@@ -6,10 +6,12 @@ namespace Graveyard_Backend.Services;
 
 public class PurchaseHistoryService : IPurchaseHistoryService
 {
-    private readonly PurchaseHistoryRepository _purchaseHistoryRepository;
     private readonly CartRepository _cartRepository;
     private readonly ItemRepository _itemRepository;
-    public PurchaseHistoryService(PurchaseHistoryRepository purchaseHistoryRepository,CartRepository cartRepository,ItemRepository itemRepository)
+    private readonly PurchaseHistoryRepository _purchaseHistoryRepository;
+
+    public PurchaseHistoryService(PurchaseHistoryRepository purchaseHistoryRepository, CartRepository cartRepository,
+        ItemRepository itemRepository)
     {
         _cartRepository = cartRepository;
         _itemRepository = itemRepository;
@@ -22,16 +24,17 @@ public class PurchaseHistoryService : IPurchaseHistoryService
         var carts = await _cartRepository.showCart(CustomerId);
         foreach (var cart in carts)
         {
-            var item =await _itemRepository.getByID(cart.ItemId);
+            var item = await _itemRepository.getByID(cart.ItemId);
             if (item.Quantity < cart.Items.Quantity)
-                return null;
-            else
             {
-                await _itemRepository.ChangeQuantity( item.Quantity -cart.Items.Quantity,cart.ItemId);
-                totalprice += item.Price * cart.Quantity;
+                return null;
             }
+
+            await _itemRepository.ChangeQuantity(item.Quantity - cart.Items.Quantity, cart.ItemId);
+            totalprice += item.Price * cart.Quantity;
         }
-        return await _purchaseHistoryRepository.addNewPurchaseHistory(carts, CustomerId,totalprice);
+
+        return await _purchaseHistoryRepository.addNewPurchaseHistory(carts, CustomerId, totalprice);
     }
 
     public async Task<List<PurchaseHistory>> getList(int CustomerId)

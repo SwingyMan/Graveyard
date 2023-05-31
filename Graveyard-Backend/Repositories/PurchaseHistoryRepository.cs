@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard_Backend.Repositories;
 
-public class PurchaseHistoryRepository : CRUDRepository<PurchaseHistory>,IPurchaseHistoryRepository
+public class PurchaseHistoryRepository : CRUDRepository<PurchaseHistory>, IPurchaseHistoryRepository
 {
     private readonly ContextModel _contextModel;
 
@@ -12,15 +12,16 @@ public class PurchaseHistoryRepository : CRUDRepository<PurchaseHistory>,IPurcha
     {
         _contextModel = contextModel;
     }
+
     public async Task<List<PurchaseHistory>> showHistory(int CustomerId)
     {
         return await _contextModel.purchaseHistory.Where(x => x.CustomerId == CustomerId).ToListAsync();
     }
 
-    public async Task<PurchaseHistory> addNewPurchaseHistory(List<Cart> carts, int customerid,decimal totalPrice)
+    public async Task<PurchaseHistory> addNewPurchaseHistory(List<Cart> carts, int customerid, decimal totalPrice)
     {
-        var customer =await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == customerid);
-        var purchase = new PurchaseHistory(customer,carts,totalPrice);
+        var customer = await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == customerid);
+        var purchase = new PurchaseHistory(customer, carts, totalPrice);
         await _contextModel.purchaseHistory.AddAsync(purchase);
         await _contextModel.SaveChangesAsync();
         return purchase;

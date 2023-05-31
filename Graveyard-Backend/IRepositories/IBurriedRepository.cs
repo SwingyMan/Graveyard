@@ -1,10 +1,8 @@
-﻿using Graveyard_Backend.DTOs;
-using Graveyard_Backend.Models;
-using Burried = Graveyard_Backend.DTOs.Burried;
+﻿using Graveyard_Backend.Models;
 
 namespace Graveyard_Backend.IRepositories;
 
-public interface IBurriedRepository : ICRUDRepository<Models.Burried>
+public interface IBurriedRepository : ICRUDRepository<Burried>
 {
-	public Task<Models.Burried> UpdateById(int id, Burried burriedDto);
+    public Task<Burried> UpdateById(int id, DTOs.Burried burriedDto);
 }

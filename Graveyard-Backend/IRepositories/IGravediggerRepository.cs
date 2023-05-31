@@ -1,6 +1,7 @@
-﻿namespace Graveyard_Backend.IRepositories;
+﻿using Graveyard_Backend.Models;
 
-public interface IGravediggerRepository
+namespace Graveyard_Backend.IRepositories;
+
+public interface IGravediggerRepository : ICRUDRepository<Gravedigger>
 {
-    
 }

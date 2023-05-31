@@ -35,7 +35,7 @@ public class CustomerController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> login([FromBody] Login loginForm)
     {
-        var x =await _customerService.LoginUser(loginForm, _httpClient);
+        var x = await _customerService.LoginUser(loginForm, _httpClient);
         if (x == string.Empty)
             return NotFound();
         return Ok(x);
@@ -61,6 +61,7 @@ public class CustomerController : ControllerBase
     {
         return Ok(await _customerService.GetUser(id));
     }
+
     [Authorize(Roles = "Administrator")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> delete(int id)
@@ -73,6 +74,6 @@ public class CustomerController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> edit(int id, [FromBody] Edit customer)
     {
-        return Ok(_customerService.UpdateUser(id,customer));
+        return Ok(_customerService.UpdateUser(id, customer));
     }
 }

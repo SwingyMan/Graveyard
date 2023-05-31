@@ -6,7 +6,7 @@ namespace Graveyard_Backend.Repositories;
 
 public class ItemRepository : CRUDRepository<Item>, IItemRepository
 {
-    private ContextModel _contextModel;
+    private readonly ContextModel _contextModel;
 
     public ItemRepository(ContextModel contextModel)
     {

@@ -18,8 +18,8 @@ public class CustomerService : ICustomerService
 
     public async Task<string> CreateUser(Register registerForm, HttpClient _httpClient)
     {
-        string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-        Regex regex = new Regex(pattern);
+        var pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        var regex = new Regex(pattern);
         var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
             registerForm.password);
         var testEmail = await _customerRepository.getByEmail(registerForm.email);
@@ -32,6 +32,7 @@ public class CustomerService : ICustomerService
             return x;
         }
     }
+
     public async Task DeleteUser(int id)
     {
         await _customerRepository.deleteByID(id);
@@ -47,7 +48,7 @@ public class CustomerService : ICustomerService
         return await _customerRepository.getByID(id);
     }
 
-    public async Task<string> LoginUser(Login loginDTO,HttpClient _httpClient)
+    public async Task<string> LoginUser(Login loginDTO, HttpClient _httpClient)
     {
         loginDTO.hashPassword();
         var account = await _customerRepository.getByEmailAndPassword(loginDTO.email, loginDTO.password);

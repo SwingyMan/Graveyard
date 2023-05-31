@@ -1,16 +1,18 @@
-﻿using Graveyard_Backend.Models;
-using Graveyard_Backend.IRepositories;
+﻿using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Graveyard_Backend.Repositories;
 
 public class CartRepository : CRUDRepository<Cart>, ICartRepository
 {
-    private ContextModel _contextModel;
+    private readonly ContextModel _contextModel;
+
     public CartRepository(ContextModel contextModel)
     {
         _contextModel = contextModel;
     }
+
     public async Task<Cart> AddItemToCart(int CustomerId, int ItemId, int GraveId, int Quantity)
     {
         var customer = await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
@@ -25,7 +27,7 @@ public class CartRepository : CRUDRepository<Cart>, ICartRepository
     public async Task RemoveItemFromCart(int CustomerId, int ItemId, int GraveId)
     {
         var cart = await _contextModel.carts.FirstOrDefaultAsync(x =>
-            x.CustomerId == CustomerId && x.ItemId == ItemId && x.GraveId == GraveId); 
+            x.CustomerId == CustomerId && x.ItemId == ItemId && x.GraveId == GraveId);
         _contextModel.Remove(cart);
         await _contextModel.SaveChangesAsync();
     }
@@ -34,10 +36,7 @@ public class CartRepository : CRUDRepository<Cart>, ICartRepository
     {
         var carts = _contextModel.carts.Where(x =>
             x.CustomerId == CustomerId);
-        foreach (var cart in carts)
-        {
-            _contextModel.Remove(cart);
-        }
+        foreach (var cart in carts) _contextModel.Remove(cart);
 
         await _contextModel.SaveChangesAsync();
     }

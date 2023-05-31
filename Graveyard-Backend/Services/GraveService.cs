@@ -22,7 +22,7 @@ public class GraveService : IGraveService
         return gravee;
     }
 
-    public async Task<Grave> edit(int id,DTOs.Grave grave)
+    public async Task<Grave> edit(int id, DTOs.Grave grave)
     {
         var gravee = new Grave(grave.x, grave.y);
         await _graveRepository.updateByID(id, gravee);
