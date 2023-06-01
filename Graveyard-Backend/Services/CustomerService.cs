@@ -16,10 +16,10 @@ public class CustomerService : ICustomerService
         _customerRepository = customerRepository;
     }
 
-    public async Task<string> CreateUser(Register registerForm, HttpClient _httpClient)
+    public async Task<Token> CreateUser(Register registerForm, HttpClient _httpClient)
     {
-        string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-        Regex regex = new Regex(pattern);
+        var pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        var regex = new Regex(pattern);
         var customer = new Customer(registerForm.FirstName, registerForm.LastName, registerForm.email,
             registerForm.password);
         var testEmail = await _customerRepository.getByEmail(registerForm.email);
@@ -29,9 +29,11 @@ public class CustomerService : ICustomerService
             await _customerRepository.add(customer);
             var x = JwtAuth.GenerateToken(customer);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            return x;
+            var token = new Token(x);
+            return token;
         }
     }
+
     public async Task DeleteUser(int id)
     {
         await _customerRepository.deleteByID(id);
@@ -47,16 +49,18 @@ public class CustomerService : ICustomerService
         return await _customerRepository.getByID(id);
     }
 
-    public async Task<string> LoginUser(Login loginDTO,HttpClient _httpClient)
+    public async Task<Token> LoginUser(Login loginDTO, HttpClient _httpClient)
     {
         loginDTO.hashPassword();
         var account = await _customerRepository.getByEmailAndPassword(loginDTO.email, loginDTO.password);
-        if (account == null) return string.Empty;
+        if (account == null) return null;
 
         {
+            
             var x = JwtAuth.GenerateToken(account);
+            var token = new Token(x);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", x);
-            return x;
+            return token;
         }
     }
 
