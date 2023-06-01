@@ -33,7 +33,7 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> login([FromBody] Login loginForm)
     {
         var x = await _customerService.LoginUser(loginForm, _httpClient);
-        if (x == string.Empty)
+        if (x == null)
             return NotFound();
         return Ok(x);
     }
