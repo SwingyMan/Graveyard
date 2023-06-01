@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'grv-register',
@@ -36,8 +33,7 @@ export class RegisterComponent implements OnInit {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization-Type': 'Bearer'
+        contentType: 'application/json',
       })
     };
 
@@ -48,16 +44,7 @@ export class RegisterComponent implements OnInit {
       lastName: this.lastname
     };
 
-    this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 200 && error.error instanceof Blob && error.headers.has('Authorization')) {
-          const token = error.headers.get('Authorization');
-          // Przechwyć token Bearer
-          console.log(token);
-        }
-        return throwError(error);
-      })
-    ).subscribe(
+    this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).subscribe(
       (data) => {
         console.log(data);
         this.postJsonValue = data;
