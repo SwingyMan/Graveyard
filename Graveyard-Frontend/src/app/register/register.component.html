@@ -4,8 +4,8 @@
     <div class="form-box">
         <div class="form-value">
     
-            <form (ngSubmit)="login()">
-            <h2>Logowanie</h2>
+            <form (ngSubmit)="register()">
+            <h2>Rejstracja</h2>
     
             <div class="inputbox">
                 <fa-icon icon="envelope"></fa-icon>
@@ -18,11 +18,23 @@
                 <input type="password" id="password" [(ngModel)]="password" name="password" required>
                 <label for="password">Hasło</label>
             </div>
+
+            <div class="inputbox">
+                <fa-icon icon="user"></fa-icon>
+                <input type="text" id="firstname" [(ngModel)]="firstname" name="firstname" required>
+                <label for="firstname">Imię</label>
+            </div>
+
+            <div class="inputbox">
+                <fa-icon icon="user"></fa-icon>
+                <input type="text" id="lastname" [(ngModel)]="lastname" name="lastname" required>
+                <label for="lastname">Nazwisko</label>
+            </div>
     
-            <button type="submit">Zaloguj</button>
+            <button type="submit">Utwórz konto</button>
     
             <div class="register">
-                <button (click)="switchLoginRegister()">Utwórz konto</button>
+                <button (click)="switchLoginRegister()">Zaloguj się</button>
             </div>
     
             </form>

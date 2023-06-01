@@ -1,4 +1,6 @@
-<grv-login></grv-login>
+<grv-login [hidden]="hide_login"></grv-login>
+<grv-register [hidden]="!hide_login"></grv-register>
+
 
 <div [ngSwitch]="role">
   <div *ngSwitchCase="'User'">

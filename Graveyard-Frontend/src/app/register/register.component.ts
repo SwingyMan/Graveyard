@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { AppComponent } from '../app.component';
 
 @Component({
-  selector: 'grv-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'grv-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent {
-
+export class RegisterComponent {
   parentComponent: AppComponent;
 
   constructor(private appComponent: AppComponent) {
@@ -16,8 +15,10 @@ export class LoginComponent {
 
   email: string = '';
   password: string = '';
+  firstname: string = '';
+  lastname: string = '';
 
-  login() {
+  register() {
     // Tutaj możesz umieścić logikę logowania, np. wywołanie API
     console.log('Zaloguj - Nazwa użytkownika:', this.email, 'Hasło:', this.password);
   }

@@ -26,7 +26,6 @@ fa-icon {
 .form-box {
   position: relative;
   width: 400px;
-  height: 400px;
   background: transparent;
   display: flex;
   justify-content: center;
@@ -106,10 +105,12 @@ button:hover {
   margin: 25px 0 10px;
 }
 
-.register a {
+.register button {
   text-decoration: none;
   color: #302d55;
   font-weight: 600;
+  width: auto;
+  background: inherit;
 }
 
 .register a:hover {

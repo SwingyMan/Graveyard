@@ -9,4 +9,6 @@ export class AppComponent {
   title = 'E - Graveyard';
 
   role = ''
+
+  hide_login = false;
 }
