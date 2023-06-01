@@ -8,11 +8,11 @@ public class GraveBurried
     {
     }
 
-    public GraveBurried(Burried burried, Grave grave,Gravedigger gravedigger, DateTime burialDate)
+    public GraveBurried(Burried burried, Grave grave, Gravedigger gravedigger, DateTime burialDate)
     {
         this.burried = burried;
         this.grave = grave;
-        this.Gravedigger = gravedigger;
+        Gravedigger = gravedigger;
         this.burialDate = burialDate;
     }
 

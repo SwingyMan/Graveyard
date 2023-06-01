@@ -1,6 +1,4 @@
-﻿using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
-using Graveyard_Backend.Services;
+﻿using Graveyard_Backend.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +9,18 @@ namespace Graveyard_Backend.Controllers;
 [Authorize(Roles = "Administrator")]
 public class GraveBurriedController : ControllerBase
 {
-    private readonly GraveBurriedService _graveBurriedService;
+    private readonly IGraveBurriedService _graveBurriedService;
 
-    public GraveBurriedController(ContextModel contextModel)
+    public GraveBurriedController(IGraveBurriedService graveBurriedService)
     {
-        _graveBurriedService = new GraveBurriedService(new GraveBurriedRepository(contextModel));
+        _graveBurriedService = graveBurriedService;
     }
 
     [HttpGet("{GraveId}/{burriedId}/{gravediggerId}")]
-    public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId,int gravediggerId, DateTime burialDate)
+    public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId, int gravediggerId,
+        DateTime burialDate)
     {
-        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId,gravediggerId, burialDate));
+        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId, gravediggerId, burialDate));
     }
 
     [HttpDelete("{GraveId}/{burriedId}")]

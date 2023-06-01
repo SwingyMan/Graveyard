@@ -1,5 +1,9 @@
 using System.Text;
+using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
+using Graveyard_Backend.Repositories;
+using Graveyard_Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -55,6 +59,20 @@ using var log = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog(log);
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IBurriedService, BurriedService>();
+builder.Services.AddScoped<IBurriedRepository, BurriedRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IGraveBurriedRepository, GraveBurriedRepository>();
+builder.Services.AddScoped<IGraveBurriedService, GraveBurriedService>();
+builder.Services.AddScoped<IGravediggerRepository, GravediggerRepository>();
+builder.Services.AddScoped<IGravediggerService, GravediggerService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
+builder.Services.AddScoped<IPurchaseHistoryService, PurchaseHistoryService>();
 builder.Services.AddSingleton<ILogger>(log);
 log.Information("Done setting up server!");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

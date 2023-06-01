@@ -1,6 +1,5 @@
-﻿using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
-using Graveyard_Backend.Services;
+﻿using Graveyard_Backend.DTOs;
+using Graveyard_Backend.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,23 +10,21 @@ namespace Graveyard_Backend.Controllers;
 [ApiController]
 public class BurriedController : ControllerBase
 {
-    private readonly ContextModel _contextModel;
-    private readonly BurriedRepository _burriedRepository;
-    private readonly BurriedService _burriedService;
-    public BurriedController(ContextModel contextModel)
+    private readonly IBurriedService _burriedService;
+
+    public BurriedController(IBurriedService burriedService)
     {
-        _contextModel = contextModel;
-        _burriedRepository = new BurriedRepository(_contextModel);
-        _burriedService = new BurriedService(_burriedRepository);
+        _burriedService = burriedService;
     }
 
     [HttpPost]
-    public async Task<IActionResult> addBurried([FromBody]DTOs.Burried burried)
+    public async Task<IActionResult> addBurried([FromBody] Burried burried)
     {
         return Ok(await _burriedService.addBurried(burried));
     }
-    [HttpPut("{BurriedId}")]
-    public async Task<IActionResult> editBurried(int BurriedId, [FromBody] DTOs.Burried burried)
+
+    [HttpPatch("{BurriedId}")]
+    public async Task<IActionResult> editBurried(int BurriedId, [FromBody] Burried burried)
     {
         return Ok(await _burriedService.editById(BurriedId, burried));
     }
@@ -45,6 +42,7 @@ public class BurriedController : ControllerBase
     {
         return Ok(await _burriedService.getById(id));
     }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> deleteById(int id)
     {

@@ -1,6 +1,4 @@
-﻿using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
-using Graveyard_Backend.Services;
+﻿using Graveyard_Backend.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +9,11 @@ namespace Graveyard_Backend.Controllers;
 [Authorize(Roles = "Administrator,User")]
 public class CartController : ControllerBase
 {
-    private readonly CartService _cartService;
+    private readonly ICartService _cartService;
 
-    public CartController(ContextModel contextModel)
+    public CartController(ICartService cartService)
     {
-        var repo = new CartRepository(contextModel);
-        _cartService = new CartService(repo);
+        _cartService = cartService;
     }
 
     [HttpGet]
