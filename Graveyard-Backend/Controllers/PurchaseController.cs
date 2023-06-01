@@ -1,6 +1,4 @@
-﻿using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
-using Graveyard_Backend.Services;
+﻿using Graveyard_Backend.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,14 +9,11 @@ namespace Graveyard_Backend.Controllers;
 [Route("api/[controller]/[action]")]
 public class PurchaseController : ControllerBase
 {
-    private readonly PurchaseHistoryService _purchaseHistoryService;
+    private readonly IPurchaseHistoryService _purchaseHistoryService;
 
-    public PurchaseController(ContextModel contextModel)
+    public PurchaseController(IPurchaseHistoryService purchaseHistoryService)
     {
-        var purchase = new PurchaseHistoryRepository(contextModel);
-        var cart = new CartRepository(contextModel);
-        var item = new ItemRepository(contextModel);
-        _purchaseHistoryService = new PurchaseHistoryService(purchase, cart, item);
+        _purchaseHistoryService = purchaseHistoryService;
     }
 
     [HttpGet]
@@ -36,7 +31,7 @@ public class PurchaseController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpPut("{PurchaseId}")]
+    [HttpPatch("{PurchaseId}")]
     public async Task<IActionResult> changeState(int PurchaseId)
     {
         return Ok(await _purchaseHistoryService.changeState(PurchaseId));

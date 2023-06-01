@@ -1,17 +1,17 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Graveyard_Backend.DTOs;
+using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly CustomerRepository _customerRepository;
+    private readonly ICustomerRepository _customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository)
+    public CustomerService(ICustomerRepository customerRepository)
     {
         _customerRepository = customerRepository;
     }

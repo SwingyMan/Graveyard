@@ -1,17 +1,17 @@
-﻿using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class PurchaseHistoryService : IPurchaseHistoryService
 {
-    private readonly CartRepository _cartRepository;
-    private readonly ItemRepository _itemRepository;
-    private readonly PurchaseHistoryRepository _purchaseHistoryRepository;
+    private readonly ICartRepository _cartRepository;
+    private readonly IItemRepository _itemRepository;
+    private readonly IPurchaseHistoryRepository _purchaseHistoryRepository;
 
-    public PurchaseHistoryService(PurchaseHistoryRepository purchaseHistoryRepository, CartRepository cartRepository,
-        ItemRepository itemRepository)
+    public PurchaseHistoryService(IPurchaseHistoryRepository purchaseHistoryRepository, ICartRepository cartRepository,
+        IItemRepository itemRepository)
     {
         _cartRepository = cartRepository;
         _itemRepository = itemRepository;
@@ -25,10 +25,7 @@ public class PurchaseHistoryService : IPurchaseHistoryService
         foreach (var cart in carts)
         {
             var item = await _itemRepository.getByID(cart.ItemId);
-            if (item.Quantity < cart.Items.Quantity)
-            {
-                return null;
-            }
+            if (item.Quantity < cart.Items.Quantity) return null;
 
             await _itemRepository.ChangeQuantity(item.Quantity - cart.Items.Quantity, cart.ItemId);
             totalprice += item.Price * cart.Quantity;

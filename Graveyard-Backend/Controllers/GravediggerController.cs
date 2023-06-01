@@ -1,9 +1,7 @@
-﻿using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
-using Graveyard_Backend.Services;
+﻿using Graveyard_Backend.DTOs;
+using Graveyard_Backend.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Gravedigger = Graveyard_Backend.DTOs.Gravedigger;
 
 namespace Graveyard_Backend.Controllers;
 
@@ -12,12 +10,11 @@ namespace Graveyard_Backend.Controllers;
 [Route("/api/[controller]/[action]")]
 public class GravediggerController : ControllerBase
 {
-    private readonly GravediggerService _gravediggerService;
+    private readonly IGravediggerService _gravediggerService;
 
-    public GravediggerController(ContextModel contextModel)
+    public GravediggerController(IGravediggerService gravediggerService)
     {
-        var repo = new GravediggerRepository(contextModel);
-        _gravediggerService = new GravediggerService(repo);
+        _gravediggerService = gravediggerService;
     }
 
     [HttpPost]
@@ -26,7 +23,7 @@ public class GravediggerController : ControllerBase
         return Ok(await _gravediggerService.addGravedigger(gravedigger));
     }
 
-    [HttpPost]
+    [HttpPatch]
     public async Task<IActionResult> editGravedigger(int id, Gravedigger gravedigger)
     {
         return Ok(await _gravediggerService.updateGravedigger(id, gravedigger));

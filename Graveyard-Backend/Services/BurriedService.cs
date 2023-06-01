@@ -1,14 +1,14 @@
-﻿using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class BurriedService : IBurriedService
 {
-    private readonly BurriedRepository _burriedRepository;
+    private readonly IBurriedRepository _burriedRepository;
 
-    public BurriedService(BurriedRepository burriedRepository)
+    public BurriedService(IBurriedRepository burriedRepository)
     {
         _burriedRepository = burriedRepository;
     }

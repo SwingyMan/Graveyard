@@ -1,14 +1,14 @@
-﻿using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class CartService : ICartService
 {
-    private readonly CartRepository _cartRepository;
+    private readonly ICartRepository _cartRepository;
 
-    public CartService(CartRepository cartRepository)
+    public CartService(ICartRepository cartRepository)
     {
         _cartRepository = cartRepository;
     }
