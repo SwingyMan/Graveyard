@@ -1,14 +1,14 @@
-﻿using Graveyard_Backend.IServices;
+﻿using Graveyard_Backend.IRepositories;
+using Graveyard_Backend.IServices;
 using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
 
 namespace Graveyard_Backend.Services;
 
 public class GravediggerService : IGravediggerService
 {
-    private readonly GravediggerRepository _gravediggerRepository;
+    private readonly IGravediggerRepository _gravediggerRepository;
 
-    public GravediggerService(GravediggerRepository gravediggerRepository)
+    public GravediggerService(IGravediggerRepository gravediggerRepository)
     {
         _gravediggerRepository = gravediggerRepository;
     }

@@ -42,7 +42,7 @@ public class GraveController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> edit(int id, [FromBody] Grave graveDto)
     {
         return Ok(await _graveService.edit(id, graveDto));
@@ -55,7 +55,7 @@ public class GraveController : ControllerBase
         return Ok(await _graveService.getById(id));
     }
 
-    [HttpGet("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> extend(int id)
     {
         return Ok(await _graveService.extendGrave(id));

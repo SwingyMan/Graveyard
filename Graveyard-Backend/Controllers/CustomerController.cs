@@ -1,7 +1,5 @@
 ﻿using Graveyard_Backend.DTOs;
-using Graveyard_Backend.Models;
-using Graveyard_Backend.Repositories;
-using Graveyard_Backend.Services;
+using Graveyard_Backend.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,14 +9,13 @@ namespace Graveyard_Backend.Controllers;
 [Route("/api/[controller]/[action]")]
 public class CustomerController : ControllerBase
 {
-    private readonly CustomerService _customerService;
+    private readonly ICustomerService _customerService;
     private readonly HttpClient _httpClient;
 
-    public CustomerController(ContextModel contextModel, HttpClient httpClient)
+    public CustomerController(ICustomerService customerService, HttpClient httpClient)
     {
         _httpClient = httpClient;
-        var customerRepository = new CustomerRepository(contextModel);
-        _customerService = new CustomerService(customerRepository);
+        _customerService = customerService;
     }
 
     [AllowAnonymous]
@@ -71,7 +68,7 @@ public class CustomerController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> edit(int id, [FromBody] Edit customer)
     {
         return Ok(_customerService.UpdateUser(id, customer));
