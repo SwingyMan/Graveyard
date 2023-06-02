@@ -10,5 +10,5 @@ export class AppComponent {
 
   role = ''
 
-  hide_login = true;
+  hide_login = false;
 }

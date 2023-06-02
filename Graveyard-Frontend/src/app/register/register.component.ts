@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'grv-register',
@@ -18,17 +21,14 @@ export class RegisterComponent implements OnInit {
   firstname: string = '';
   lastname: string = '';
 
-  constructor(private appComponent: AppComponent, private http: HttpClient) {
+  constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
   }
-
-  
 
   ngOnInit(): void {
     
   }
   
-
   public postMethod() {
 
     const httpOptions = {
@@ -44,7 +44,13 @@ export class RegisterComponent implements OnInit {
       lastName: this.lastname
     };
 
-    this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).subscribe(
+    this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
+      catchError((error) => {
+        console.error('Wystąpił błąd:', error);
+        if (this.parentComponent.hide_login) this.toastr.error('Niepoprawne dane','Błąd rejstracji');
+        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+      })
+    ).subscribe(
       (data) => {
         console.log(data);
         this.postJsonValue = data;
