@@ -73,4 +73,11 @@ public class CustomerController : ControllerBase
     {
         return Ok(_customerService.UpdateUser(id, customer));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> getSelf()
+    {
+        return Ok(_customerService.GetUser(int.Parse(User.Claims
+            .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value)));
+    }
 }
