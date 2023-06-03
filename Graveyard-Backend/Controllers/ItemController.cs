@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Graveyard_Backend.Controllers;
 
 [Route("api/[controller]/[action]")]
-[Authorize("Administrator")]
+[Authorize(Roles="Administrator")]
 [ApiController]
 public class ItemController : ControllerBase
 {
@@ -47,7 +47,7 @@ public class ItemController : ControllerBase
     {
         return Ok(await _itemService.updateItem(ItemId, item));
     }
-
+    [AllowAnonymous]
     [HttpGet("{page}")]
     public async Task<IActionResult> getItems(int page)
     {
