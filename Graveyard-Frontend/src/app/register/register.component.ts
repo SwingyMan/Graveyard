@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
 
   parentComponent: AppComponent;
 
+  public getJsonValue: any;
   public postJsonValue: any;
 
   email: string = '';
@@ -28,6 +29,23 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     
   }
+
+  public getMethod() {
+
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+    })
+
+  this.http.get('https://graveyard.azurewebsites.net/api/customer/getSelf', { headers: header }).subscribe(
+    (data) => {
+      console.log(data);
+      this.getJsonValue = data.valueOf();
+      this.parentComponent.user = this.getJsonValue;
+      this.parentComponent.role = this.parentComponent.user.owned_role;
+    }
+  );
+}
   
   public postMethod() {
 
@@ -44,16 +62,25 @@ export class RegisterComponent implements OnInit {
       lastName: this.lastname
     };
 
-    this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
+    if (this.parentComponent.hide_login) this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
-        if (this.parentComponent.hide_login) this.toastr.error('Niepoprawne dane','Błąd rejstracji');
+        this.toastr.error('Niepoprawne dane','Błąd rejstracji');
         return of(null); // Zwracamy wartość null, aby obsłużyć błąd
       })
     ).subscribe(
       (data) => {
         console.log(data);
-        this.postJsonValue = data;
+
+        if (data != null) {
+          this.toastr.success("Konto utworzone pomyślnie!")
+          this.parentComponent.succes_login = true;
+          this.postJsonValue = data.valueOf();
+          this.parentComponent.auth_token = this.postJsonValue!.bearer;
+
+          
+          this.getMethod();
+        } 
       }
     );
   }

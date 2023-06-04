@@ -1,15 +1,18 @@
-<grv-login [hidden]="hide_login"></grv-login>
-<grv-register [hidden]="!hide_login"></grv-register>
+
+<div [hidden]="succes_login">
+    <grv-login [hidden]="hide_login"></grv-login>
+    <grv-register [hidden]="!hide_login"></grv-register>
+</div>
 
 
-<div [ngSwitch]="role">
-  <div *ngSwitchCase="'User'">
+<div [hidden]="!succes_login" [ngSwitch]="role">
+  <div *ngSwitchCase="0">
+      Welcome logged user!
+  </div>
+  <div *ngSwitchCase="1">
+      Welocme admin!
+  </div>
+  <div *ngSwitchDefault>
       Welcome user!
   </div>
-  <div *ngSwitchCase="'Admin'">
-      <grv-graves></grv-graves>
-  </div>
-  <!--<div *ngSwitchDefault>
-      You are not authorized to view this page!
-  </div>-->
 </div>

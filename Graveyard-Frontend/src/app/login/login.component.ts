@@ -14,6 +14,7 @@ export class LoginComponent {
 
   parentComponent: AppComponent;
 
+  public getJsonValue: any;
   public postJsonValue: any;
 
   email: string = '';
@@ -21,6 +22,23 @@ export class LoginComponent {
 
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
+  }
+
+  public getMethod() {
+
+      const header = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+      })
+
+    this.http.get('https://graveyard.azurewebsites.net/api/customer/getSelf', { headers: header }).subscribe(
+      (data) => {
+        console.log(data);
+        this.getJsonValue = data.valueOf();
+        this.parentComponent.user = this.getJsonValue;
+        this.parentComponent.role = this.parentComponent.user.owned_role;
+      }
+    );
   }
 
   public postMethod() {
@@ -36,16 +54,25 @@ export class LoginComponent {
       password: this.password
     };
 
-    this.http.post('https://graveyard.azurewebsites.net/api/customer/login', body, httpOptions).pipe(
+    if (!this.parentComponent.hide_login) this.http.post('https://graveyard.azurewebsites.net/api/customer/login', body, httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
-        if (!this.parentComponent.hide_login) this.toastr.error('Niepoprawne dane','Błąd logowania');
+        this.toastr.error('Niepoprawne dane','Błąd logowania');
         return of(null); // Zwracamy wartość null, aby obsłużyć błąd
       })
     ).subscribe(
       (data) => {
         console.log(data);
-        this.postJsonValue = data;
+
+        if (data != null) {
+          this.toastr.success("Zalogowano!")
+          this.parentComponent.succes_login = true;
+          this.postJsonValue = data.valueOf();
+          this.parentComponent.auth_token = this.postJsonValue!.bearer;
+
+          
+          this.getMethod();
+        } 
       }
     );
   }
