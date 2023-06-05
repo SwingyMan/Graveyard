@@ -1,18 +1,42 @@
 
-<div [hidden]="succes_login">
-    <grv-login [hidden]="hide_login"></grv-login>
-    <grv-register [hidden]="!hide_login"></grv-register>
+<div [hidden]="hide_login_panel">
+    
+    <div class="login_button">
+        <button (click)="toggleLoginPanel()">Powrót</button>
+    </div>
+    
+    <grv-login [hidden]="switch_login"></grv-login>
+    <grv-register [hidden]="!switch_login"></grv-register>
 </div>
 
 
-<div [hidden]="!succes_login" [ngSwitch]="role">
+<div [hidden]="!hide_login_panel" [ngSwitch]="role">
+
   <div *ngSwitchCase="0">
+
+    <div class="user" class="login_button">
+        <button (click)="logout()">Wyloguj</button>
+    </div>
+
       Welcome logged user!
   </div>
-  <div *ngSwitchCase="1">
+
+  <div class="admin" *ngSwitchCase="1">
+
+    <div class="login_button">
+        <button (click)="logout()">Wyloguj</button>
+    </div>
+
       Welocme admin!
   </div>
-  <div *ngSwitchDefault>
-      Welcome user!
+
+  <div class="default" *ngSwitchDefault>
+
+    <div class="login_button">
+        <button (click)="toggleLoginPanel()">Zaloguj</button>
+    </div>
+
+        Welcome user!
   </div>
+
 </div>

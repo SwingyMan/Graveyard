@@ -43,6 +43,8 @@ export class RegisterComponent implements OnInit {
       this.getJsonValue = data.valueOf();
       this.parentComponent.user = this.getJsonValue;
       this.parentComponent.role = this.parentComponent.user.owned_role;
+
+      this.toastr.success(`Witaj ${this.parentComponent.user.name}!`,"Konto utworzone pomyślnie!")
     }
   );
 }
@@ -62,7 +64,7 @@ export class RegisterComponent implements OnInit {
       lastName: this.lastname
     };
 
-    if (this.parentComponent.hide_login) this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
+    if (this.parentComponent.switch_login) this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
         this.toastr.error('Niepoprawne dane','Błąd rejstracji');
@@ -73,11 +75,14 @@ export class RegisterComponent implements OnInit {
         console.log(data);
 
         if (data != null) {
-          this.toastr.success("Konto utworzone pomyślnie!")
-          this.parentComponent.succes_login = true;
+          this.email = '';
+          this.password = '';
+          this.firstname = '';
+          this.lastname = ''; 
+
+          this.parentComponent.hide_login_panel = true;
           this.postJsonValue = data.valueOf();
           this.parentComponent.auth_token = this.postJsonValue!.bearer;
-
           
           this.getMethod();
         } 
@@ -90,6 +95,6 @@ export class RegisterComponent implements OnInit {
   }
 
   switchLoginRegister() {
-    this.parentComponent.hide_login = !this.parentComponent.hide_login;
+    this.parentComponent.switch_login = !this.parentComponent.switch_login;
   }
 }

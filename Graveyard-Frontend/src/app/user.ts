@@ -1,10 +1,10 @@
 export interface User {
     carts: any;
-    customerId: 2;
+    customerId: number;
     date_of_creation: Date;
     email: string;
     lastname: string;
-    firstname: string;
-    owned_role: 1;
+    name: string;
+    owned_role: number;
     password: string;
 }
