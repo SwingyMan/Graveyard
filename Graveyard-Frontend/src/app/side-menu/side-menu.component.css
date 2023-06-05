@@ -10,7 +10,11 @@
 }
 
 .main_box h2 {
-    margin: 2vh 0;
+    margin: 2vh 0 1vh 0;
+}
+
+.main_box span {
+    margin: 0 0 2vh 0;
 }
 
 .main_box div {
@@ -36,8 +40,9 @@
 }
 
 .bottom_panel {
+    margin-bottom: 2vh;
     width: 100%;
-    height: 68%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

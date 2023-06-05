@@ -41,7 +41,7 @@ export class AppComponent {
   }
 
   logout() {
-    this.toastr.success('Wylogowano!')
+    this.toastr.success('Do zobaczenia!', 'Wylogowano!')
 
     this.role = -1;
 

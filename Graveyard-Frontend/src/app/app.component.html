@@ -18,7 +18,11 @@
         <button (click)="logout()">Wyloguj</button>
     </div>
 
-      Welcome logged user!
+    <div class="menu_content_box">
+        <grv-side-menu></grv-side-menu>
+        <p>witaj user!</p>
+    </div>
+
   </div>
 
   <div class="admin" *ngSwitchCase="1"> <!-- Panel admina -->
@@ -27,7 +31,11 @@
         <button (click)="logout()">Wyloguj</button>
     </div>
 
-      Welocme admin!
+    <div class="menu_content_box">
+        <grv-side-menu></grv-side-menu>
+        <p>witaj admin!</p>
+    </div>
+
   </div>
 
   <div class="default" *ngSwitchDefault> <!-- Panel niezalogowanego -->
@@ -37,9 +45,9 @@
     </div>
 
         <div class="menu_content_box">
-            <grv-side-menu></grv-side-menu>
-            <p>witaj!</p>
-        </div>
+        <grv-side-menu></grv-side-menu>
+        <p>witaj nikt!</p>
+    </div>
 
   </div>
 
