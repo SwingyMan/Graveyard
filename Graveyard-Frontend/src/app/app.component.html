@@ -1,10 +1,10 @@
 
-<div [hidden]="hide_login_panel">
+<div [hidden]="hide_login_panel"> <!-- Panel logowania -->
     
     <div class="login_button">
         <button (click)="toggleLoginPanel()">Powrót</button>
     </div>
-    
+
     <grv-login [hidden]="switch_login"></grv-login>
     <grv-register [hidden]="!switch_login"></grv-register>
 </div>
@@ -12,7 +12,7 @@
 
 <div [hidden]="!hide_login_panel" [ngSwitch]="role">
 
-  <div *ngSwitchCase="0">
+  <div *ngSwitchCase="0"> <!-- Panel użytkownika -->
 
     <div class="user" class="login_button">
         <button (click)="logout()">Wyloguj</button>
@@ -21,7 +21,7 @@
       Welcome logged user!
   </div>
 
-  <div class="admin" *ngSwitchCase="1">
+  <div class="admin" *ngSwitchCase="1"> <!-- Panel admina -->
 
     <div class="login_button">
         <button (click)="logout()">Wyloguj</button>
@@ -30,13 +30,17 @@
       Welocme admin!
   </div>
 
-  <div class="default" *ngSwitchDefault>
+  <div class="default" *ngSwitchDefault> <!-- Panel niezalogowanego -->
 
     <div class="login_button">
         <button (click)="toggleLoginPanel()">Zaloguj</button>
     </div>
 
-        Welcome user!
+        <div class="menu_content_box">
+            <grv-side-menu></grv-side-menu>
+            <p>witaj!</p>
+        </div>
+
   </div>
 
 </div>

@@ -11,13 +11,15 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GravesComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    SideMenuComponent
   ],
   imports: [
     BrowserModule,

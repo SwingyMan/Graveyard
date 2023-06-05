@@ -29,6 +29,11 @@
     transition: .2s;
 }
 
-.login_button button:hover{
+.login_button button:hover {
     background: #00A981;
+}
+
+.menu_content_box {
+    display: flex;
+    flex-direction: row;
 }
