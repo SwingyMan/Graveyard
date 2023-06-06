@@ -28,7 +28,6 @@ namespace BackendTest
         List<Test> tests = new List<Test>();
         Test testEntity = new Test(1, "test");
         Test falseEntity = new Test(2, "else");
-        int x = 10;
 
 
         [Fact]
