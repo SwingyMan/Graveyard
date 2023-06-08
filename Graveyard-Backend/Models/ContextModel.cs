@@ -16,15 +16,15 @@ public class ContextModel : DbContext
     {
     }
 
-    public DbSet<Customer> customer { get; set; }
-    public DbSet<Item> item { get; set; }
-    public DbSet<Grave> grave { get; set; }
+    public DbSet<Customer> Customer { get; set; }
+    public DbSet<Item> Item { get; set; }
+    public DbSet<Grave> Grave { get; set; }
 
     public DbSet<Gravedigger> Gravediggers { get; set; }
-    public DbSet<Cart> carts { get; set; }
-    public DbSet<Burried> burried { get; set; }
-    public DbSet<GraveBurried> graveBurried { get; set; }
-    public DbSet<PurchaseHistory> purchaseHistory { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<Burried> Burried { get; set; }
+    public DbSet<GraveBurried> GraveBurried { get; set; }
+    public DbSet<PurchaseHistory> PurchaseHistory { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

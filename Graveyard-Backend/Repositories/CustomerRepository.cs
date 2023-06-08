@@ -16,7 +16,7 @@ public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 
     public async Task<Customer> getByEmail(string email)
     {
-        var account = await _contextModel.customer.FirstOrDefaultAsync(x => x.Email.Equals(email));
+        var account = await _contextModel.Customer.FirstOrDefaultAsync(x => x.Email.Equals(email));
         if (account == null)
             return null;
         return account;
@@ -24,7 +24,7 @@ public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 
     public async Task<Customer> getByEmailAndPassword(string email, string password)
     {
-        var account = await _contextModel.customer.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
+        var account = await _contextModel.Customer.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
         if (account == null)
             return null;
         return account;
@@ -32,7 +32,7 @@ public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 
     public async Task<Customer> updateByID(int id, Edit customer)
     {
-        var original = _contextModel.customer.FirstOrDefault(x => x.CustomerId == id);
+        var original = _contextModel.Customer.FirstOrDefault(x => x.CustomerId == id);
         if (!string.IsNullOrEmpty(customer.FirstName))
             original.Name = customer.FirstName;
         if (!string.IsNullOrEmpty(customer.LastName))
@@ -47,7 +47,7 @@ public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 
     public async Task<Customer> setAdminRole(int CustomerId)
     {
-        var customer = await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
+        var customer = await _contextModel.Customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
         customer.Owned_role = Role.Administrator;
         await _contextModel.SaveChangesAsync();
         return customer;
@@ -55,7 +55,7 @@ public class CustomerRepository : CRUDRepository<Customer>, ICustomerRepository
 
     public async Task<Customer> removeAdminRole(int CustomerId)
     {
-        var customer = await _contextModel.customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
+        var customer = await _contextModel.Customer.FirstOrDefaultAsync(x => x.CustomerId == CustomerId);
         customer.Owned_role = Role.User;
         await _contextModel.SaveChangesAsync();
         return customer;

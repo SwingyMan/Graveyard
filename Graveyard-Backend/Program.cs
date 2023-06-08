@@ -48,6 +48,11 @@ builder.Services.AddSwaggerGen(c =>
             new string[] { }
         }
     });
+    c.MapType<DateOnly>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "date"
+    });;
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ContextModel>();

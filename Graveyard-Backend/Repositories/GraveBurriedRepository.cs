@@ -17,20 +17,20 @@ public class GraveBurriedRepository : CRUDRepository<GraveBurried>, IGraveBurrie
         DateTime burialDate)
     {
         var gravedigger = await _contextModel.Gravediggers.FirstOrDefaultAsync(x => x.GravediggerId == gravediggerId);
-        var burried = await _contextModel.burried.FirstOrDefaultAsync(x => x.BurriedId == BurriedId);
-        var grave = await _contextModel.grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
+        var burried = await _contextModel.Burried.FirstOrDefaultAsync(x => x.BurriedId == BurriedId);
+        var grave = await _contextModel.Grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
         var graveburried = new GraveBurried(burried, grave, gravedigger, burialDate);
-        await _contextModel.graveBurried.AddAsync(graveburried);
+        await _contextModel.GraveBurried.AddAsync(graveburried);
         await _contextModel.SaveChangesAsync();
         return graveburried;
     }
 
     public async Task removeBurriedFromGrave(int BurriedId, int GraveId)
     {
-        var burried = await _contextModel.burried.FirstOrDefaultAsync(x => x.BurriedId == BurriedId);
-        var grave = await _contextModel.grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
-        var x = await _contextModel.graveBurried.FirstOrDefaultAsync(x => x.burried == burried && x.grave == grave);
-        _contextModel.graveBurried.Remove(x);
+        var burried = await _contextModel.Burried.FirstOrDefaultAsync(x => x.BurriedId == BurriedId);
+        var grave = await _contextModel.Grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
+        var x = await _contextModel.GraveBurried.FirstOrDefaultAsync(x => x.Burried == burried && x.Grave == grave);
+        _contextModel.GraveBurried.Remove(x);
         await _contextModel.SaveChangesAsync();
     }
 }

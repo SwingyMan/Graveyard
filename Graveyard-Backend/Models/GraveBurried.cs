@@ -10,16 +10,16 @@ public class GraveBurried
 
     public GraveBurried(Burried burried, Grave grave, Gravedigger gravedigger, DateTime burialDate)
     {
-        this.burried = burried;
-        this.grave = grave;
+        this.Burried = burried;
+        this.Grave = grave;
         Gravedigger = gravedigger;
-        this.burialDate = burialDate;
+        this.BurialDate = burialDate;
     }
 
     [Key] public int BurriedGraveId { get; set; }
 
-    public Burried burried { get; set; }
-    public Grave grave { get; set; }
+    public Burried Burried { get; set; }
+    public Grave Grave { get; set; }
     public Gravedigger Gravedigger { get; set; }
-    public DateTime burialDate { get; set; }
+    public DateTime BurialDate { get; set; }
 }
