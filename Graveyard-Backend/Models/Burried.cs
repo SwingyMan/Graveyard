@@ -10,17 +10,16 @@ public class Burried
 
     public Burried(string name, string lastname, DateOnly dateOfBirth, DateOnly dateOfDeath)
     {
-        this.name = name;
-        this.lastname = lastname;
-        date_of_birth = dateOfBirth;
-        date_of_death = dateOfDeath;
+        this.Name = name;
+        this.Lastname = lastname;
+        Date_of_birth = dateOfBirth;
+        Date_of_death = dateOfDeath;
     }
 
     [Key] public int BurriedId { get; set; }
 
-    public string name { get; set; }
-    public string lastname { get; set; }
-    public DateOnly date_of_birth { get; set; }
-    public DateOnly date_of_death { get; set; }
-    public List<GraveBurried> BurriedGraves { get; set; }
+    public string Name { get; set; }
+    public string Lastname { get; set; }
+    public DateOnly Date_of_birth { get; set; }
+    public DateOnly Date_of_death { get; set; }
 }
