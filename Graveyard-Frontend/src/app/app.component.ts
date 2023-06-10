@@ -9,7 +9,7 @@ import {User} from './user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'E - Graveyard';
+  title = 'E - Cmentarz';
 
   role = -1;
 
