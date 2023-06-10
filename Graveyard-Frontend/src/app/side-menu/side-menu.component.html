@@ -3,19 +3,19 @@
     <span *ngIf="role == 1" >Panel administracyjny</span>
 
     <div class="option_button">
-        <button>Podgląd grobów</button>
+        <button (click)="showGraves()">Podgląd grobów</button>
     </div>
 
     <div *ngIf="role == 0 || role == 1" class="option_button">
-        <button>Sklep online</button>
+        <button (click)="showShop()">Sklep online</button>
     </div>
 
     <div *ngIf="role == 1" class="option_button">
-        <button>Dodaj zmarłego</button>
+        <button (click)="showAddBurried()">Dodaj zmarłego</button>
     </div>
 
     <div *ngIf="role == 1" class="option_button">
-        <button>Dodaj grób</button>
+        <button (click)="showAddGrave()">Dodaj grób</button>
     </div>
 
     <section class="bottom_panel">

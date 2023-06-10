@@ -53,4 +53,20 @@ export class SideMenuComponent {
   deleteSelfUser() {
     this.postMethod();
   }
+
+  showGraves() {
+    this.parentComponent.page_in_menu = 0;
+  }
+
+  showShop() {
+    this.parentComponent.page_in_menu = 1;
+  }
+
+  showAddBurried() {
+    this.parentComponent.page_in_menu = 2;
+  }
+
+  showAddGrave() {
+    this.parentComponent.page_in_menu = 3;
+  }
 }
