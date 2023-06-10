@@ -6,4 +6,5 @@ public interface IGraveBurriedService
 {
     public Task<GraveBurried> addBurriedToGrave(int burriedId, int graveId, int gravediggerId, DateTime burialDate);
     public Task removeBurriedFromGrave(int burriedId, int graveId);
+    public  IAsyncEnumerable<Burried> getBurriedFromGrave(int GraveId);
 }
