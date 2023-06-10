@@ -22,7 +22,6 @@ public class Grave
     public int y { get; set; }
     public GraveStatus Status { get; set; }
     public DateTime ValidUntil { get; set; }
-    public List<GraveBurried> BurriedGraves { get; set; }
 }
 
 public enum GraveStatus
