@@ -29,4 +29,10 @@ public class GraveBurriedController : ControllerBase
         await _graveBurriedService.removeBurriedFromGrave(burriedId, GraveId);
         return Ok();
     }
+    [AllowAnonymous]
+    [HttpGet("{graveId}")]
+    public async Task<IActionResult> getBurriedFromGrave(int graveId)
+    {
+        return Ok( _graveBurriedService.getBurriedFromGrave(graveId));
+    }
 }

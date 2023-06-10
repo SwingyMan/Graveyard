@@ -1,6 +1,7 @@
 ﻿using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Burried = Graveyard_Backend.DTOs.Burried;
 
 namespace Graveyard_Backend.Repositories;
 
@@ -32,5 +33,10 @@ public class GraveBurriedRepository : CRUDRepository<GraveBurried>, IGraveBurrie
         var x = await _contextModel.GraveBurried.FirstOrDefaultAsync(x => x.Burried == burried && x.Grave == grave);
         _contextModel.GraveBurried.Remove(x);
         await _contextModel.SaveChangesAsync();
+    }
+
+    public async Task<List<GraveBurried>> getBurriedFromGrave(int GraveId)
+    {
+        return await _contextModel.GraveBurried.Where(x => x.GraveId == GraveId).ToListAsync();
     }
 }
