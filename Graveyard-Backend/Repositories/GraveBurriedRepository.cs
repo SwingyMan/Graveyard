@@ -37,6 +37,6 @@ public class GraveBurriedRepository : CRUDRepository<GraveBurried>, IGraveBurrie
 
     public async Task<List<GraveBurried>> getBurriedFromGrave(int GraveId)
     {
-        return await _contextModel.GraveBurried.Where(x => x.GraveId == GraveId).ToListAsync();
+        return await _contextModel.GraveBurried.Where(x => x.GraveId == GraveId).Include(x=>x.Burried).ToListAsync();
     }
 }
