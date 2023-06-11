@@ -33,6 +33,6 @@ public class GraveBurriedController : ControllerBase
     [HttpGet("{graveId}")]
     public async Task<IActionResult> getBurriedFromGrave(int graveId)
     {
-        return Ok( _graveBurriedService.getBurriedFromGrave(graveId));
+        return Ok(await _graveBurriedService.getBurriedFromGrave(graveId));
     }
 }

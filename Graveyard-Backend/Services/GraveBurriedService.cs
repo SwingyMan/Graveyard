@@ -26,13 +26,11 @@ public class GraveBurriedService : IGraveBurriedService
         await _graveBurriedRepository.removeBurriedFromGrave(burriedId, graveId);
     }
 
-    public async IAsyncEnumerable<Models.Burried> getBurriedFromGrave(int GraveId)
+    public async Task<List<Models.Burried>> getBurriedFromGrave(int GraveId)
     {
-        foreach (var burried in await _graveBurriedRepository.getBurriedFromGrave(GraveId))
-        {
-            yield return await _burriedRepository.getByID(burried.BurriedId);
-        }
+        var x = await _graveBurriedRepository.getBurriedFromGrave(GraveId);
+        return x.Select(x => x.Burried).ToList();
 
-        
+
     }
 }
