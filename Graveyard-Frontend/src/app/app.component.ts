@@ -1,10 +1,55 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
+import {User} from './user';
 
 @Component({
-  selector: 'app-root',
+  selector: 'grv-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Graveyard-Frontend';
+  title = 'E - Graveyard';
+
+  role = -1;
+
+  switch_login = false;
+  hide_login_panel = true;
+
+  user!: User;
+
+  empty_user: User = {
+    carts: '',
+    customerId: -1,
+    date_of_creation: new Date(),
+    email: '',
+    lastname: '',
+    name: '',
+    owned_role: -1,
+    password: ''
+  }
+
+  auth_token!: any;
+
+  constructor(private toastr: ToastrService) {
+
+  }
+
+  toggleLoginPanel() {
+    this.hide_login_panel = !this.hide_login_panel;
+    this.switch_login = false;
+  }
+
+  logout() {
+    this.toastr.success('Do zobaczenia!', 'Wylogowano!')
+
+    this.role = -1;
+
+    this.switch_login = false;
+    this.hide_login_panel = true;
+
+    this.user = this.empty_user;
+
+    this.auth_token = '';
+  }
 }

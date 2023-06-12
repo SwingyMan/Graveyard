@@ -18,10 +18,16 @@
     "@angular/platform-browser": "^15.2.6",
     "@angular/platform-browser-dynamic": "^15.2.6",
     "@angular/router": "^15.2.6",
+    "@fortawesome/angular-fontawesome": "^0.12.1",
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "jest-editor-support": "*",
+    "ngx-toastr": "^17.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "jest-editor-support": "*"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.5",

@@ -1,0 +1,32 @@
+<div class="main_box">
+    <h2>E - Graveyard</h2>
+    <span *ngIf="role == 1" >Panel administracyjny</span>
+
+    <div class="option_button">
+        <button>Podgląd grobów</button>
+    </div>
+
+    <div *ngIf="role == 0 || role == 1" class="option_button">
+        <button>Sklep online</button>
+    </div>
+
+    <div *ngIf="role == 1" class="option_button">
+        <button>Dodaj zmarłego</button>
+    </div>
+
+    <div *ngIf="role == 1" class="option_button">
+        <button>Dodaj grób</button>
+    </div>
+
+    <section class="bottom_panel">
+
+        <div *ngIf="role == 0 || role == 1" class="option_button delete_button">
+            <button (click)="deleteSelfUser()" >Usuń konto</button>
+        </div>
+
+        <div class="creators">
+            <fa-icon class="logo" icon="church"></fa-icon>
+        </div>
+
+    </section>
+</div>
