@@ -9,12 +9,14 @@ import {User} from './user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'E - Graveyard';
+  title = 'E - Cmentarz';
 
   role = -1;
 
   switch_login = false;
   hide_login_panel = true;
+
+  page_in_menu = 0;
 
   user!: User;
 
@@ -47,6 +49,7 @@ export class AppComponent {
 
     this.switch_login = false;
     this.hide_login_panel = true;
+    this.page_in_menu = 0
 
     this.user = this.empty_user;
 

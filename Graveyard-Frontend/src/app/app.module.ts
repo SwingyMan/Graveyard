@@ -12,6 +12,9 @@ import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
+import { ShopComponent } from './shop/shop.component';
+import { AddBurriedComponent } from './add-burried/add-burried.component';
+import { AddGraveComponent } from './add-grave/add-grave.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
     GravesComponent,
     LoginComponent,
     RegisterComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    ShopComponent,
+    AddBurriedComponent,
+    AddGraveComponent
   ],
   imports: [
     BrowserModule,

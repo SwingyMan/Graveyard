@@ -8,11 +8,10 @@ export interface BurriedList {
     burialDate: Date;
 }
 
-export interface GraveList {
+export interface Grave {
     graveId: number;
-    positionX: number;
-    positionY: number;
+    x: number;
+    y: number;
     status: string;
     validUntil: Date;
-    burriedId: number;
 }
