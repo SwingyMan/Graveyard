@@ -12,6 +12,7 @@ public class ItemService : IItemService
     {
         _itemRepository = itemRepository;
     }
+
     public async Task<Item> addItem(DTOs.Item item)
     {
         var itemm = new Item(item.name, item.description, item.kind, item.price, item.quantity, item.imageUrl);
@@ -33,7 +34,7 @@ public class ItemService : IItemService
 
     public async Task<List<Item>> getItems(int page)
     {
-       return await _itemRepository.ListAll(page);
+        return await _itemRepository.ListAll(page);
     }
 
     public async Task<Item> getItemById(int id)

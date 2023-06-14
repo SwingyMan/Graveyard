@@ -13,13 +13,13 @@ public class CartService : ICartService
         _cartRepository = cartRepository;
     }
 
-    public async Task<Cart> addItemToCart(int CustomerId, int ItemId, int GraveId,int Quantity)
+    public async Task<Cart> addItemToCart(int CustomerId, int ItemId, int GraveId, int Quantity)
     {
         return await _cartRepository.AddItemToCart(CustomerId, ItemId, GraveId, Quantity);
     }
 
     public async Task removeItemFromCart(int CustomerId, int itemId, int GraveId)
-    { 
+    {
         await _cartRepository.RemoveItemFromCart(CustomerId, itemId, GraveId);
     }
 

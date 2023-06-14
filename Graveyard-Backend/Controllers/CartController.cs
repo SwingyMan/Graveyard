@@ -24,7 +24,7 @@ public class CartController : ControllerBase
     }
 
     [HttpDelete("{ItemId}/{GraveId}")]
-    public async Task<IActionResult> delete(int ItemId,int GraveId)
+    public async Task<IActionResult> delete(int ItemId, int GraveId)
     {
         await _cartService.removeItemFromCart(int.Parse(User.Claims
                 .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value),
@@ -39,8 +39,9 @@ public class CartController : ControllerBase
             .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value));
         return Ok();
     }
+
     [HttpGet("{ItemId}/{GraveId}")]
-    public async Task<IActionResult> addItemToCart(int ItemId,int GraveId,int quantity)
+    public async Task<IActionResult> addItemToCart(int ItemId, int GraveId, int quantity)
     {
         return Ok(await _cartService.addItemToCart(int.Parse(User.Claims
                 .First(i => i.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value),
