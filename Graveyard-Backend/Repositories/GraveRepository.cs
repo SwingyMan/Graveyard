@@ -21,4 +21,9 @@ public class GraveRepository : CRUDRepository<Grave>, IGraveRepository
         await _contextModel.SaveChangesAsync();
         return grave;
     }
+
+    public async Task<Grave> findByXandY(int x, int y)
+    {
+        return await _contextModel.Grave.FirstOrDefaultAsync(z => z.x == x && z.y == y);
+    }
 }
