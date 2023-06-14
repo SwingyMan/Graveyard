@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AppComponent } from '../app.component';
+import {HttpHandler,HttpClient,HttpHeaders} from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'grv-add-burried',
@@ -7,4 +10,12 @@ import { Component } from '@angular/core';
 })
 export class AddBurriedComponent {
 
+  parentComponent:AppComponent;
+  
+  constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
+    this.parentComponent = appComponent;
+    
+  }
+  
+  public addGrave() {console.log("Yes")}
 }
