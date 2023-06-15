@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import {User} from './user';
+import { Grave } from './grave';
 
 @Component({
   selector: 'grv-root',
@@ -19,6 +20,8 @@ export class AppComponent {
   page_in_menu = 0;
 
   user!: User;
+
+  grave_list: Grave[] = [];
 
   empty_user: User = {
     carts: '',
