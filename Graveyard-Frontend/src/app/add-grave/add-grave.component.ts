@@ -25,6 +25,7 @@ export class AddGraveComponent {
     var checked=true;
     if(x<=0||y<=0){
       console.log(false)
+      this.toastr.error('Niepoprawne dane','Współrzędne nie mogą się równać 0');
       return false;
     }
     for(var i=0;i<this.parentComponent.grave_list.length;i++){
@@ -33,6 +34,7 @@ export class AddGraveComponent {
         }
     }
     console.log(checked);
+    if(!checked){this.toastr.error('Niepoprawne dane','Grób w tym miejscu już istnieje');}
     return checked;
     
   }
@@ -58,6 +60,7 @@ export class AddGraveComponent {
       (data) =>{
           this.postJsonValue=data;
           console.log(this.postJsonValue)
+          this.toastr.success(`Nowy grób, X:`+this.x+' Y: '+this.y,"Grób dodany")
       }
 
     )
