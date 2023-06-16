@@ -1,25 +1,53 @@
-<!--<section>
-    <h2>Dodaj grób</h2>
+<section>
+    <h2>Dodaj pochowanego</h2>
     <div class="form-box">
         <div class="form-value">
     
-            <form (ngSubmit)="addGrave()">
+            <form (ngSubmit)="addBurried()">
     
             <div class="inputbox">
-                <i class="fa-solid fa-x"></i>
-                <input type="number" min="1" id="graveX" [(ngModel)]="x" name="graveX" required>
-                <label for="graveX">Współrzędna X</label>
+                <input type="text" id="burriedName" [(ngModel)]="name" name="burriedName" required>
+                <label for="burriedName">Imię</label>
             </div>
     
             <div class="inputbox">
-                <i class="fa-solid fa-y"></i>
-                <input type="number" min="1" id="graveY" [(ngModel)]="y" name="graveY" required>
-                <label for="graveY">Współrzędna Y</label>
+
+                <input type="text" id="burriedLastname" [(ngModel)]="lastname" name="burriedLastname" required>
+                <label for="burriedLastname">Nazwisko</label>
             </div>
-       
-            <button type="submit">Dodaj grób</button>
+            <div class="inputboxDate">
+                <input type="date" id="birthdate" [(ngModel)]="birthdate" name="birthdate" required>
+                <label for="birthdate">Data urodzenia</label>
+            </div>
+            <div class="inputboxDate">
+
+                <input type="date" id="deathdate" [(ngModel)]="deathdate" name="deathdate" required>
+                <label for="deathdate">Data śmierci</label>
+            </div>
+            <button type="submit">Dodaj</button>
             </form>
     
         </div>
     </div>
-</section>-->
+    <hr/>
+    <h2>Przypisz pochowanego do grobu (potrzebne ID grobu i pochowanego)</h2>
+    <div class="form-box">
+        <div class="form-value">
+    
+            <form (ngSubmit)="assignBurriedToGrave()">
+    
+            <div class="inputbox">
+                <input type="number" id="burriedID" [(ngModel)]="burriedID" name="burriedID" required>
+                <label for="burriedID">ID pochowanego</label>
+            </div>
+    
+            <div class="inputbox">
+                <input type="number" id="graveID" [(ngModel)]="graveID" name="graveID" required>
+                <label for="graveID">ID grobu</label>
+            </div>
+            <button type="submit">Dodaj</button>
+            </form>
+    
+        </div>
+    </div>
+</section>
