@@ -23,26 +23,26 @@ public class GravediggerController : ControllerBase
         return Ok(await _gravediggerService.addGravedigger(gravedigger));
     }
 
-    [HttpPatch]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> editGravedigger(int id, Gravedigger gravedigger)
     {
         return Ok(await _gravediggerService.updateGravedigger(id, gravedigger));
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> removeGravedigger(int id)
     {
         await _gravediggerService.removeGravedigger(id);
         return Ok();
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> getGravedigger(int id)
     {
         return Ok(await _gravediggerService.getById(id));
     }
 
-    [HttpGet]
+    [HttpGet("{page}")]
     public async Task<IActionResult> listGravediggers(int page)
     {
         return Ok(await _gravediggerService.getAll(page));
