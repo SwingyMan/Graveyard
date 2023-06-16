@@ -2,24 +2,41 @@
     <h2>Dodaj grób</h2>
     <div class="form-box">
         <div class="form-value">
-    
+
             <form (ngSubmit)="addGrave()">
-    
-            <div class="inputbox">
-                <i class="fa-solid fa-x"></i>
-                <input type="number" min="1" id="graveX" [(ngModel)]="x" name="graveX" required>
-                <label for="graveX">Współrzędna X</label>
-            </div>
-    
-            <div class="inputbox">
-                <i class="fa-solid fa-y"></i>
-                <input type="number" min="1" id="graveY" [(ngModel)]="y" name="graveY" required>
-                <label for="graveY">Współrzędna Y</label>
-            </div>
-       
-            <button type="submit">Dodaj grób</button>
+
+                <div class="inputbox">
+                    <i class="fa-solid fa-x"></i>
+                    <input type="number" min="1" id="graveX" [(ngModel)]="x" name="graveX" required>
+                    <label for="graveX">Współrzędna X</label>
+                </div>
+
+                <div class="inputbox">
+                    <i class="fa-solid fa-y"></i>
+                    <input type="number" min="1" id="graveY" [(ngModel)]="y" name="graveY" required>
+                    <label for="graveY">Współrzędna Y</label>
+                </div>
+
+                <button type="submit">Dodaj grób</button>
             </form>
-    
+
+        </div>
+    </div>
+    <hr />
+    <h2>Usuń grób</h2>
+    <div class="form-box">
+        <div class="form-value">
+
+            <form (ngSubmit)="deleteGrave()">
+
+                <div class="inputbox">
+                    <input type="number" min="1" id="deletedGraveID" [(ngModel)]="deletedGraveID" name="deletedGraveID"
+                        required>
+                    <label for="deletedGraveID">ID grobu</label>
+                </div>
+                <button type="submit">Usuń grób</button>
+            </form>
+
         </div>
     </div>
 </section>

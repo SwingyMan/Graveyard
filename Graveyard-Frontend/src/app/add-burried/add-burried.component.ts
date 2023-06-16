@@ -22,6 +22,9 @@ export class AddBurriedComponent {
   burriedID:number=0;
   graveID:number=0;
   gravediggerID:number=0;
+  deletedBurriedID:number=0;
+  unassignedBurriedID:number=0;
+  unassignedGraveID:number=0;
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
     this.name="";
@@ -93,6 +96,64 @@ export class AddBurriedComponent {
             console.log(data);
             if(data!=null){
             this.toastr.success("Pochowany o ID "+this.burriedID+" przypisany do grobu od ID "+this.graveID,"Pochowany przypisany do grobu")
+          }
+        }
+      )
+    }
+  }
+  public deleteBurried(){
+    var noError=true;
+    const httpOptions={
+      headers:new HttpHeaders({
+        contentType: 'application/json',
+        'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+      })
+    };
+    if(this.deletedBurriedID<1){
+      this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
+      return;
+    }//jeszcze po endpoincie sprawdzić czy pochowany o ID wgl istnieje
+    else{
+      this.http.delete('https://graveyard.azurewebsites.net/api/Burried/deleteByID/'+this.deletedBurriedID,httpOptions).pipe(
+      catchError((error) => {
+        console.error('Wystąpił błąd:', error);
+        noError=false;
+        this.toastr.error('Wystąpił błąd','Błąd usuwania pochowanego');
+        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+      })).subscribe(
+        (data)=>{
+            console.log(data);
+            if(noError){
+            this.toastr.success("Pochowany o ID "+this.deletedBurriedID+" usunięty","Pochowany usunięty")
+          }
+        }
+      )
+    }
+  }
+  public unassignBurriedToGrave(){
+    var noError=true;
+    const httpOptions={
+      headers:new HttpHeaders({
+        contentType: 'application/json',
+        'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+      })
+    };
+    if(this.unassignedBurriedID<1||this.unassignedGraveID<1){
+      this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
+      return;
+    }//jeszcze po endpoincie sprawdzić czy pochowany o ID wgl istnieje
+    else{
+      this.http.delete('https://graveyard.azurewebsites.net/api/GraveBurried/removeBurriedFromGrave/'+this.unassignedGraveID+"/"+this.unassignedBurriedID,httpOptions).pipe(
+      catchError((error) => {
+        console.error('Wystąpił błąd:', error);
+        noError=false;
+        this.toastr.error('Wystąpił błąd','Błąd wypisywania pochowanego z grobu');
+        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+      })).subscribe(
+        (data)=>{
+            console.log(data);
+            if(noError){
+            this.toastr.success("Pochowany o ID "+this.unassignedBurriedID+" wypisany z grobu o ID "+this.unassignedGraveID,"Pochowany wypisany z grobu")
           }
         }
       )
