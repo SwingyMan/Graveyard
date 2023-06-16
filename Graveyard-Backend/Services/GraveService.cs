@@ -17,9 +17,15 @@ public class GraveService : IGraveService
 
     public async Task<Grave> add(DTOs.Grave grave)
     {
-        var gravee = new Grave(grave.x, grave.y);
-        await _graveRepository.add(gravee);
-        return gravee;
+        var checkExisting = await _graveRepository.findByXandY(grave.x, grave.y);
+        if (checkExisting == null)
+        {
+            var gravee = new Grave(grave.x, grave.y);
+            await _graveRepository.add(gravee);
+            return gravee;
+        }
+
+        return null;
     }
 
     public async Task<Grave> edit(int id, DTOs.Grave grave)
