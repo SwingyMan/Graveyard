@@ -21,6 +21,7 @@ export class AddBurriedComponent {
   datepipe:DatePipe=new DatePipe("pl-PL")
   burriedID:number=0;
   graveID:number=0;
+  gravediggerID:number=0;
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
     this.name="";
@@ -37,7 +38,7 @@ export class AddBurriedComponent {
     return true;
   }
   public checkAddBurriedToGrave(){
-    if(this.graveID<1||this.burriedID<1){
+    if(this.graveID<1||this.burriedID<1||this.gravediggerID<1){
       this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
       return false;
     }
@@ -82,7 +83,7 @@ export class AddBurriedComponent {
       })
     };
     if(this.checkAddBurriedToGrave()){
-      this.http.get('https://graveyard.azurewebsites.net/api/addBurriedToGrave/'+this.graveID+"/"+this.burriedID,httpOptions).pipe(
+      this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/addBurriedToGrave/'+this.graveID+"/"+this.burriedID+"/"+this.gravediggerID,httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
         this.toastr.error('Wystąpił błąd','Błąd przypisywania pochowanego do grobu');
