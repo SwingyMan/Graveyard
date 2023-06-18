@@ -15,6 +15,7 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { ShopComponent } from './shop/shop.component';
 import { AddBurriedComponent } from './add-burried/add-burried.component';
 import { AddGraveComponent } from './add-grave/add-grave.component';
+import { AddGravediggerComponent } from './add-gravedigger/add-gravedigger.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AddGraveComponent } from './add-grave/add-grave.component';
     SideMenuComponent,
     ShopComponent,
     AddBurriedComponent,
-    AddGraveComponent
+    AddGraveComponent,
+    AddGravediggerComponent
   ],
   imports: [
     BrowserModule,

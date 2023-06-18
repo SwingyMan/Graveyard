@@ -1,6 +1,15 @@
 <section>
-    <h2>Dodaj pochowanego</h2>
-    <div class="form-box">
+    <div class="upper-navbar">
+        <button (click)="showAddBurried()">Dodawanie</button>
+        <button (click)="showEditBurried()">Edytowanie</button>
+        <button (click)="showDeleteBurried()">Usuwanie</button>
+        <button (click)="showAssignBurried()">Przypisanie do grobu</button>
+        <button (click)="showUnassignBurried()">Wypisanie z grobu</button>
+    </div>
+    <div class="form-space" [ngSwitch]="pageToShowBurried">
+
+    <div class="form-box" *ngSwitchCase="0">
+        <h2>Dodaj pochowanego</h2>
         <div class="form-value">
     
             <form (ngSubmit)="addBurried()">
@@ -29,9 +38,27 @@
     
         </div>
     </div>
-    <hr/>
-    <h2>Przypisz pochowanego do grobu (potrzebne ID pochowanego, grobu i grabarza)</h2>
-    <div class="form-box">
+    <div class="form-box" *ngSwitchCase="1">
+        <h2>Edytuj pochowanego</h2>
+        </div>
+    
+    <div class="form-box" *ngSwitchCase="2">
+        <h2>Usuń pogrzebanego (po ID)</h2>
+        <div class="form-value">
+    
+            <form (ngSubmit)="deleteBurried()">
+    
+            <div class="inputbox">
+                <input type="number" id="burriedID" [(ngModel)]="deletedBurriedID" name="burriedID" required>
+                <label for="burriedID">ID pochowanego</label>
+            </div>
+            <button type="submit">Usuń</button>
+            </form>
+    
+        </div>
+    </div>
+    <div class="form-box" *ngSwitchCase="3">
+        <h2>Przypisz pochowanego do grobu (potrzebne ID pochowanego, grobu i grabarza)</h2>
         <div class="form-value">
     
             <form (ngSubmit)="assignBurriedToGrave()">
@@ -54,25 +81,9 @@
     
         </div>
     </div>
-    <hr/>
-    <h2>Usuń pogrzebanego (po ID)</h2>
-    <div class="form-box">
-        <div class="form-value">
     
-            <form (ngSubmit)="deleteBurried()">
-    
-            <div class="inputbox">
-                <input type="number" id="burriedID" [(ngModel)]="deletedBurriedID" name="burriedID" required>
-                <label for="burriedID">ID pochowanego</label>
-            </div>
-            <button type="submit">Usuń</button>
-            </form>
-    
-        </div>
-    </div>
-    <hr/>
-    <h2>Wypisz pochowanego z grobu (potrzebne ID grobu i pochowanego)</h2>
-    <div class="form-box">
+    <div class="form-box" *ngSwitchCase="4">
+        <h2>Wypisz pochowanego z grobu (potrzebne ID grobu i pochowanego)</h2>
         <div class="form-value">
     
             <form (ngSubmit)="unassignBurriedToGrave()">
@@ -90,5 +101,6 @@
             </form>
     
         </div>
+    </div>
     </div>
 </section>

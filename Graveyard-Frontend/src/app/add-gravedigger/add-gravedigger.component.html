@@ -1,0 +1,50 @@
+<section>
+    <div class="upper-navbar">
+        <button (click)="showAddGravedigger()">Dodawanie</button>
+        <button (click)="showEditGravedigger()">Edytowanie</button>
+        <button (click)="showDeleteGravedigger()">Usuwanie</button>
+    </div>
+    <div class="form-space" [ngSwitch]="pageToShowGravedigger">
+    <div class="form-box" *ngSwitchCase="0">
+        <h2>Dodaj grób</h2>
+        <div class="form-value">
+
+            <form (ngSubmit)="addGravedigger()">
+
+                <div class="inputbox">
+                    <input type="text"id="gravediggerName" [(ngModel)]="name" name="gravediggerName" required>
+                    <label for="gravediggerName">Imię grabarza</label>
+                </div>
+
+                <div class="inputbox">
+                    <input type="text"  id="gravediggerLastname" [(ngModel)]="lastname" name="gravediggerLastname" required>
+                    <label for="gravediggerLastname">Nazwisko grabarza</label>
+                </div>
+
+                <button type="submit">Dodaj grabarza</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="form-box" *ngSwitchCase="1">
+        <h2>Edytuj grabarza</h2>
+        </div>
+
+    <div class="form-box" *ngSwitchCase="2">
+        <h2>Usuń grób</h2>
+        <div class="form-value">
+
+            <form (ngSubmit)="deleteGravedigger()">
+
+                <div class="inputbox">
+                    <input type="number" min="1" id="deletedGravediggerID" [(ngModel)]="deletedGravediggerID" name="deletedGravediggerID"
+                        required>
+                    <label for="deletedGravediggerID">ID grabarza</label>
+                </div>
+                <button type="submit">Usuń grabarza</button>
+            </form>
+
+        </div>
+    </div>
+    </div>
+</section>

@@ -12,6 +12,7 @@ export class AddGraveComponent {
   parentComponent: AppComponent;
   x: number;
   y: number;
+  pageToShowGraves:number=0;
   deletedGraveID: number = 0;
   public getJsonValue: any;
   public postJsonValue: any;
@@ -20,6 +21,19 @@ export class AddGraveComponent {
     this.x = 0;
     this.y = 0;
   }
+  public showAddGrave(){
+    this.pageToShowGraves=0;
+  }
+  public showEditGrave(){
+    this.pageToShowGraves=1;
+  }
+  public showDeleteGrave(){
+    this.pageToShowGraves=2;
+  }
+
+
+
+
   public checkForCoords(x: number, y: number) {
 
     let n = 0;

@@ -17,7 +17,9 @@
     <div *ngIf="role == 1" class="option_button">
         <button (click)="showAddGrave()">Dodaj grób</button>
     </div>
-
+    <div *ngIf="role == 1" class="option_button">
+        <button (click)="showAddGravedigger()">Dodaj grabarza</button>
+    </div>
     <section class="bottom_panel">
 
         <div *ngIf="role == 0 || role == 1" class="option_button delete_button">

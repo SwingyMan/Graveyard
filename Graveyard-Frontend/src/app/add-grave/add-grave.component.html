@@ -1,6 +1,12 @@
 <section>
-    <h2>Dodaj grób</h2>
-    <div class="form-box">
+    <div class="upper-navbar">
+        <button (click)="showAddGrave()">Dodawanie</button>
+        <button (click)="showEditGrave()">Edytowanie</button>
+        <button (click)="showDeleteGrave()">Usuwanie</button>
+        </div>
+    <div class="form-space" [ngSwitch]="pageToShowGraves">
+    <div class="form-box-addGrave" *ngSwitchCase="0">
+        <h2>Dodaj grób</h2>
         <div class="form-value">
 
             <form (ngSubmit)="addGrave()">
@@ -22,9 +28,11 @@
 
         </div>
     </div>
-    <hr />
-    <h2>Usuń grób</h2>
-    <div class="form-box">
+    <div class="form-box-editGrave" *ngSwitchCase="1">
+        <h2>Edytuj grób</h2>
+    </div>
+    <div class="form-box-deleteGrave" *ngSwitchCase="2">
+        <h2>Usuń grób</h2>
         <div class="form-value">
 
             <form (ngSubmit)="deleteGrave()">
@@ -38,5 +46,6 @@
             </form>
 
         </div>
+    </div>
     </div>
 </section>

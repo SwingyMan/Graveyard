@@ -69,4 +69,7 @@ export class SideMenuComponent {
   showAddGrave() {
     this.parentComponent.page_in_menu = 3;
   }
+  showAddGravedigger(){
+    this.parentComponent.page_in_menu=4;
+  }
 }

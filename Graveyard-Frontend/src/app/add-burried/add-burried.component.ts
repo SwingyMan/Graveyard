@@ -13,7 +13,7 @@ import { catchError,of } from 'rxjs';
 export class AddBurriedComponent {
 
   parentComponent:AppComponent;
-  
+  pageToShowBurried:number=0;
   name:string;
   lastname:string;
   birthdate:Date;
@@ -33,6 +33,23 @@ export class AddBurriedComponent {
     this.deathdate=new Date;
 
   }
+  public showAddBurried(){
+    this.pageToShowBurried=0;
+  }
+  public showEditBurried(){
+    this.pageToShowBurried=1;
+  }
+  public showDeleteBurried(){
+    this.pageToShowBurried=2;
+  }
+  public showAssignBurried(){
+    this.pageToShowBurried=3;
+  }
+  public showUnassignBurried(){
+    this.pageToShowBurried=4;
+  }
+
+
   public checkAddBurried(){
     if(this.name==""||this.lastname==""||this.birthdate.toString()==""||this.deathdate.toString()==""){
       this.toastr.error('Niepoprawne dane','Puste pole');
