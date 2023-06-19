@@ -18,10 +18,14 @@ export class AddBurriedComponent {
   lastname:string;
   birthdate:Date;
   deathdate:Date;
-  datepipe:DatePipe=new DatePipe("pl-PL")
-  burriedID:number=0;
-  graveID:number=0;
-  gravediggerID:number=0;
+  editedBurriedID:number=0;
+  editedName:string="";
+  editedLastname:string="";
+  editedBirthdate:Date=new Date;
+  editedDeathdate:Date=new Date;
+  assignedBurriedID:number=0;
+  assignedGraveID:number=0;
+  assignedGravediggerID:number=0;
   deletedBurriedID:number=0;
   unassignedBurriedID:number=0;
   unassignedGraveID:number=0;
@@ -57,8 +61,19 @@ export class AddBurriedComponent {
     } //zwraca error podczas konwersji pustego Date ale działa
     return true;
   }
+  public checkEditBurried(){
+    if(this.editedBurriedID<1){
+      this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
+      return false
+    }
+    if(this.editedName==""||this.editedLastname==""||this.editedBirthdate.toString()==""||this.editedDeathdate.toString()==""){
+      this.toastr.error('Niepoprawne dane','Puste pole');
+      return false
+    } //zwraca error podczas konwersji pustego Date ale działa
+    return true;
+  }
   public checkAddBurriedToGrave(){
-    if(this.graveID<1||this.burriedID<1||this.gravediggerID<1){
+    if(this.assignedGraveID<1||this.assignedBurriedID<1||this.assignedGravediggerID<1){
       this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
       return false;
     }
@@ -95,29 +110,38 @@ export class AddBurriedComponent {
     }
     console.log("Name: "+this.name+" Lastname: "+this.lastname+" Birthday: "+formatDate(this.birthdate,"yyyy-MM-dd","en-EN")+" Deathday: "+formatDate(this.deathdate,"yyyy-MM-dd","en-EN"))
   }
-  public assignBurriedToGrave(){
+  public editBurried(){
     const httpOptions={
       headers:new HttpHeaders({
         contentType: 'application/json',
         'Authorization': `Bearer ${this.parentComponent.auth_token}`,
       })
     };
-    if(this.checkAddBurriedToGrave()){
-      this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/addBurriedToGrave/'+this.graveID+"/"+this.burriedID+"/"+this.gravediggerID,httpOptions).pipe(
+    let body={
+      name:this.editedName,
+      lastname:this.editedLastname,
+      date_of_birth:this.editedBirthdate,
+      date_of_death:this.editedDeathdate
+    };
+    if(this.checkEditBurried()){
+      this.http.patch('https://graveyard.azurewebsites.net/api/Burried/editBurried/'+this.editedBurriedID, body, httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
-        this.toastr.error('Wystąpił błąd','Błąd przypisywania pochowanego do grobu');
+        this.toastr.error('Wystąpił błąd','Błąd dodawania pochowanego');
         return of(null); // Zwracamy wartość null, aby obsłużyć błąd
       })).subscribe(
         (data)=>{
             console.log(data);
             if(data!=null){
-            this.toastr.success("Pochowany o ID "+this.burriedID+" przypisany do grobu od ID "+this.graveID,"Pochowany przypisany do grobu")
+            this.toastr.success("Nowy pochowany: "+this.name+" "+this.lastname,"Pochowany dodany")
           }
         }
       )
     }
+    console.log("Name: "+this.editedName+" Lastname: "+this.editedLastname+" Birthday: "+formatDate(this.editedBirthdate,"yyyy-MM-dd","en-EN")+" Deathday: "+formatDate(this.editedDeathdate,"yyyy-MM-dd","en-EN"))
+  
   }
+  
   public deleteBurried(){
     var noError=true;
     const httpOptions={
@@ -142,6 +166,29 @@ export class AddBurriedComponent {
             console.log(data);
             if(noError){
             this.toastr.success("Pochowany o ID "+this.deletedBurriedID+" usunięty","Pochowany usunięty")
+          }
+        }
+      )
+    }
+  }
+  public assignBurriedToGrave(){
+    const httpOptions={
+      headers:new HttpHeaders({
+        contentType: 'application/json',
+        'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+      })
+    };
+    if(this.checkAddBurriedToGrave()){
+      this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/addBurriedToGrave/'+this.assignedGraveID+"/"+this.assignedBurriedID+"/"+this.assignedGravediggerID,httpOptions).pipe(
+      catchError((error) => {
+        console.error('Wystąpił błąd:', error);
+        this.toastr.error('Wystąpił błąd','Błąd przypisywania pochowanego do grobu');
+        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+      })).subscribe(
+        (data)=>{
+            console.log(data);
+            if(data!=null){
+            this.toastr.success("Pochowany o ID "+this.assignedBurriedID+" przypisany do grobu od ID "+this.assignedGraveID,"Pochowany przypisany do grobu")
           }
         }
       )

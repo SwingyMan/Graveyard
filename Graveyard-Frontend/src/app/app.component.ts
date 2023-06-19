@@ -3,6 +3,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import {User} from './user';
 import { Grave } from './grave';
+import { Burried } from './burried';
+import { Gravedigger } from './gravedigger';
 
 @Component({
   selector: 'grv-root',
@@ -11,7 +13,7 @@ import { Grave } from './grave';
 })
 export class AppComponent {
   title = 'E - Cmentarz';
-
+  getJsonValue:any;
   role = -1;
 
   switch_login = false;
@@ -22,6 +24,8 @@ export class AppComponent {
   user!: User;
 
   grave_list: Grave[] = [];
+  burried_list: Burried[]=[];
+  gravedigger_list:Gravedigger[]=[];
 
   empty_user: User = {
     carts: '',
@@ -39,6 +43,7 @@ export class AppComponent {
   constructor(private toastr: ToastrService) {
 
   }
+ 
 
   toggleLoginPanel() {
     this.hide_login_panel = !this.hide_login_panel;

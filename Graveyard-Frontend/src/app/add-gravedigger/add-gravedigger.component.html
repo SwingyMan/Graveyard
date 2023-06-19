@@ -3,10 +3,11 @@
         <button (click)="showAddGravedigger()">Dodawanie</button>
         <button (click)="showEditGravedigger()">Edytowanie</button>
         <button (click)="showDeleteGravedigger()">Usuwanie</button>
+        <button (click)="showDeleteGravediggerPlus()">Usuwanie+</button>
     </div>
     <div class="form-space" [ngSwitch]="pageToShowGravedigger">
     <div class="form-box" *ngSwitchCase="0">
-        <h2>Dodaj grób</h2>
+        <h2>Dodaj grabarza</h2>
         <div class="form-value">
 
             <form (ngSubmit)="addGravedigger()">
@@ -31,7 +32,7 @@
         </div>
 
     <div class="form-box" *ngSwitchCase="2">
-        <h2>Usuń grób</h2>
+        <h2>Usuń grabarza</h2>
         <div class="form-value">
 
             <form (ngSubmit)="deleteGravedigger()">
@@ -44,6 +45,28 @@
                 <button type="submit">Usuń grabarza</button>
             </form>
 
+        </div>
+    </div>
+    <div class="form-box" *ngSwitchCase="3">
+        <h2>Usuń grabarza</h2>
+        <div class="form-value" *ngIf="showComponent">
+            <form #myForm="ngForm" (ngSubmit)="deleteGravediggerPlus(myForm); ">
+                <div class="gravediggerChoice" *ngFor="let gravedigger of gravedigger_list;let i=index;">
+                   <input id="input{{i}}" type="radio" [(ngModel)]="selectedGravediggerToDelete" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                   <label for="input{{i}}">{{"Nr"+gravedigger.gravediggerId+": "+gravedigger.firstName+" "+gravedigger.lastName}}</label>
+                </div>
+                <button type="submit">Usuń grabarza</button>
+            </form>
+            <!--<form (ngSubmit)="deleteGravedigger()">
+
+                <div class="inputbox">
+                    <input type="number" min="1" id="deletedGravediggerID" [(ngModel)]="deletedGravediggerID" name="deletedGravediggerID"
+                        required>
+                    <label for="deletedGravediggerID">ID grabarza</label>
+                </div>
+                <button type="submit">Usuń grabarza</button>
+            </form>
+        -->
         </div>
     </div>
     </div>

@@ -30,7 +30,9 @@ export class AddGraveComponent {
   public showDeleteGrave(){
     this.pageToShowGraves=2;
   }
+  public fetchGraveList(){
 
+  }
 
 
 
@@ -82,6 +84,9 @@ export class AddGraveComponent {
 
     }
     console.log("X: " + this.x + " Y: " + this.y)
+  }
+  public editGrave(){
+    
   }
   public deleteGrave() {
     var noError = true;

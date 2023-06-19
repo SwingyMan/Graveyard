@@ -23,32 +23,36 @@ export class GravesComponent implements OnInit {
     this.parentComponent = appComponent;
     this.grave_list=this.parentComponent.grave_list;
     this.iterator=0;
+    this.getMethod();
+ 
   }
 
   ngOnInit(): void {
-    this.getMethod();
+    
   }
 
   public getMethod() {
-
+    let i:number=0
+    for(i=0;i<10;i++){
+      this.fetchGraveListFromEndpoint(i);
+    }
+      this.parentComponent.grave_list=this.grave_list; 
+  }
+  public fetchGraveListFromEndpoint(i:number){
+    console.log(i)
+    var endChecking=false;
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.parentComponent.auth_token}`,
     })
-    var temp:Grave[]=[]
-    this.iterator=0
-      this.http.get('https://graveyard.azurewebsites.net/api/grave/list/'+this.iterator, { headers: header }).subscribe(
-        (data) => {
-          this.getJsonValue = data.valueOf();
-          var t=this.getJsonValue;
-          console.log(t)
-            temp.push(...t)
-        }
-
-  );
-  this.parentComponent.grave_list=temp;
-  this.grave_list=this.parentComponent.grave_list;
-      
-}
-
+    this.http.get('https://graveyard.azurewebsites.net/api/grave/list/'+i, { headers: header }).subscribe(
+      (data) => {
+        console.log(data);
+        this.getJsonValue = data.valueOf();
+        console.log(this.getJsonValue.length)
+        
+        this.grave_list=this.grave_list.concat(this.getJsonValue);
+      }
+    );
+  }
 }
