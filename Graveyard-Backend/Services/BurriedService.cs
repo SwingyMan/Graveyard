@@ -38,6 +38,6 @@ public class BurriedService : IBurriedService
     public async Task<Burried> editById(int BurriedId, DTOs.Burried burried)
     {
         var dead = new Burried(burried.name, burried.lastname, burried.date_of_birth, burried.date_of_death);
-        return await _burriedRepository.updateByID(BurriedId, dead);
+        return await _burriedRepository.UpdateById(BurriedId, dead);
     }
 }
