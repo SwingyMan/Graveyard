@@ -37,3 +37,8 @@
     display: flex;
     flex-direction: row;
 }
+
+grv-graves {
+    height: 100vh;
+    display: flex;
+}
