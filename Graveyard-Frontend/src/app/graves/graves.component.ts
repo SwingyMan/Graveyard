@@ -21,8 +21,10 @@ export class GravesComponent implements OnInit {
 
   iterator: number = 0;
 
-  pages: number[] = [];
+  pages: number[] = [1,2,3,4,5,6,7,8,9,10];
   page_len: number = 1;
+
+  is_pages_ready = false;
 
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
@@ -30,34 +32,10 @@ export class GravesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPages();
-    console.log(this.pages)
-    this.getMethod();
+    this.getMethod(0);
   }
 
-  public getPages() {
-
-    const header = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.parentComponent.auth_token}`,
-    })
-
-    for (let i = 0; i<10; i++) {
-
-      this.http.get('https://graveyard.azurewebsites.net/api/grave/list/' + i, { headers: header }).subscribe(
-        (data) => {
-          this.getJsonValue = data.valueOf();
-          this.page_len = this.getJsonValue.length;
-          console.log(i+": "+this.page_len)
-          if (this.page_len > 0 ) this.pages.push(i);
-        }
-      );
-    }
-  }
-
-  public getMethod() {
-
-    let i: number = 0
+  public getMethod(i: number) {
 
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -67,7 +45,7 @@ export class GravesComponent implements OnInit {
     this.http.get('https://graveyard.azurewebsites.net/api/grave/list/' + i, { headers: header }).subscribe(
       (data) => {
         this.getJsonValue = data.valueOf();
-        this.grave_list = this.grave_list.concat(this.getJsonValue);
+        this.grave_list = this.getJsonValue;
       }
     );
 

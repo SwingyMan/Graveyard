@@ -1,6 +1,5 @@
 .main-box {
     margin: 6vh 2vw;
-    width: auto;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -69,4 +68,20 @@
 .grave2 {
     border: 5px solid #605B87;
     background: #605B87;
+}
+
+.pages {
+    display: flex;
+    flex-direction: row;
+    justify-self: flex-end;
+}
+
+.pages span {
+    margin: 5px;
+    font-weight: bold;
+    color: #302d55;
+}
+
+.pages span:hover{
+    cursor: pointer;
 }
