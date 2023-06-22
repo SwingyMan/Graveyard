@@ -16,6 +16,7 @@ import { ShopComponent } from './shop/shop.component';
 import { AddBurriedComponent } from './add-burried/add-burried.component';
 import { AddGraveComponent } from './add-grave/add-grave.component';
 import { AddGravediggerComponent } from './add-gravedigger/add-gravedigger.component';
+import { DeleteAccountsComponent } from './delete-accounts/delete-accounts.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AddGravediggerComponent } from './add-gravedigger/add-gravedigger.compo
     ShopComponent,
     AddBurriedComponent,
     AddGraveComponent,
-    AddGravediggerComponent
+    AddGravediggerComponent,
+    DeleteAccountsComponent
   ],
   imports: [
     BrowserModule,

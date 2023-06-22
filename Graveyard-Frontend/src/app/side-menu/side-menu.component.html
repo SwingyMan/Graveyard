@@ -11,17 +11,19 @@
     </div>
 
     <div *ngIf="role == 1" class="option_button">
-        <button (click)="showAddBurried()">Dodaj zmarłego</button>
+        <button (click)="showAddBurried()">Zarządzaj zmarłymi</button>
     </div>
 
     <div *ngIf="role == 1" class="option_button">
-        <button (click)="showAddGrave()">Dodaj grób</button>
+        <button (click)="showAddGrave()">Zarządzaj grobami</button>
     </div>
     <div *ngIf="role == 1" class="option_button">
-        <button (click)="showAddGravedigger()">Dodaj grabarza</button>
+        <button (click)="showAddGravedigger()">Zarządzaj grabarzami</button>
     </div>
     <section class="bottom_panel">
-
+        <div *ngIf="role==1" class="option_button delete_button manage_accounts">
+            <button (click)="showAccountManager()">Zarządzaj kontami</button> 
+        </div>       
         <div *ngIf="role == 0 || role == 1" class="option_button delete_button">
             <button (click)="deleteSelfUser()" >Usuń konto</button>
         </div>

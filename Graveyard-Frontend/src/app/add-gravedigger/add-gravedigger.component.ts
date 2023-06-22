@@ -40,7 +40,7 @@ export class AddGravediggerComponent {
   public showDeleteGravediggerPlus(){
     this.pageToShowGravedigger=3;
     this.reload();
-    console.log(this.gravedigger_list);
+
   }
   public getGravediggerList() {
     let i:number=0

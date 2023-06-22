@@ -1,1 +1,22 @@
-<p>shop works!</p>
+<section>
+    <div class="upper-navbar">
+        <button (click)="showItemPick()">Wybór przedmiotu</button>
+        <button (click)="showCart()">Koszyk</button>
+        <button (click)="showPurchaseSummary()">Podsumowanie zakupów</button>
+        <button (click)="showPurchaseHistory()">Historia zakupów</button>
+    </div>
+    <div class="form-space" [ngSwitch]="pageToShowShop">
+        <div class="form-box" *ngSwitchCase="0">
+            <h2>Wybierz przedmiot do kupna</h2>
+        </div>
+        <div class="form-box" *ngSwitchCase="1">
+            <h2>Koszyk</h2>
+        </div>
+        <div class="form-box" *ngSwitchCase="2">
+            <h2>Podsumowanie zakupów</h2>
+        </div>
+        <div class="form-box" *ngSwitchCase="3">
+            <h2>Historia zakupów</h2>
+        </div>
+    </div>   
+</section>

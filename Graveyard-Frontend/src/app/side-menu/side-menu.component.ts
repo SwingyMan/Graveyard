@@ -72,4 +72,7 @@ export class SideMenuComponent {
   showAddGravedigger(){
     this.parentComponent.page_in_menu=4;
   }
+  showAccountManager(){
+    this.parentComponent.page_in_menu=5;
+  }
 }
