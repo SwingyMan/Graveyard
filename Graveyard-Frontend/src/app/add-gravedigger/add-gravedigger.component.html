@@ -29,7 +29,26 @@
     </div>
     <div class="form-box" *ngSwitchCase="1">
         <h2>Edytuj grabarza</h2>
+        <div class="form-value">
+        <form (ngSubmit)="editGravedigger()">
+        <div class="inputbox">
+            <input type="number" min="1" id="editedGravediggerID" [(ngModel)]="editedGravediggerID" name="editedGravediggerID"
+                        required>
+            <label for="editedGravediggerID">ID grabarza</label>
+        </div>    
+            <div class="inputbox">
+                <input type="text"id="editedGravediggerName" [(ngModel)]="editedName" name="editedGravediggerName" required>
+                <label for="editedGravediggerName">Imię grabarza</label>
+            </div>
+
+            <div class="inputbox">
+                <input type="text"  id="editedGravediggerLastname" [(ngModel)]="editedLastname" name="editedGravediggerLastname" required>
+                <label for="editedGravediggerLastname">Nazwisko grabarza</label>
+            </div>
+            <button type="submit">Zmodyfikuj grabarza</button>
+        </form>
         </div>
+    </div>
 
     <div class="form-box" *ngSwitchCase="2">
         <h2>Usuń grabarza</h2>

@@ -13,6 +13,9 @@ export class AddGraveComponent {
   x: number;
   y: number;
   pageToShowGraves:number=0;
+  editedGraveID:number=0;
+  editedX:number=0;
+  editedY:number=0;
   deletedGraveID: number = 0;
   public getJsonValue: any;
   public postJsonValue: any;
@@ -86,7 +89,7 @@ export class AddGraveComponent {
     console.log("X: " + this.x + " Y: " + this.y)
   }
   public editGrave(){
-    
+    console.log("Dla ID: "+this.editedGraveID+" X: "+this.editedX+" Y: "+this.editedY)
   }
   public deleteGrave() {
     var noError = true;

@@ -18,6 +18,9 @@ export class AddGravediggerComponent {
   pageToShowGravedigger:number=0;
   name:string=""
   lastname:string=""
+  editedGravediggerID:number=0;
+  editedName:string="";
+  editedLastname:string="";
   deletedGravediggerID:number=0
   gravedigger_list:Gravedigger[]=[]
   selectedGravediggerToDelete:number=0;
@@ -26,7 +29,7 @@ export class AddGravediggerComponent {
     this.getGravediggerList();
   }
   public ngOnChanges(){
-    console.log("On Changes test");
+    console.log("On Changes test"); //not used in final version
   }
   public showAddGravedigger(){
     this.pageToShowGravedigger=0;
@@ -96,6 +99,9 @@ export class AddGravediggerComponent {
 
   }
   console.log("Name: " + this.name + " Lastname: " + this.lastname)
+}
+public editGravedigger(){
+  console.log("For ID: "+this.editedGravediggerID+" Name: "+this.editedName+" LastName: "+this.editedLastname)
 }
   public deleteGravedigger(){
     var noError=true;

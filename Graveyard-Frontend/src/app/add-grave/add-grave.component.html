@@ -30,6 +30,26 @@
     </div>
     <div class="form-box-editGrave" *ngSwitchCase="1">
         <h2>Edytuj grób</h2>
+        <div class="form-value">
+            <form (ngSubmit)="editGrave()">
+            <div class="inputbox">
+                <input type="number" min="1" id="editedGraveID" [(ngModel)]="editedGraveID" name="editedGraveID"
+                            required>
+                <label for="editedGraveID">ID grobu</label>
+            </div>    
+                <div class="inputbox">
+                    <input type="text"id="editedGraveX" [(ngModel)]="editedX" name="editedGraveX" required>
+                    <label for="editedGraveX">Nowa współrzędna X
+                    </label>
+                </div>
+    
+                <div class="inputbox">
+                    <input type="text"  id="editedGraveY" [(ngModel)]="editedY" name="editedGraveY" required>
+                    <label for="editedGraveY">Nowa współrzędna Y</label>
+                </div>
+                <button type="submit">Zmodyfikuj grób</button>
+            </form>
+            </div>
     </div>
     <div class="form-box-deleteGrave" *ngSwitchCase="2">
         <h2>Usuń grób</h2>
