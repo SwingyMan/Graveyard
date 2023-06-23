@@ -11,7 +11,7 @@
             <p><b>y:</b> {{grave.y}}</p>
             <p><b>Stan:</b> {{grave.status == '1' ? "Opłacony" : "Nieopłacony"}}</p>
             <p><b>Ważność:</b><br>{{grave.validUntil | date: 'MM/dd/yyyy'}}</p>
-            <p><button>Pochowani</button></p>
+            <p><button (click)="getBurrieds(grave.graveId)">Pochowani</button></p>
         </div>
 
     </div>
@@ -19,4 +19,19 @@
     <div class="pages">
         <span (click)="getMethod(page-1)" *ngFor="let page of pages;">{{page}}</span>
     </div>
+
+    <div class="burrieds-box">
+        <h3>Podgląd zmarłych dla grobu {{selected_grave}}</h3>
+        <div class="burrieds" >
+        <div class="burried" *ngFor="let burried of burrieds_in_grave;">
+            <p>{{burried.burriedId}}</p>
+            <p>{{burried.name}}</p>
+            <p>{{burried.lastname}}</p>
+            <p>{{burried.date_of_birth}}</p>
+            <p>{{burried.date_of_death}}</p>
+        </div>
+
+    </div>
+    </div>
+    
 </div>

@@ -85,3 +85,26 @@
 .pages span:hover{
     cursor: pointer;
 }
+
+.burrieds-box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    padding: 10px;
+    border: 5px solid #302d55;
+    border-radius: 20px;
+}
+
+.burrieds {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.burried {
+    text-align: center;
+    margin: 15px;
+}
