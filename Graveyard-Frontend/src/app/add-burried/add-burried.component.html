@@ -18,9 +18,7 @@
                 <input type="text" id="burriedName" [(ngModel)]="name" name="burriedName" required>
                 <label for="burriedName">Imię</label>
             </div>
-    
             <div class="inputbox">
-
                 <input type="text" id="burriedLastname" [(ngModel)]="lastname" name="burriedLastname" required>
                 <label for="burriedLastname">Nazwisko</label>
             </div>
@@ -32,6 +30,10 @@
 
                 <input type="date" id="deathdate" [(ngModel)]="deathdate" name="deathdate" required>
                 <label for="deathdate">Data śmierci</label>
+            </div>
+            <div class="inputboxDate">
+                <input type="date" id="burialDate" [(ngModel)]="burialDate" name="burialDate" required>
+                <label for="burialDate">Data pochówku</label>
             </div>
             <button type="submit">Dodaj</button>
             </form>
@@ -65,6 +67,10 @@
 
                 <input type="date" id="deathdate" [(ngModel)]="editedDeathdate" name="deathdate" required>
                 <label for="deathdate">Nowa data śmierci</label>
+            </div>
+            <div class="inputboxDate">
+                <input type="date" id="burialDate" [(ngModel)]="editedBurialDate" name="burialDate" required>
+                <label for="burialDate">Nowa data pochówku</label>
             </div>
             <button type="submit">Zmień</button>
             </form>

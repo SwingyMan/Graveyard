@@ -18,11 +18,13 @@ export class AddBurriedComponent {
   lastname:string;
   birthdate:Date;
   deathdate:Date;
+  burialDate:Date=new Date;
   editedBurriedID:number=0;
   editedName:string="";
   editedLastname:string="";
   editedBirthdate:Date=new Date;
   editedDeathdate:Date=new Date;
+  editedBurialDate:Date=new Date;
   assignedBurriedID:number=0;
   assignedGraveID:number=0;
   assignedGravediggerID:number=0;
@@ -91,7 +93,8 @@ export class AddBurriedComponent {
       name:this.name,
       lastname:this.lastname,
       date_of_birth:this.birthdate,
-      date_of_death:this.deathdate
+      date_of_death:this.deathdate,
+      burialDate:this.burialDate
     };
     if(this.checkAddBurried()){
       this.http.post('https://graveyard.azurewebsites.net/api/Burried/addBurried', body, httpOptions).pipe(
@@ -121,7 +124,8 @@ export class AddBurriedComponent {
       name:this.editedName,
       lastname:this.editedLastname,
       date_of_birth:this.editedBirthdate,
-      date_of_death:this.editedDeathdate
+      date_of_death:this.editedDeathdate,
+      burialDate:this.editedBurialDate
     };
     if(this.checkEditBurried()){
       this.http.patch('https://graveyard.azurewebsites.net/api/Burried/editBurried/'+this.editedBurriedID, body, httpOptions).pipe(
