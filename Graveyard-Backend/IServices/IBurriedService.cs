@@ -9,4 +9,7 @@ public interface IBurriedService
     public Task<List<Burried>> getAll(int page);
     public Task<Burried> getById(int Burriedid);
     public Task<Burried> editById(int BurriedId, DTOs.Burried burried);
+    
+    
+    public Task<List<Burried>> GetToBeBurried();
 }

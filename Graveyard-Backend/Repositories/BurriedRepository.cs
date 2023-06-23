@@ -27,4 +27,9 @@ public class BurriedRepository : CRUDRepository<Burried>, IBurriedRepository
         await _contextModel.SaveChangesAsync();
         return burried;
     }
+
+    public async Task<List<Burried>> GetToBeBurried()
+    {
+        return await _contextModel.Burried.Where(x=>DateTime.Compare(x.BurialDate,DateTime.Now) > 0).ToListAsync();
+    }
 }

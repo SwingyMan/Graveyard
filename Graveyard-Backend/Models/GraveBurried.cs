@@ -8,12 +8,11 @@ public class GraveBurried
     {
     }
 
-    public GraveBurried(Burried burried, Grave grave, Gravedigger gravedigger, DateTime burialDate)
+    public GraveBurried(Burried burried, Grave grave, Gravedigger gravedigger)
     {
         this.Burried = burried;
         this.Grave = grave;
         Gravedigger = gravedigger;
-        this.BurialDate = burialDate;
     }
 
     [Key] public int BurriedGraveId { get; set; }
@@ -23,5 +22,4 @@ public class GraveBurried
     public int GraveId { get; set; }
     public Grave Grave { get; set; }
     public Gravedigger Gravedigger { get; set; }
-    public DateTime BurialDate { get; set; }
 }

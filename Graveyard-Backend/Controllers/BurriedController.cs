@@ -49,4 +49,10 @@ public class BurriedController : ControllerBase
         await _burriedService.deleteBurried(id);
         return Ok();
     }
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetNewBurried()
+    {
+        return Ok(await _burriedService.GetToBeBurried());
+    }
 }
