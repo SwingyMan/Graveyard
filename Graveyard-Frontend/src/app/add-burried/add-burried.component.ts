@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AppComponent } from '../app.component';
 import {HttpHandler,HttpClient,HttpHeaders} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
 import { formatDate } from '@angular/common';
 import { catchError,of } from 'rxjs';
 @Component({

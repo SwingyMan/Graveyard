@@ -21,7 +21,7 @@ export class GravesComponent implements OnInit {
   grave_list: Grave[]
   burrieds_in_grave?: Burried[]
   selected_grave?: number;
-
+ 
   iterator: number = 0;
 
   pages: number[] = [1,2,3,4,5,6,7,8,9,10];
@@ -69,4 +69,5 @@ export class GravesComponent implements OnInit {
       }
     );
   }
+
 }

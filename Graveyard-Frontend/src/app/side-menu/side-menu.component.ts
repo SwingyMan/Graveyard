@@ -75,4 +75,7 @@ export class SideMenuComponent {
   showAccountManager(){
     this.parentComponent.page_in_menu=5;
   }
+  showPlannedBurials(){
+    this.parentComponent.page_in_menu=6;
+  }
 }

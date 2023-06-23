@@ -20,6 +20,9 @@
     <div *ngIf="role == 1" class="option_button">
         <button (click)="showAddGravedigger()">Zarządzaj grabarzami</button>
     </div>
+    <div *ngIf="role == 1" class="option_button">
+        <button (click)="showPlannedBurials()">Lista zmarłych do pochowania</button>
+    </div>
     <section class="bottom_panel">
         <div *ngIf="role==1" class="option_button delete_button manage_accounts">
             <button (click)="showAccountManager()">Zarządzaj kontami</button> 

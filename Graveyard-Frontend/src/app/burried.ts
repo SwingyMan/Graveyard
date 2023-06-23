@@ -4,4 +4,5 @@ export interface Burried {
     lastname: string;
     date_of_birth:Date;
     date_of_death: Date;
+    burialDate:Date;
 }
