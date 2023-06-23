@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./delete-accounts.component.css']
 })
 export class DeleteAccountsComponent {
-
+  deletedAccountID:number=0;
+  public deleteAccount(){}
 }

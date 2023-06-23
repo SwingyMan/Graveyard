@@ -2,15 +2,27 @@
     <div class="upper-navbar">
         <button (click)="showItemPick()">Wybór przedmiotu</button>
         <button (click)="showCart()">Koszyk</button>
-        <button (click)="showPurchaseSummary()">Podsumowanie zakupów</button>
         <button (click)="showPurchaseHistory()">Historia zakupów</button>
     </div>
     <div class="form-space" [ngSwitch]="pageToShowShop">
         <div class="form-box" *ngSwitchCase="0">
             <h2>Wybierz przedmiot do kupna</h2>
+            <table>
+            <tr class="item-box" *ngFor="let item of itemList;let i=index">
+                <th><b>{{item.name}}</b></th>
+                <th>{{item.description}}</th>    
+                <th>Price: {{item.price}}</th>    
+                <th>
+                <img src="{{item.imageURL}}" alt="Obrazek dla  przedmiotu {{item.name}}"/></th>
+                <th><input type="radio" [(ngModel)]="selectedItemToCart" [ngModelOptions]="{standalone: true}" value="{{i}}"/></th>
+            </tr>
+            </table>
+            <button (click)="addItemToCart()">Dodaj do koszyka</button>
         </div>
         <div class="form-box" *ngSwitchCase="1">
             <h2>Koszyk</h2>
+            <div class="no-items-in-cart" *ngIf="currentCart==undefined || currentCart.items==null">0 produktów wybranych</div>
+            <button (click)="showPurchaseSummary()">Podsumowanie zakupów</button>
         </div>
         <div class="form-box" *ngSwitchCase="2">
             <h2>Podsumowanie zakupów</h2>

@@ -1,1 +1,18 @@
-<p>delete-accounts works!</p>
+<section>
+    <div class="form-box">
+        <h2>Usuń konto</h2>
+        <div class="form-value">
+
+            <form (ngSubmit)="deleteAccount()">
+
+                <div class="inputbox">
+                    <input type="number" min="1" id="deletedAccountID" [(ngModel)]="deletedAccountID" name="deletedAccountID"
+                        required>
+                    <label for="deletedAccountID">ID konta</label>
+                </div>
+                <button type="submit">Usuń konto</button>
+            </form>
+
+        </div>
+    </div>
+</section>
