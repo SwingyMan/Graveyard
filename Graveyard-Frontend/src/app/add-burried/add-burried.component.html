@@ -88,7 +88,7 @@
         <div class="form-value">
     
             <form (ngSubmit)="deleteBurried()">
-                <div class="gravediggerChoice" *ngFor="let burried of burried_list;let i=index;">
+                <div class="burriedChoice" *ngFor="let burried of burried_list;let i=index;">
                    <input id="input{{i}}" type="radio" [(ngModel)]="selectedBurriedToDelete" [ngModelOptions]="{standalone: true}" value="{{i}}">
                    <label for="input{{i}}">{{"Nr"+burried.burriedId+": "+burried.name+" "+burried.lastname}}</label>
                 </div>
@@ -106,8 +106,30 @@
         <div class="form-value">
     
             <form (ngSubmit)="assignBurriedToGrave()">
-    
-            <div class="inputbox">
+                <h3>1. Wybierz zmarłego</h3>
+                <div class="burried-list"*ngIf="assigningPart==1">
+                    <div class="burriedChoice" *ngFor="let burried of burried_list;let i=index;">
+                        <input id="input{{i}}" type="radio" (click)="test(i)" [(ngModel)]="selectedBurriedToAssign" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                        <label for="input{{i}}">{{"Nr"+burried.burriedId+": "+burried.name+" "+burried.lastname}}</label>
+                     </div>
+                     <button (click)="changeAssigningPart()">Wybierz</button>
+                </div>
+                <h3>2. Wybierz grób</h3>
+                <div class="grave-list" *ngIf="assigningPart==2">
+                    <div class="graveChoice" *ngFor="let grave of grave_list;let j=index;">
+                        <input id="input{{j}}" type="radio" (click)="test(j)" [(ngModel)]="selectedGraveToAssign" [ngModelOptions]="{standalone: true}" value="{{j}}">
+                        <label for="input{{j}}">{{"Nr"+grave.graveId+": X="+grave.x+" Y="+grave.y}}</label>
+                     </div>
+                     <button (click)="changeAssigningPart()">Wybierz</button>
+                </div>
+                <h3>3. Wybierz grabarza</h3>
+                <div class="gravedigger-list" *ngIf="assigningPart==3">
+                    <div class="gravediggerChoice" *ngFor="let gravedigger of gravedigger_list;let k=index;">
+                        <input id="input{{k}}" type="radio" (click)="test(k)" [(ngModel)]="selectedGravediggerToAssign" [ngModelOptions]="{standalone: true}" value="{{k}}">
+                        <label for="input{{k}}">{{"Nr"+gravedigger.gravediggerId+": "+gravedigger.firstName+" "+gravedigger.lastName}}</label>
+                     </div>
+                </div>
+            <!--<div class="inputbox">
                 <input type="number" id="burriedID" [(ngModel)]="assignedBurriedID" name="burriedID" required>
                 <label for="burriedID">ID pochowanego</label>
             </div>
@@ -119,8 +141,8 @@
             <div class="inputbox">
                 <input type="number" id="gravediggerID" [(ngModel)]="assignedGravediggerID" name="gravediggerID" required>
                 <label for="gravediggerID">ID grabarza</label>
-            </div>
-            <button type="submit">Dodaj</button>
+            </div>-->
+            <button type="submit">Przypisz</button>
             </form>
     
         </div>
@@ -131,7 +153,23 @@
         <div class="form-value">
     
             <form (ngSubmit)="unassignBurriedToGrave()">
-    
+                <h3>1. Wybierz grób</h3>
+                <div class="grave-list" *ngIf="unassigningPart==1">
+                    <div class="graveChoice" *ngFor="let grave of grave_list;let j=index;">
+                        <input id="input{{j}}" type="radio" (click)="test(j)" [(ngModel)]="selectedGraveToUnassign" [ngModelOptions]="{standalone: true}" value="{{j}}">
+                        <label for="input{{j}}">{{"Nr"+grave.graveId+": X="+grave.x+" Y="+grave.y}}</label>
+                    </div>
+                    <button (click)="changeUnassigningPart()">Wybierz</button>
+                </div>
+                <h3>2. Wybierz zmarłego do wyciągnięcia</h3>
+                <div class="burried-unassign-list" *ngIf="unassigningPart==2">
+                    <div class="graveChoice" *ngFor="let b of listFromGrave;let j=index;">
+                        <input id="input{{j}}" type="radio" (click)="test(j)" [(ngModel)]="selectedBurriedToUnassign" [ngModelOptions]="{standalone: true}" value="{{j}}">
+                        <label for="input{{j}}">{{"Nr"+b.burriedId+": "+b.name+" "+b.lastname}}</label>
+                    </div>
+                    <button type="submit">Wypisz</button>
+                </div>
+    <!--    
             <div class="inputbox">
                 <input type="number" id="burriedID" [(ngModel)]="unassignedBurriedID" name="burriedID" required>
                 <label for="burriedID">ID pochowanego</label>
@@ -141,7 +179,8 @@
                 <input type="number" id="graveID" [(ngModel)]="unassignedGraveID" name="graveID" required>
                 <label for="graveID">ID grobu</label>
             </div>
-            <button type="submit">Wypisz</button>
+            -->
+
             </form>
     
         </div>

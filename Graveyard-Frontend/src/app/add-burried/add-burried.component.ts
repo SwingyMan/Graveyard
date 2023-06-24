@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { catchError,of } from 'rxjs';
 import { Burried } from '../burried';
+import { Gravedigger } from '../gravedigger';
+import { Grave } from '../grave';
 @Component({
   selector: 'grv-add-burried',
   templateUrl: './add-burried.component.html',
@@ -15,6 +17,8 @@ export class AddBurriedComponent {
   parentComponent:AppComponent;
   pageToShowBurried:number=0;
   burried_list:Burried[]=[];
+  grave_list:Grave[]=[];
+  gravedigger_list:Gravedigger[]=[];
   name:string;
   lastname:string;
   birthdate:Date;
@@ -27,6 +31,9 @@ export class AddBurriedComponent {
   editedBirthdate:Date=new Date;
   editedDeathdate:Date=new Date;
   editedBurialDate:Date=new Date;
+  selectedBurriedToAssign:number=0;
+  selectedGraveToAssign:number=0;
+  selectedGravediggerToAssign:number=0;
   assignedBurriedID:number=0;
   assignedGraveID:number=0;
   assignedGravediggerID:number=0;
@@ -34,6 +41,11 @@ export class AddBurriedComponent {
   deletedBurriedID:number=0;
   unassignedBurriedID:number=0;
   unassignedGraveID:number=0;
+  assigningPart:number=1;
+  unassigningPart:number=1;
+  selectedBurriedToUnassign:number=-1;
+  selectedGraveToUnassign:number=-1;
+  listFromGrave:Burried[]=[]
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
     this.name="";
@@ -41,8 +53,11 @@ export class AddBurriedComponent {
     this.birthdate=new Date;
     this.deathdate=new Date;
     this.getBurriedList();
+    this.getGraveList();
+    this.getGravediggerList();
 
   }
+  public test(i:number){console.log(i)}
   public showAddBurried(){
     this.pageToShowBurried=0;
   }
@@ -56,9 +71,33 @@ export class AddBurriedComponent {
   }
   public showAssignBurried(){
     this.pageToShowBurried=3;
+    this.assigningPart=1;
   }
   public showUnassignBurried(){
     this.pageToShowBurried=4;
+    this.unassigningPart=1;
+  }
+  public changeAssigningPart(){
+    this.assigningPart+=1;
+    if(this.assigningPart>3){this.assigningPart=1;}
+  }
+  public changeUnassigningPart(){
+    this.unassigningPart+=1;
+    if(this.assigningPart>2){this.assigningPart=1;}
+    this.fetchBurriedFromAGrave(this.grave_list[this.selectedGraveToUnassign].graveId);
+  }
+  public fetchBurriedFromAGrave(i:number){
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+    })
+    this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/getBurriedFromGrave/'+i, { headers: header }).subscribe(
+      (data) => {
+        this.getJsonValue = data.valueOf();
+        this.listFromGrave=this.getJsonValue;
+        console.log(data.valueOf())
+      }
+    );
   }
   public getBurriedList(){
     let i:number=0
@@ -82,6 +121,49 @@ export class AddBurriedComponent {
       }
     );
   }
+  public getGraveList(){
+    let i:number=0
+    for(i=0;i<10;i++){
+     this.fetchGraveListFromEndpoint(i);
+    }
+      
+      this.parentComponent.grave_list=this.grave_list; 
+  }
+  public fetchGraveListFromEndpoint(i:number){
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+    })
+    this.http.get('https://graveyard.azurewebsites.net/api/grave/list/'+i, { headers: header }).subscribe(
+      (data) => {
+        this.getJsonValue = data.valueOf();
+        this.grave_list=this.grave_list.concat(this.getJsonValue);
+        console.log(data.valueOf())
+        this.grave_list.sort((a, b) => (a.graveId < b.graveId ? -1 : 1));
+      }
+    );
+  }
+  public getGravediggerList() {
+    let i:number=0
+    for(i=0;i<10;i++){
+     this.fetchGravediggerListFromEndpoint(i);
+    }
+      this.parentComponent.gravedigger_list=this.gravedigger_list; 
+  }
+  public fetchGravediggerListFromEndpoint(i:number){
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+    })
+    this.http.get('https://graveyard.azurewebsites.net/api/Gravedigger/listGravediggers/'+i, { headers: header }).subscribe(
+      (data) => {
+        this.getJsonValue = data.valueOf();
+        this.gravedigger_list=this.gravedigger_list.concat(this.getJsonValue);
+        console.log(data.valueOf())
+        this.gravedigger_list.sort((a, b) => (a.gravediggerId < b.gravediggerId ? -1 : 1));
+      }
+    );
+  }
   public checkAddBurried(){
     if(this.name==""||this.lastname==""||this.birthdate.toString()==""||this.deathdate.toString()==""||this.burialDate.toString()==""){
       this.toastr.error('Niepoprawne dane','Puste pole');
@@ -101,12 +183,35 @@ export class AddBurriedComponent {
     return true;
   }
   public checkAddBurriedToGrave(){
-    if(this.assignedGraveID<1||this.assignedBurriedID<1||this.assignedGravediggerID<1){
+    if(this.grave_list[this.selectedGraveToAssign].graveId<1||this.burried_list[this.selectedBurriedToAssign].burriedId<1||this.gravedigger_list[this.selectedGravediggerToAssign].gravediggerId<1){
       this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
       return false;
     }
-    //jeszcze sprawdzanie endpointów getbyID
-    return true;
+    else{
+      let tempGetJsonValue:any;
+      var listToCheck:Burried[];
+      const header = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+      })
+      this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/getBurriedFromGrave/'+this.grave_list[this.selectedGraveToAssign].graveId, { headers: header }).subscribe(
+        (data) => {
+          tempGetJsonValue = data.valueOf();
+          listToCheck=tempGetJsonValue;
+          console.log(data.valueOf())
+          var check=true;
+          var i:number;
+          for(i=0;i<listToCheck.length;i++){
+              if(listToCheck[i].burriedId==this.burried_list[this.selectedBurriedToAssign].burriedId){
+                check=false;
+                break;
+              }
+          }
+          return check;
+        }
+      );
+    }//nie działa
+    return "Error"
   }
   public addBurried() {
     const httpOptions={
@@ -216,6 +321,10 @@ export class AddBurriedComponent {
     }
   }
   public assignBurriedToGrave(){
+    var graveID=this.grave_list[this.selectedGraveToAssign].graveId;
+    var burriedID=this.burried_list[this.selectedBurriedToAssign].burriedId;
+    var gravediggerID=this.gravedigger_list[this.selectedGravediggerToAssign].gravediggerId;
+    console.log(graveID+" "+burriedID+" "+gravediggerID);
     const httpOptions={
       headers:new HttpHeaders({
         contentType: 'application/json',
@@ -223,7 +332,7 @@ export class AddBurriedComponent {
       })
     };
     if(this.checkAddBurriedToGrave()){
-      this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/addBurriedToGrave/'+this.assignedGraveID+"/"+this.assignedBurriedID+"/"+this.assignedGravediggerID,httpOptions).pipe(
+      this.http.get('https://graveyard.azurewebsites.net/api/GraveBurried/addBurriedToGrave/'+graveID+"/"+burriedID+"/"+gravediggerID, httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
         this.toastr.error('Wystąpił błąd','Błąd przypisywania pochowanego do grobu');
@@ -232,11 +341,12 @@ export class AddBurriedComponent {
         (data)=>{
             console.log(data);
             if(data!=null){
-            this.toastr.success("Pochowany o ID "+this.assignedBurriedID+" przypisany do grobu od ID "+this.assignedGraveID,"Pochowany przypisany do grobu")
+            this.toastr.success("Pochowany o ID "+burriedID+" przypisany do grobu od ID "+graveID,"Pochowany przypisany do grobu")
           }
         }
       )
     }
+    this.changeAssigningPart();
   }
   public unassignBurriedToGrave(){
     var noError=true;
@@ -246,12 +356,17 @@ export class AddBurriedComponent {
         'Authorization': `Bearer ${this.parentComponent.auth_token}`,
       })
     };
-    if(this.unassignedBurriedID<1||this.unassignedGraveID<1){
-      this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
+    if(this.unassigningPart==1){
+      return;
+    }
+    else{if(this.selectedGraveToAssign<0||this.selectedBurriedToUnassign<0){
+      console.log()
       return;
     }//jeszcze po endpoincie sprawdzić czy pochowany o ID wgl istnieje
     else{
-      this.http.delete('https://graveyard.azurewebsites.net/api/GraveBurried/removeBurriedFromGrave/'+this.unassignedGraveID+"/"+this.unassignedBurriedID,httpOptions).pipe(
+      var burried=this.listFromGrave[this.selectedBurriedToUnassign].burriedId;
+      var grave=this.grave_list[this.selectedGraveToUnassign].graveId;
+      this.http.delete('https://graveyard.azurewebsites.net/api/GraveBurried/removeBurriedFromGrave/'+grave+"/"+burried,httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
         noError=false;
@@ -261,11 +376,13 @@ export class AddBurriedComponent {
         (data)=>{
             console.log(data);
             if(noError){
-            this.toastr.success("Pochowany o ID "+this.unassignedBurriedID+" wypisany z grobu o ID "+this.unassignedGraveID,"Pochowany wypisany z grobu")
+              this.toastr.success("Pochowany o ID "+burried+" wypisany z grobu o ID "+grave,"Pochowany wypisany z grobu")
+              this.changeUnassigningPart();
           }
         }
       )
-    }
+    }}
+   
   }
   public reload(){
     this.burried_list=[];
