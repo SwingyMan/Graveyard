@@ -4,20 +4,23 @@ import {HttpHandler,HttpClient,HttpHeaders} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { catchError,of } from 'rxjs';
+import { Burried } from '../burried';
 @Component({
   selector: 'grv-add-burried',
   templateUrl: './add-burried.component.html',
   styleUrls: ['./add-burried.component.css']
 })
 export class AddBurriedComponent {
-
+  getJsonValue:any;
   parentComponent:AppComponent;
   pageToShowBurried:number=0;
+  burried_list:Burried[]=[];
   name:string;
   lastname:string;
   birthdate:Date;
   deathdate:Date;
   burialDate:Date=new Date;
+  selectedBurriedToEdit:number=0;
   editedBurriedID:number=0;
   editedName:string="";
   editedLastname:string="";
@@ -36,6 +39,7 @@ export class AddBurriedComponent {
     this.lastname="";
     this.birthdate=new Date;
     this.deathdate=new Date;
+    this.getBurriedList();
 
   }
   public showAddBurried(){
@@ -53,8 +57,29 @@ export class AddBurriedComponent {
   public showUnassignBurried(){
     this.pageToShowBurried=4;
   }
-
-
+  public getBurriedList(){
+    let i:number=0
+    for(i=0;i<10;i++){
+     this.fetchBurriedListFromEndpoint(i);
+    }
+      
+      this.parentComponent.burried_list=this.burried_list; 
+      console.log("Final list: "+this.burried_list);
+  }
+  public fetchBurriedListFromEndpoint(i:number){
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+    })
+    this.http.get('https://graveyard.azurewebsites.net/api/burried/getAll/'+i, { headers: header }).subscribe(
+      (data) => {
+        this.getJsonValue = data.valueOf();
+        this.burried_list=this.burried_list.concat(this.getJsonValue);
+        console.log(data.valueOf())
+        this.burried_list.sort((a, b) => (a.burriedId < b.burriedId ? -1 : 1));
+      }
+    );
+  }
   public checkAddBurried(){
     if(this.name==""||this.lastname==""||this.birthdate.toString()==""||this.deathdate.toString()==""){
       this.toastr.error('Niepoprawne dane','Puste pole');
@@ -112,6 +137,15 @@ export class AddBurriedComponent {
     }
     console.log("Name: "+this.name+" Lastname: "+this.lastname+" Birthday: "+formatDate(this.birthdate,"yyyy-MM-dd","en-EN")+" Deathday: "+formatDate(this.deathdate,"yyyy-MM-dd","en-EN"))
   }
+  public insertDataToEdit(i:number){
+    var burr=this.burried_list[i];
+    this.editedBurriedID=burr.burriedId;
+    this.editedName=burr.name;
+    this.editedLastname=burr.lastname;
+    this.editedBirthdate=burr.date_of_birth;
+    this.editedDeathdate=burr.date_of_death;
+    this.editedBurialDate=burr.burialDate;
+  }
   public editBurried(){
     const httpOptions={
       headers:new HttpHeaders({
@@ -136,7 +170,7 @@ export class AddBurriedComponent {
         (data)=>{
             console.log(data);
             if(data!=null){
-            this.toastr.success("Nowy pochowany: "+this.name+" "+this.lastname,"Pochowany dodany")
+            this.toastr.success("Nowe dane: "+this.editedName+" "+this.editedLastname+" "+this.editedBirthdate+" "+this.editedDeathdate+" "+this.burialDate,"Nieboszczyk zmodyfikowany")
           }
         }
       )

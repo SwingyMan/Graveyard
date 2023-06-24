@@ -43,13 +43,18 @@
     <div class="form-box" *ngSwitchCase="1">
         <h2>Edytuj pochowanego</h2>
         <div class="form-value">
-    
+            <div class="burried-list">
+                <div class="burriedChoice" *ngFor="let burried of burried_list;let i=index;">
+                    <input id="input{{i}}" type="radio" (click)="insertDataToEdit(i)" [(ngModel)]="selectedBurriedToEdit" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                    <label for="input{{i}}">{{"Nr"+burried.burriedId+": "+burried.name+" "+burried.lastname}}</label>
+                 </div>
+                </div>
             <form (ngSubmit)="editBurried()">
-    
-            <div class="inputbox">
+                
+            <!--<div class="inputbox">
                 <input type="number" id="burriedID" [(ngModel)]="editedBurriedID" name="burriedID" required>
                 <label for="burriedID">ID pochowanego</label>
-            </div>
+            </div> -->
             <div class="inputbox">
                 <input type="text" id="burriedName" [(ngModel)]="editedName" name="burriedName" required>
                 <label for="burriedName">Nowe Imię</label>

@@ -31,11 +31,17 @@
         <h2>Edytuj grabarza</h2>
         <div class="form-value">
         <form (ngSubmit)="editGravedigger()">
-        <div class="inputbox">
+            <div class="gravedigger-list">
+            <div class="gravediggerChoice" *ngFor="let gravedigger of gravedigger_list;let i=index;">
+                <input id="input{{i}}" type="radio" (click)="insertDataToEdit(i)" [(ngModel)]="selectedGravediggerToEdit" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                <label for="input{{i}}">{{"Nr"+gravedigger.gravediggerId+": "+gravedigger.firstName+" "+gravedigger.lastName}}</label>
+             </div>
+            </div>
+       <!-- <div class="inputbox">
             <input type="number" min="1" id="editedGravediggerID" [(ngModel)]="editedGravediggerID" name="editedGravediggerID"
                         required>
             <label for="editedGravediggerID">ID grabarza</label>
-        </div>    
+        </div>    -->
             <div class="inputbox">
                 <input type="text"id="editedGravediggerName" [(ngModel)]="editedName" name="editedGravediggerName" required>
                 <label for="editedGravediggerName">Imię grabarza</label>

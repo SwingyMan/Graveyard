@@ -18,6 +18,7 @@ export class AddGravediggerComponent {
   pageToShowGravedigger:number=0;
   name:string=""
   lastname:string=""
+  selectedGravediggerToEdit:number=0;
   editedGravediggerID:number=0;
   editedName:string="";
   editedLastname:string="";
@@ -36,6 +37,7 @@ export class AddGravediggerComponent {
   }
   public showEditGravedigger(){
     this.pageToShowGravedigger=1;
+    this.reload();
   }
   public showDeleteGravedigger(){
     this.pageToShowGravedigger=2;
@@ -48,10 +50,11 @@ export class AddGravediggerComponent {
   public getGravediggerList() {
     let i:number=0
     for(i=0;i<10;i++){
-      this.fetchGravediggerListFromEndpoint(i);
+     this.fetchGravediggerListFromEndpoint(i);
     }
+      
       this.parentComponent.gravedigger_list=this.gravedigger_list; 
-      console.log(this.gravedigger_list);
+      console.log("Final list: "+this.gravedigger_list);
   }
   public fetchGravediggerListFromEndpoint(i:number){
     const header = new HttpHeaders({
@@ -63,10 +66,12 @@ export class AddGravediggerComponent {
         this.getJsonValue = data.valueOf();
         this.gravedigger_list=this.gravedigger_list.concat(this.getJsonValue);
         console.log(data.valueOf())
+        this.gravedigger_list.sort((a, b) => (a.gravediggerId < b.gravediggerId ? -1 : 1));
       }
     );
   }
   public test(i:number){console.log(i)}
+  
   public addGravedigger(){
     const httpOptions = {
       headers: new HttpHeaders({
@@ -100,7 +105,46 @@ export class AddGravediggerComponent {
   }
   console.log("Name: " + this.name + " Lastname: " + this.lastname)
 }
+public insertDataToEdit(i:number){
+  var gd=this.gravedigger_list[i];
+  this.editedGravediggerID=gd.gravediggerId;
+  this.editedName=gd.firstName;
+  this.editedLastname=gd.lastName
+}
 public editGravedigger(){
+  var noError=true;
+  const httpOptions = {
+      headers: new HttpHeaders({
+        contentType: 'application/json',
+        'Authorization': `Bearer ${this.parentComponent.auth_token}`,
+      })
+  }
+  let body={
+    firstName:this.editedName,
+    lastName:this.editedLastname
+  }
+  if(this.editedGravediggerID<1){
+    this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
+    return;
+  }//jeszcze po endpoincie sprawdzić czy grabarz o ID wgl istnieje
+  else{
+    this.http.patch('https://graveyard.azurewebsites.net/api/Gravedigger/editGravedigger/'+this.editedGravediggerID,body,httpOptions).pipe(
+    catchError((error) => {
+      console.error('Wystąpił błąd:', error);
+      noError=false;
+      this.toastr.error('Wystąpił błąd','Błąd wypisywania pochowanego z grobu');
+      return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+    })).subscribe(
+      (data)=>{
+          console.log(data);
+          if(noError){
+          this.toastr.success("Grabarz o ID "+this.editedGravediggerID+" zmodyfikowany","Nowe dane: "+this.editedName+" "+this.editedLastname);
+          this.gravedigger_list=[];
+          this.reload()
+        }
+      }
+    )
+  }
   console.log("For ID: "+this.editedGravediggerID+" Name: "+this.editedName+" LastName: "+this.editedLastname)
 }
   public deleteGravedigger(){
@@ -111,6 +155,7 @@ public editGravedigger(){
         'Authorization': `Bearer ${this.parentComponent.auth_token}`,
       })
   }
+
   if(this.deletedGravediggerID<1){
     this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
     return;
@@ -127,6 +172,8 @@ public editGravedigger(){
           console.log(data);
           if(noError){
           this.toastr.success("Grabarz o ID "+this.deletedGravediggerID+" usunięty","Usunięto grabarza");
+          this.gravedigger_list=[];
+          this.reload()
         }
       }
     )
@@ -136,8 +183,6 @@ public editGravedigger(){
     this.deletedGravediggerID=this.gravedigger_list[this.selectedGravediggerToDelete].gravediggerId;
     console.log(this.gravedigger_list[this.selectedGravediggerToDelete].gravediggerId);
     this.deleteGravedigger();
-    this.gravedigger_list=[];
-    this.reload()
     //działa ale trzeba guzik kliknąć 2 razy idk why
   }
   public reload(){
