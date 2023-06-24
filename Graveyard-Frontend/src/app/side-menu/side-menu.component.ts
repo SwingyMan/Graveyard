@@ -61,21 +61,22 @@ export class SideMenuComponent {
   showShop() {
     this.parentComponent.page_in_menu = 1;
   }
+  showPlannedBurials(){
+    this.parentComponent.page_in_menu=2;
+  }
 
   showAddBurried() {
-    this.parentComponent.page_in_menu = 2;
+    this.parentComponent.page_in_menu = 3;
   }
 
   showAddGrave() {
-    this.parentComponent.page_in_menu = 3;
+    this.parentComponent.page_in_menu = 4;
   }
   showAddGravedigger(){
-    this.parentComponent.page_in_menu=4;
-  }
-  showAccountManager(){
     this.parentComponent.page_in_menu=5;
   }
-  showPlannedBurials(){
+  
+  showAccountManager(){
     this.parentComponent.page_in_menu=6;
   }
 }

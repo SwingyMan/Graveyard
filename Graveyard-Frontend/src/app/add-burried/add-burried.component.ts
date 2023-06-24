@@ -15,37 +15,50 @@ import { Grave } from '../grave';
 export class AddBurriedComponent {
   getJsonValue:any;
   parentComponent:AppComponent;
+
   pageToShowBurried:number=0;
+
   burried_list:Burried[]=[];
   grave_list:Grave[]=[];
   gravedigger_list:Gravedigger[]=[];
+
   name:string;
   lastname:string;
   birthdate:Date;
   deathdate:Date;
   burialDate:Date=new Date;
+
   selectedBurriedToEdit:number=0;
+
   editedBurriedID:number=0;
   editedName:string="";
   editedLastname:string="";
   editedBirthdate:Date=new Date;
   editedDeathdate:Date=new Date;
   editedBurialDate:Date=new Date;
+
   selectedBurriedToAssign:number=0;
   selectedGraveToAssign:number=0;
   selectedGravediggerToAssign:number=0;
+
   assignedBurriedID:number=0;
   assignedGraveID:number=0;
   assignedGravediggerID:number=0;
+
   selectedBurriedToDelete:number=0;
   deletedBurriedID:number=0;
+
   unassignedBurriedID:number=0;
   unassignedGraveID:number=0;
+
   assigningPart:number=1;
   unassigningPart:number=1;
+
   selectedBurriedToUnassign:number=-1;
   selectedGraveToUnassign:number=-1;
+  
   listFromGrave:Burried[]=[]
+
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
     this.name="";
@@ -57,14 +70,17 @@ export class AddBurriedComponent {
     this.getGravediggerList();
 
   }
+
   public test(i:number){console.log(i)}
   public showAddBurried(){
     this.pageToShowBurried=0;
   }
+
   public showEditBurried(){
     this.pageToShowBurried=1;
     this.reload()
   }
+
   public showDeleteBurried(){
     this.pageToShowBurried=2;
     this.reload()

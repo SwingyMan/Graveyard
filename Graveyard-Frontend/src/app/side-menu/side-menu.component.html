@@ -5,6 +5,10 @@
     <div class="option_button">
         <button (click)="showGraves()">Podgląd grobów</button>
     </div>
+    
+    <div class="option_button">
+        <button (click)="showPlannedBurials()">Kalendarium pogrzebów</button>
+    </div>
 
     <div *ngIf="role == 0 || role == 1" class="option_button">
         <button (click)="showShop()">Sklep online</button>
@@ -17,16 +21,17 @@
     <div *ngIf="role == 1" class="option_button">
         <button (click)="showAddGrave()">Zarządzaj grobami</button>
     </div>
+
     <div *ngIf="role == 1" class="option_button">
         <button (click)="showAddGravedigger()">Zarządzaj grabarzami</button>
     </div>
-    <div *ngIf="role == 1" class="option_button">
-        <button (click)="showPlannedBurials()">Lista zmarłych do pochowania</button>
-    </div>
+
     <section class="bottom_panel">
+
         <div *ngIf="role==1" class="option_button delete_button manage_accounts">
             <button (click)="showAccountManager()">Zarządzaj kontami</button> 
         </div>       
+        
         <div *ngIf="role == 0 || role == 1" class="option_button delete_button">
             <button (click)="deleteSelfUser()" >Usuń konto</button>
         </div>

@@ -32,21 +32,35 @@
         <h2>Edytuj grób</h2>
         <div class="form-value">
             <form (ngSubmit)="editGrave()">
-            <div class="inputbox">
-                <input type="number" min="1" id="editedGraveID" [(ngModel)]="editedGraveID" name="editedGraveID"
-                            required>
-                <label for="editedGraveID">ID grobu</label>
-            </div>    
+
+                <div class="grave-list">
+                    <div class="graveChoice" *ngFor="let grave of grave_list;let i=index;">
+                        <input id="input{{i}}" type="radio" (click)="insertDataToEdit(i)" [(ngModel)]="selectedGraveToEdit" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                        <label for="input{{i}}">{{"Nr: "+grave.graveId+": x: "+grave.x+" y: "+grave.y}} {{grave.status == '1' ? "1 (Opłacony)" : "0 (Nieopłacony)"}} {{grave.validUntil | date: 'MM/dd/yyyy'}}</label>
+                    </div>
+                </div>  
+                
                 <div class="inputbox">
-                    <input type="text"id="editedGraveX" [(ngModel)]="editedX" name="editedGraveX" required>
+                    <input type="text"id="editedGraveX" [(ngModel)]="editedGrave.x" name="editedGraveX" required>
                     <label for="editedGraveX">Nowa współrzędna X
                     </label>
                 </div>
     
                 <div class="inputbox">
-                    <input type="text"  id="editedGraveY" [(ngModel)]="editedY" name="editedGraveY" required>
+                    <input type="text"  id="editedGraveY" [(ngModel)]="editedGrave.y" name="editedGraveY" required>
                     <label for="editedGraveY">Nowa współrzędna Y</label>
                 </div>
+
+                <div class="inputbox">
+                    <input type="text"  id="editedGraveStatus" [(ngModel)]="editedGrave.status" name="editedGraveStatus" required>
+                    <label for="editedGraveStatus">Nowy status</label>
+                </div>
+
+                <div class="inputbox">
+                    <input type="text"  id="editedGraveValidDate" [(ngModel)]="editedGrave.validUntil" name="editedGraveValidDate" required>
+                    <label for="editedGraveValidDate">Nowa data ważności</label>
+                </div>
+
                 <button type="submit">Zmodyfikuj grób</button>
             </form>
             </div>

@@ -142,7 +142,7 @@
                 <input type="number" id="gravediggerID" [(ngModel)]="assignedGravediggerID" name="gravediggerID" required>
                 <label for="gravediggerID">ID grabarza</label>
             </div>-->
-            <button type="submit">Przypisz</button>
+            <button *ngIf="assigningPart==3" type="submit">Przypisz</button>
             </form>
     
         </div>
