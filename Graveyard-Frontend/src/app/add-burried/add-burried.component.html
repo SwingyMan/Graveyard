@@ -32,7 +32,7 @@
                 <label for="deathdate">Data śmierci</label>
             </div>
             <div class="inputboxDate">
-                <input type="date" id="burialDate" [(ngModel)]="burialDate" name="burialDate" required>
+                <input type="datetime-local" id="burialDate" [(ngModel)]="burialDate" name="burialDate" required>
                 <label for="burialDate">Data pochówku</label>
             </div>
             <button type="submit">Dodaj</button>
@@ -74,7 +74,7 @@
                 <label for="deathdate">Nowa data śmierci</label>
             </div>
             <div class="inputboxDate">
-                <input type="date" id="burialDate" [(ngModel)]="editedBurialDate" name="burialDate" required>
+                <input type="datetime-local" id="burialDate" [(ngModel)]="editedBurialDate" name="burialDate" required>
                 <label for="burialDate">Nowa data pochówku</label>
             </div>
             <button type="submit">Zmień</button>
@@ -88,11 +88,14 @@
         <div class="form-value">
     
             <form (ngSubmit)="deleteBurried()">
-    
-            <div class="inputbox">
+                <div class="gravediggerChoice" *ngFor="let burried of burried_list;let i=index;">
+                   <input id="input{{i}}" type="radio" [(ngModel)]="selectedBurriedToDelete" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                   <label for="input{{i}}">{{"Nr"+burried.burriedId+": "+burried.name+" "+burried.lastname}}</label>
+                </div>
+          <!--<div class="inputbox">
                 <input type="number" id="burriedID" [(ngModel)]="deletedBurriedID" name="burriedID" required>
                 <label for="burriedID">ID pochowanego</label>
-            </div>
+            </div>-->  
             <button type="submit">Usuń</button>
             </form>
     

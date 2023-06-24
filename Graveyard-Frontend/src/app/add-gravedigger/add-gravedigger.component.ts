@@ -54,7 +54,6 @@ export class AddGravediggerComponent {
     }
       
       this.parentComponent.gravedigger_list=this.gravedigger_list; 
-      console.log("Final list: "+this.gravedigger_list);
   }
   public fetchGravediggerListFromEndpoint(i:number){
     const header = new HttpHeaders({

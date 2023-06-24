@@ -30,6 +30,7 @@ export class AddBurriedComponent {
   assignedBurriedID:number=0;
   assignedGraveID:number=0;
   assignedGravediggerID:number=0;
+  selectedBurriedToDelete:number=0;
   deletedBurriedID:number=0;
   unassignedBurriedID:number=0;
   unassignedGraveID:number=0;
@@ -47,9 +48,11 @@ export class AddBurriedComponent {
   }
   public showEditBurried(){
     this.pageToShowBurried=1;
+    this.reload()
   }
   public showDeleteBurried(){
     this.pageToShowBurried=2;
+    this.reload()
   }
   public showAssignBurried(){
     this.pageToShowBurried=3;
@@ -64,7 +67,6 @@ export class AddBurriedComponent {
     }
       
       this.parentComponent.burried_list=this.burried_list; 
-      console.log("Final list: "+this.burried_list);
   }
   public fetchBurriedListFromEndpoint(i:number){
     const header = new HttpHeaders({
@@ -81,7 +83,7 @@ export class AddBurriedComponent {
     );
   }
   public checkAddBurried(){
-    if(this.name==""||this.lastname==""||this.birthdate.toString()==""||this.deathdate.toString()==""){
+    if(this.name==""||this.lastname==""||this.birthdate.toString()==""||this.deathdate.toString()==""||this.burialDate.toString()==""){
       this.toastr.error('Niepoprawne dane','Puste pole');
       return false
     } //zwraca error podczas konwersji pustego Date ale działa
@@ -171,15 +173,18 @@ export class AddBurriedComponent {
             console.log(data);
             if(data!=null){
             this.toastr.success("Nowe dane: "+this.editedName+" "+this.editedLastname+" "+this.editedBirthdate+" "+this.editedDeathdate+" "+this.burialDate,"Nieboszczyk zmodyfikowany")
+            this.reload();
           }
         }
       )
     }
     console.log("Name: "+this.editedName+" Lastname: "+this.editedLastname+" Birthday: "+formatDate(this.editedBirthdate,"yyyy-MM-dd","en-EN")+" Deathday: "+formatDate(this.editedDeathdate,"yyyy-MM-dd","en-EN"))
-  
+
   }
   
   public deleteBurried(){
+    this.deletedBurriedID=this.burried_list[this.selectedBurriedToDelete].burriedId;
+    console.log(this.deletedBurriedID);
     var noError=true;
     const httpOptions={
       headers:new HttpHeaders({
@@ -203,9 +208,11 @@ export class AddBurriedComponent {
             console.log(data);
             if(noError){
             this.toastr.success("Pochowany o ID "+this.deletedBurriedID+" usunięty","Pochowany usunięty")
+            this.reload()
           }
         }
       )
+
     }
   }
   public assignBurriedToGrave(){
@@ -259,5 +266,9 @@ export class AddBurriedComponent {
         }
       )
     }
+  }
+  public reload(){
+    this.burried_list=[];
+    this.getBurriedList();
   }
 }
