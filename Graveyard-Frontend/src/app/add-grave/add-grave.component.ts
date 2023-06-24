@@ -4,6 +4,7 @@ import { HttpHandler, HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, of } from 'rxjs';
 import { Grave } from '../grave';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'grv-add-grave',
   templateUrl: './add-grave.component.html',
@@ -16,7 +17,8 @@ export class AddGraveComponent {
   y: number;
   pageToShowGraves:number=0;
   selectedGraveToEdit:number=0;
-  deletedGraveID: number = 0;
+  selectedGraveToDelete:number=0;
+  deletedGraveId:number=0
   public getJsonValue: any;
   public postJsonValue: any;
 
@@ -145,8 +147,6 @@ export class AddGraveComponent {
     let body={
       x: this.editedGrave.x,
       y: this.editedGrave.y,
-      status: this.editedGrave.status,
-      validUntil: this.editedGrave.validUntil,
     }
     if(this.editedGrave.graveId<1){
       this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
@@ -172,6 +172,12 @@ export class AddGraveComponent {
     }
   }
 
+  public deleteGravePlus(form:NgForm){
+    this.deletedGraveId=this.grave_list[this.selectedGraveToDelete].graveId;
+    console.log(this.grave_list[this.selectedGraveToDelete].graveId);
+    this.deleteGrave();
+    //działa ale trzeba guzik kliknąć 2 razy idk why
+  }
 
   public deleteGrave() {
     var noError = true;
@@ -181,26 +187,21 @@ export class AddGraveComponent {
         'Authorization': `Bearer ${this.parentComponent.auth_token}`,
       })
     };
-    if (this.deletedGraveID < 1) {
-      this.toastr.error('Niepoprawne dane', 'ID musi być większe od 0');
-      return;
-    }//jeszcze po endpoincie sprawdzić czy pochowany o ID wgl istnieje
-    else {
-      this.http.delete('https://graveyard.azurewebsites.net/api/Grave/delete/' + this.deletedGraveID, httpOptions).pipe(
-        catchError((error) => {
-          console.error('Wystąpił błąd:', error);
-          noError = false;
-          this.toastr.error('Wystąpił błąd', 'Błąd wypisywania pochowanego z grobu');
-          return of(null); // Zwracamy wartość null, aby obsłużyć błąd
-        })).subscribe(
-          (data) => {
-            console.log(data);
-            if (noError) {
-              this.toastr.success("Grób o ID " + this.deletedGraveID + " usunięty", "Grób usunięty")
-            }
+    this.http.delete('https://graveyard.azurewebsites.net/api/Grave/delete/' + this.deletedGraveId, httpOptions).pipe(
+      catchError((error) => {
+        console.error('Wystąpił błąd:', error);
+        noError = false;
+        this.toastr.error('Wystąpił błąd', 'Błąd wypisywania pochowanego z grobu');
+        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+      })).subscribe(
+        (data) => {
+          console.log(data);
+          if (noError) {
+            this.toastr.success("Grób o ID " + this.deletedGraveId + " usunięty", "Grób usunięty")
           }
-        )
-    }
+        }
+    )
+    this.reload()
   }
 
   public reload(){

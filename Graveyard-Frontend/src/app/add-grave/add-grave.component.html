@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="showComponent">
     <div class="upper-navbar">
         <button (click)="showAddGrave()">Dodawanie</button>
         <button (click)="showEditGrave()">Edytowanie</button>
@@ -39,7 +39,7 @@
                         <label for="input{{i}}">{{"Nr: "+grave.graveId+": x: "+grave.x+" y: "+grave.y}} {{grave.status == '1' ? "1 (Opłacony)" : "0 (Nieopłacony)"}} {{grave.validUntil | date: 'MM/dd/yyyy'}}</label>
                     </div>
                 </div>  
-                
+
                 <div class="inputbox">
                     <input type="text"id="editedGraveX" [(ngModel)]="editedGrave.x" name="editedGraveX" required>
                     <label for="editedGraveX">Nowa współrzędna X
@@ -51,16 +51,6 @@
                     <label for="editedGraveY">Nowa współrzędna Y</label>
                 </div>
 
-                <div class="inputbox">
-                    <input type="text"  id="editedGraveStatus" [(ngModel)]="editedGrave.status" name="editedGraveStatus" required>
-                    <label for="editedGraveStatus">Nowy status</label>
-                </div>
-
-                <div class="inputbox">
-                    <input type="text"  id="editedGraveValidDate" [(ngModel)]="editedGrave.validUntil" name="editedGraveValidDate" required>
-                    <label for="editedGraveValidDate">Nowa data ważności</label>
-                </div>
-
                 <button type="submit">Zmodyfikuj grób</button>
             </form>
             </div>
@@ -69,12 +59,12 @@
         <h2>Usuń grób</h2>
         <div class="form-value">
 
-            <form (ngSubmit)="deleteGrave()">
-
-                <div class="inputbox">
-                    <input type="number" min="1" id="deletedGraveID" [(ngModel)]="deletedGraveID" name="deletedGraveID"
-                        required>
-                    <label for="deletedGraveID">ID grobu</label>
+            <form #myForm="ngForm" (ngSubmit)="deleteGravePlus(myForm)">
+                <div class="grave-list">
+                    <div class="graveChoice" *ngFor="let grave of grave_list;let i=index;">
+                        <input id="input{{i}}" type="radio" (click)="insertDataToEdit(i)" [(ngModel)]="selectedGraveToDelete" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                        <label for="input{{i}}">{{"Nr: "+grave.graveId+": x: "+grave.x+" y: "+grave.y}} {{grave.status == '1' ? "1 (Opłacony)" : "0 (Nieopłacony)"}} {{grave.validUntil | date: 'MM/dd/yyyy'}}</label>
+                    </div>
                 </div>
                 <button type="submit">Usuń grób</button>
             </form>
