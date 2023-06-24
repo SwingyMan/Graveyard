@@ -60,6 +60,14 @@
     background: #e44b48;
 }
 
+.manage_button button {
+    background: #00A981;
+}
+
+.manage_button button:hover {
+    background: #00bd91;
+}
+
 @media screen and (max-width: 1024px) {
     .main_box {
         width: 35vw;
