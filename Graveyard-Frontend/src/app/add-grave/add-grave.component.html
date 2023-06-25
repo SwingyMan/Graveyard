@@ -3,23 +3,21 @@
         <button (click)="showAddGrave()">Dodawanie</button>
         <button (click)="showEditGrave()">Edytowanie</button>
         <button (click)="showDeleteGrave()">Usuwanie</button>
-        </div>
+    </div>
     <div class="form-space" [ngSwitch]="pageToShowGraves">
-    <div class="form-box-addGrave" *ngSwitchCase="0">
+    <div class="form-box addGrave" *ngSwitchCase="0">
         <h2>Dodaj grób</h2>
         <div class="form-value">
 
             <form (ngSubmit)="addGrave()">
 
                 <div class="inputbox">
-                    <i class="fa-solid fa-x"></i>
-                    <input type="number" min="1" id="graveX" [(ngModel)]="x" name="graveX" required>
+                    <input type="text" min="1" id="graveX" [(ngModel)]="x" name="graveX" required>
                     <label for="graveX">Współrzędna X</label>
                 </div>
 
                 <div class="inputbox">
-                    <i class="fa-solid fa-y"></i>
-                    <input type="number" min="1" id="graveY" [(ngModel)]="y" name="graveY" required>
+                    <input type="text" min="1" id="graveY" [(ngModel)]="y" name="graveY" required>
                     <label for="graveY">Współrzędna Y</label>
                 </div>
 
@@ -28,7 +26,7 @@
 
         </div>
     </div>
-    <div class="form-box-editGrave" *ngSwitchCase="1">
+    <div class="form-box editGrave" *ngSwitchCase="1">
         <h2>Edytuj grób</h2>
         <div class="form-value">
             <form (ngSubmit)="editGrave()">
@@ -55,7 +53,7 @@
             </form>
             </div>
     </div>
-    <div class="form-box-deleteGrave" *ngSwitchCase="2">
+    <div class="form-box deleteGrave" *ngSwitchCase="2">
         <h2>Usuń grób</h2>
         <div class="form-value">
 

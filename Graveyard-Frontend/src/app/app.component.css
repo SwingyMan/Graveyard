@@ -44,3 +44,65 @@ grv-graves {
     display: flex;
     justify-content: center;
 }
+
+grv-planned-burrials-list {
+    height: 100vh;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+}
+
+grv-add-burried {
+    height: 100vh;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+}
+
+grv-add-grave {
+    height: 100vh;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+}
+
+grv-add-gravedigger {
+    height: 100vh;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+}
+
+grv-delete-accounts {
+    height: 100vh;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+}
+
+.background-opacity::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--bg-image-color);
+    opacity: var(--bg-image-opacity);
+}
+
+.background-photo {
+    height: 100vh;
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg1 {
+    background-image: url('gravepic.jpg');
+    background-attachment: fixed;
+    --bg-image-opacity: 0.95;
+    --bg-image-color: #FAF8FF;
+
+    position: relative;
+    isolation: isolate;
+}

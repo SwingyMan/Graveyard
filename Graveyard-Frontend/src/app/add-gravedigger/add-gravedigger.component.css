@@ -1,0 +1,140 @@
+section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.upper-navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.upper-navbar button {
+    padding: 10px 25px;
+    margin: 15px;
+
+    border-radius: 10px;
+    background: #302d55;
+    color: #FAF8FF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.upper-navbar button:hover {
+    background: #00A981;
+}
+
+form div {
+    margin: 10px;
+}
+
+form {
+    display: grid;
+}
+
+form button {
+    justify-self: center;
+}
+
+.form-box {
+    position: relative;
+    width: 600px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+
+    font-size: 2em;
+    color: #5F5C6D;
+    text-align: center;
+  }
+  
+  .inputbox {
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #5F5C6D;
+  }
+  
+  .inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #5F5C6D;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .2s;
+  }
+  
+  input:focus ~ label,
+  input:valid ~ label {
+    top: -5px;
+  }
+  
+  .inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+    color: #302d55;
+  }
+  
+  .inputbox fa-icon {
+    position: absolute;
+    right: 8px;
+    color: #302d55;
+    font-size: 1.2em;
+    top: 20px;
+  }
+  
+  button {
+    padding: 10px 25px;
+
+    width: 100%;
+    height: 55px;
+    border-radius: 10px;
+    background: #302d55;
+    color: #FAF8FF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: .2s;
+  }
+  
+  button:hover {
+    background: #00A981;
+  }
+
+  .burriedChoice {
+    margin: 5px;
+  }
+
+  .burried-list, .grave-list {
+    display: grid;
+  }
+
+  .burried-list button {
+    justify-self: center;
+  }
+
+  button[type="submit"], .btn-submit {
+    justify-self: center;
+    height: 55px;
+    width: 60%;
+  }

@@ -112,7 +112,7 @@
                         <input id="input{{i}}" type="radio" (click)="test(i)" [(ngModel)]="selectedBurriedToAssign" [ngModelOptions]="{standalone: true}" value="{{i}}">
                         <label for="input{{i}}">{{"Nr"+burried.burriedId+": "+burried.name+" "+burried.lastname}}</label>
                      </div>
-                     <button (click)="changeAssigningPart()">Wybierz</button>
+                     <button class="btn-submit" (click)="changeAssigningPart()">Wybierz</button>
                 </div>
                 <h3>2. Wybierz grób</h3>
                 <div class="grave-list" *ngIf="assigningPart==2">
@@ -120,7 +120,7 @@
                         <input id="input{{j}}" type="radio" (click)="test(j)" [(ngModel)]="selectedGraveToAssign" [ngModelOptions]="{standalone: true}" value="{{j}}">
                         <label for="input{{j}}">{{"Nr"+grave.graveId+": X="+grave.x+" Y="+grave.y}}</label>
                      </div>
-                     <button (click)="changeAssigningPart()">Wybierz</button>
+                     <button class="btn-submit" (click)="changeAssigningPart()">Wybierz</button>
                 </div>
                 <h3>3. Wybierz grabarza</h3>
                 <div class="gravedigger-list" *ngIf="assigningPart==3">
@@ -159,7 +159,7 @@
                         <input id="input{{j}}" type="radio" (click)="test(j)" [(ngModel)]="selectedGraveToUnassign" [ngModelOptions]="{standalone: true}" value="{{j}}">
                         <label for="input{{j}}">{{"Nr"+grave.graveId+": X="+grave.x+" Y="+grave.y}}</label>
                     </div>
-                    <button (click)="changeUnassigningPart()">Wybierz</button>
+                    <button class="btn-submit" (click)="changeUnassigningPart()">Wybierz</button>
                 </div>
                 <h3>2. Wybierz zmarłego do wyciągnięcia</h3>
                 <div class="burried-unassign-list" *ngIf="unassigningPart==2">

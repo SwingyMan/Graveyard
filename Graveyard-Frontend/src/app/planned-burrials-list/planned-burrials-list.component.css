@@ -1,3 +1,26 @@
+section {
+    margin: 6vh 2vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #302d55;
+    font-size: large;
+}
+
+table {
+    margin: 5vh 5vw;
+    text-align: center;
+}
+
+th, td {
+    padding: 1vh;
+}
+
+td {
+    border-top: 1px solid #302d55;
+}
+
 table,tr,th{
-    border: 1px solid black;
+    border: 1px solid #302d55;
 }
