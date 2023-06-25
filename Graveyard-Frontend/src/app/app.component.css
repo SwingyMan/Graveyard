@@ -100,7 +100,7 @@ grv-delete-accounts {
 .bg1 {
     background-image: url('gravepic.jpg');
     background-attachment: fixed;
-    --bg-image-opacity: 0.95;
+    --bg-image-opacity: 0.9;
     --bg-image-color: #FAF8FF;
 
     position: relative;
