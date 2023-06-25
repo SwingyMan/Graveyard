@@ -7,15 +7,44 @@
         <div class="form-box" *ngSwitchCase="0">
             <h2>Edytuj konto</h2>
             <div class="form-value">
-    
+                <div class="account-list">
+                    <div class="accountChoice" *ngFor="let account of account_list;let i=index;">
+                        <input id="input{{i}}" type="radio" (click)="insertDataToEdit(i)" [(ngModel)]="selectedAccountToEdit" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                        <label for="input{{i}}">{{"Nr"+account.customerId+": "+account.name+" "+account.lastName}}</label>
+                     </div>
+                </div>
                 <form (ngSubmit)="editAccount()">
-    
                     <div class="inputbox">
+                        <input type="text" id="burriedName" [(ngModel)]="editedName" name="burriedName" required>
+                        <label for="burriedName">Nowe Imię</label>
+                    </div>
+            
+                    <div class="inputbox">
+                        <input type="text" id="burriedLastname" [(ngModel)]="editedLastname" name="burriedLastname" required>
+                        <label for="burriedLastname">Nowe nazwisko</label>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" id="birthdate" [(ngModel)]="editedEmail" name="birthdate" required>
+                        <label for="birthdate">Nowy email</label>
+                    </div>
+                    <div class="inputbox">
+        
+                        <input type="text" id="deathdate" [(ngModel)]="editedPassword" name="deathdate" required>
+                        <label for="deathdate">Nowe hasło (zostawić puste, aby nie zmienić)</label>
+                    </div>
+                    <div class="inputbox">
+                        <select id="burialDate"  name="burialDate"[(ngModel)]="editedRole" required>
+                                <option value="User">Użytkownik</option>
+                                <option value="Administrator">Administrator</option>
+                        </select>
+                        <label for="burialDate">Nowa rola</label>
+                    </div>
+                    <!--<div class="inputbox">
                         <input type="number" min="1" id="deletedAccountID" [(ngModel)]="deletedAccountID" name="deletedAccountID"
                             required>
                         <label for="deletedAccountID">ID konta</label>
-                    </div>
-                    <button type="submit">Usuń konto</button>
+                    </div>-->
+                    <button type="submit">Edytuj konto</button>
                 </form>
     
             </div>
@@ -23,14 +52,20 @@
         <div class="form-box" *ngSwitchCase="1">
         <h2>Usuń konto</h2>
         <div class="form-value">
-
             <form (ngSubmit)="deleteAccount()">
+            <div class="account-list">
+                <div class="accountChoice" *ngFor="let account of account_list;let i=index;">
+                    <input id="input{{i}}" type="radio" [(ngModel)]="selectedAccountToDelete" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                    <label for="input{{i}}">{{"Nr"+account.customerId+": "+account.name+" "+account.lastName}}</label>
+                 </div>
+            </div>
+           
 
-                <div class="inputbox">
+               <!-- <div class="inputbox">
                     <input type="number" min="1" id="deletedAccountID" [(ngModel)]="deletedAccountID" name="deletedAccountID"
                         required>
                     <label for="deletedAccountID">ID konta</label>
-                </div>
+                </div>-->
                 <button type="submit">Usuń konto</button>
             </form>
 

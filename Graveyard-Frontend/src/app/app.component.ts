@@ -32,7 +32,7 @@ export class AppComponent {
     customerId: -1,
     date_of_creation: new Date(),
     email: '',
-    lastname: '',
+    lastName: '',
     name: '',
     owned_role: -1,
     password: ''

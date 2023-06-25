@@ -63,8 +63,8 @@ export class RegisterComponent implements OnInit {
       firstName: this.firstname,
       lastName: this.lastname
     };
-
-    if (this.parentComponent.switch_login) this.http.post('https://graveyard.azurewebsites.net/api/customer/register', body, httpOptions).pipe(
+    console.log(body)
+    if (this.parentComponent.switch_login) this.http.post('https://graveyard.azurewebsites.net/api/Customer/register', body, httpOptions).pipe(
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
         this.toastr.error('Niepoprawne dane','Błąd rejstracji');

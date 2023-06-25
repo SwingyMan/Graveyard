@@ -3,7 +3,7 @@ export interface User {
     customerId: number;
     date_of_creation: Date;
     email: string;
-    lastname: string;
+    lastName: string;
     name: string;
     owned_role: number;
     password: string;
