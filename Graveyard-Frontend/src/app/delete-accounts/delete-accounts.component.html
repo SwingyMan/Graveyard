@@ -1,5 +1,26 @@
 <section>
-    <div class="form-box">
+    <div class="upper-navbar">
+        <button (click)="showEditAccounts()">Edytowanie</button>
+        <button (click)="showDeleteAccounts()">Usuwanie</button>
+    </div> 
+    <div class="form-space" [ngSwitch]="pageToShowAccounts">
+        <div class="form-box" *ngSwitchCase="0">
+            <h2>Edytuj konto</h2>
+            <div class="form-value">
+    
+                <form (ngSubmit)="editAccount()">
+    
+                    <div class="inputbox">
+                        <input type="number" min="1" id="deletedAccountID" [(ngModel)]="deletedAccountID" name="deletedAccountID"
+                            required>
+                        <label for="deletedAccountID">ID konta</label>
+                    </div>
+                    <button type="submit">Usuń konto</button>
+                </form>
+    
+            </div>
+        </div>
+        <div class="form-box" *ngSwitchCase="1">
         <h2>Usuń konto</h2>
         <div class="form-value">
 
@@ -13,6 +34,7 @@
                 <button type="submit">Usuń konto</button>
             </form>
 
+        </div>
         </div>
     </div>
 </section>
