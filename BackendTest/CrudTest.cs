@@ -1,12 +1,14 @@
 ﻿using Graveyard_Backend.IRepositories;
 using Graveyard_Backend.Repositories;
 using Moq;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace BackendTest
 {
@@ -30,14 +32,34 @@ namespace BackendTest
         Test falseEntity = new Test(2, "else");
 
 
+        [Test]
+        public void AddEntity_ReturnEntity()
+        {
+            var mockEntity = new Mock<ICRUDRepository<Test>>();
+            mockEntity.Setup(x => x.add(testEntity)).ReturnsAsync(testEntity);
+            var crud = new CRUDRepository<Test>(mockEntity.Object);
+            var result = crudRepository.add(testEntity);
+
+
+            NUnit.Framework.Assert.AreEqual(mockEntity.Name, "test");
+
+
+
+
+
+        }
+
+
+
+
         [Fact]
         public void Add_Entity_ExpectedBehaviour()
         {
             string testName = "test";
             mockRepository.Setup(x => x.add(testEntity)).ReturnsAsync(testEntity);
             var result = crudRepository.add(testEntity);
-            Assert.NotNull(result);
-            Assert.Equal(testEntity.Name, testName);
+            Xunit.Assert.NotNull(result);
+            Xunit.Assert.Equal(testEntity.Name, testName);
       
             
         }
@@ -48,7 +70,7 @@ namespace BackendTest
             Test testEntity = new Test(1, "test");
             mockRepository.Setup(x => x.getByID(1)).ReturnsAsync(testEntity);
             var result = crudRepository.getByID(1);
-            Assert.NotNull(result);
+            Xunit.Assert.NotNull(result);
         }
         [Fact]
         public void GetAllFromGenericRepository()
