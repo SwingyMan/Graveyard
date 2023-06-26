@@ -12,32 +12,32 @@ using Xunit;
 
 namespace BackendTest
 {
-	public class Test
+	public class TestEnt
     {
         [Key]
         public int ID { get; set; }
         public string Name { get; set; }
-        public Test() { }
-        public Test(int id,string name) {
+        public TestEnt() { }
+        public TestEnt(int id,string name) {
             ID = id;
         this.Name = name;
         }
     }
     public class CrudTest
     {
-        Mock<ICRUDRepository<Test>> mockRepository = new Mock<ICRUDRepository<Test>>();
-        CRUDRepository<Test> crudRepository = new CRUDRepository<Test>();
-        List<Test> tests = new List<Test>();
-        Test testEntity = new Test(1, "test");
-        Test falseEntity = new Test(2, "else");
+        Mock<ICRUDRepository<TestEnt>> mockRepository = new Mock<ICRUDRepository<TestEnt>>();
+        CRUDRepository<TestEnt> crudRepository = new CRUDRepository<TestEnt>();
+        List<TestEnt> tests = new List<TestEnt>();
+        TestEnt testEntity = new TestEnt(1, "test");
+        TestEnt falseEntity = new TestEnt(2, "else");
 
 
         [Test]
         public void AddEntity_ReturnEntity()
         {
-            var mockEntity = new Mock<ICRUDRepository<Test>>();
+            var mockEntity = new Mock<ICRUDRepository<TestEnt>>();
             mockEntity.Setup(x => x.add(testEntity)).ReturnsAsync(testEntity);
-            var crud = new CRUDRepository<Test>(mockEntity.Object);
+            //var crud = new CRUDRepository<Test>(mockEntity.Object);
             var result = crudRepository.add(testEntity);
 
 
@@ -67,7 +67,7 @@ namespace BackendTest
         public void GetByID_Entity_ExpectedBehaviour()
         {
 
-            Test testEntity = new Test(1, "test");
+            TestEnt testEntity = new TestEnt(1, "test");
             mockRepository.Setup(x => x.getByID(1)).ReturnsAsync(testEntity);
             var result = crudRepository.getByID(1);
             Xunit.Assert.NotNull(result);
