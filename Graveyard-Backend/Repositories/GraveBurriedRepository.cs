@@ -14,13 +14,12 @@ public class GraveBurriedRepository : CRUDRepository<GraveBurried>, IGraveBurrie
         _contextModel = contextModel;
     }
 
-    public async Task<GraveBurried> addBurriedToGrave(int BurriedId, int GraveId, int gravediggerId,
-        DateTime burialDate)
+    public async Task<GraveBurried> addBurriedToGrave(int BurriedId, int GraveId, int gravediggerId)
     {
         var gravedigger = await _contextModel.Gravediggers.FirstOrDefaultAsync(x => x.GravediggerId == gravediggerId);
         var burried = await _contextModel.Burried.FirstOrDefaultAsync(x => x.BurriedId == BurriedId);
         var grave = await _contextModel.Grave.FirstOrDefaultAsync(x => x.GraveId == GraveId);
-        var graveburried = new GraveBurried(burried, grave, gravedigger, burialDate);
+        var graveburried = new GraveBurried(burried, grave, gravedigger);
         await _contextModel.GraveBurried.AddAsync(graveburried);
         await _contextModel.SaveChangesAsync();
         return graveburried;

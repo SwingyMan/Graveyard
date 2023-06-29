@@ -60,10 +60,20 @@ public class CRUDRepository<T> : ICRUDRepository<T> where T : class
     public async Task<T> updateByID(int id, T entity)
     {
         var entity1 = await table.FindAsync(id);
-        var properties = typeof(T).GetProperties();
-        foreach (var property in properties)
-            if (property.GetValue(entity, null) != null)
-                property.SetValue(entity, entity1, null);
+
+
+        var entityType = typeof(T);
+        var properties = entityType.GetProperties();
+
+        foreach (var property in properties.Skip(1))
+        {
+            var newValue = property.GetValue(entity);
+            if (newValue != null)
+            {
+                property.SetValue(entity1, newValue);
+            }
+        }
+
         await _contextModel.SaveChangesAsync();
         return entity1;
     }
