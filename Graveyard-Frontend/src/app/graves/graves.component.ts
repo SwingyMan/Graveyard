@@ -49,6 +49,7 @@ export class GravesComponent implements OnInit {
       (data) => {
         this.getJsonValue = data.valueOf();
         this.grave_list = this.getJsonValue;
+        this.grave_list.sort((a, b) => (a.graveId < b.graveId ? -1 : 1));
       }
     );
 
@@ -66,6 +67,8 @@ export class GravesComponent implements OnInit {
         this.getJsonValue = data.valueOf();
         this.burrieds_in_grave = this.getJsonValue
         this.selected_grave = id;
+
+
       }
     );
   }
