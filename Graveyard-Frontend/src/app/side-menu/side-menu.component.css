@@ -1,0 +1,68 @@
+.main_box {
+    height: 100vh;
+    background: #302d55;
+    color: #FAF8FF;
+    width: 15vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main_box h2 {
+    margin: 2vh 0 1vh 0;
+}
+
+.main_box span {
+    margin: 0 0 2vh 0;
+}
+
+.main_box div {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.option_button button {
+    width: 80%;
+    margin: 1vh 0;
+    padding: 1vh 0;
+
+    border-radius: 10px;
+    background: #605B87;
+    color: #FAF8FF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    transition: .2s;
+}
+
+.bottom_panel {
+    margin-bottom: 2vh;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.option_button button:hover {
+    background: #00A981;
+}
+
+.delete_button button {
+    background: #aa2e2c;
+}
+
+.delete_button button:hover {
+    background: #e44b48;
+}
+
+@media screen and (max-width: 1024px) {
+    .main_box {
+        width: 35vw;
+    }
+}

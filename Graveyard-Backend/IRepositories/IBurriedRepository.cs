@@ -4,6 +4,7 @@ namespace Graveyard_Backend.IRepositories;
 
 public interface IBurriedRepository : ICRUDRepository<Burried>
 {
-    public Task<Burried> UpdateById(int id, DTOs.Burried burriedDto);
+    public Task<Burried> UpdateById(int id, Burried burried);
+    public Task<List<Burried>> GetToBeBurried();
 
 }

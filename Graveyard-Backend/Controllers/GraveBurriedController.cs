@@ -20,7 +20,7 @@ public class GraveBurriedController : ControllerBase
     public async Task<IActionResult> addBurriedToGrave(int burriedId, int GraveId, int gravediggerId,
         DateTime burialDate)
     {
-        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId, gravediggerId, burialDate));
+        return Ok(await _graveBurriedService.addBurriedToGrave(burriedId, GraveId, gravediggerId));
     }
 
     [HttpDelete("{GraveId}/{burriedId}")]

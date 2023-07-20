@@ -30,23 +30,26 @@ namespace Graveyard_Backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BurriedId"));
 
-                    b.Property<DateOnly>("date_of_birth")
+                    b.Property<DateTime>("BurialDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateOnly>("Date_of_birth")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("date_of_death")
+                    b.Property<DateOnly>("Date_of_death")
                         .HasColumnType("date");
 
-                    b.Property<string>("lastname")
+                    b.Property<string>("Lastname")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("BurriedId");
 
-                    b.ToTable("burried");
+                    b.ToTable("Burried");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.Cart", b =>
@@ -82,7 +85,7 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasIndex("PurchaseHistoryShopHistoryId");
 
-                    b.ToTable("carts");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.Customer", b =>
@@ -119,7 +122,7 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasIndex("Email", "Password");
 
-                    b.ToTable("customer");
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.Grave", b =>
@@ -130,10 +133,10 @@ namespace Graveyard_Backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GraveId"));
 
-                    b.Property<int>("status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("validUntil")
+                    b.Property<DateTime>("ValidUntil")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("x")
@@ -144,7 +147,7 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasKey("GraveId");
 
-                    b.ToTable("grave");
+                    b.ToTable("Grave");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.GraveBurried", b =>
@@ -164,9 +167,6 @@ namespace Graveyard_Backend.Migrations
                     b.Property<int>("GravediggerId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("burialDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.HasKey("BurriedGraveId");
 
                     b.HasIndex("BurriedId");
@@ -175,7 +175,7 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasIndex("GravediggerId");
 
-                    b.ToTable("graveBurried");
+                    b.ToTable("GraveBurried");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.Gravedigger", b =>
@@ -230,7 +230,7 @@ namespace Graveyard_Backend.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.ToTable("item");
+                    b.ToTable("Item");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.PurchaseHistory", b =>
@@ -244,44 +244,44 @@ namespace Graveyard_Backend.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<DateOnly>("Date_of_purchase")
+                        .HasColumnType("date");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<DateOnly>("date_of_purchase")
-                        .HasColumnType("date");
-
                     b.HasKey("ShopHistoryId");
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("purchaseHistory");
+                    b.ToTable("PurchaseHistory");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.Cart", b =>
                 {
                     b.HasOne("Graveyard_Backend.Models.Customer", "Customer")
-                        .WithMany("carts")
+                        .WithMany("Carts")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Graveyard_Backend.Models.Grave", "Grave")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("GraveId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Graveyard_Backend.Models.Item", "Items")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Graveyard_Backend.Models.PurchaseHistory", null)
-                        .WithMany("cart")
+                        .WithMany("Cart")
                         .HasForeignKey("PurchaseHistoryShopHistoryId");
 
                     b.Navigation("Customer");
@@ -293,14 +293,14 @@ namespace Graveyard_Backend.Migrations
 
             modelBuilder.Entity("Graveyard_Backend.Models.GraveBurried", b =>
                 {
-                    b.HasOne("Graveyard_Backend.Models.Burried", "burried")
-                        .WithMany("BurriedGraves")
+                    b.HasOne("Graveyard_Backend.Models.Burried", "Burried")
+                        .WithMany()
                         .HasForeignKey("BurriedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Graveyard_Backend.Models.Grave", "grave")
-                        .WithMany("BurriedGraves")
+                    b.HasOne("Graveyard_Backend.Models.Grave", "Grave")
+                        .WithMany()
                         .HasForeignKey("GraveId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -311,49 +311,32 @@ namespace Graveyard_Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Burried");
+
+                    b.Navigation("Grave");
+
                     b.Navigation("Gravedigger");
-
-                    b.Navigation("burried");
-
-                    b.Navigation("grave");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.PurchaseHistory", b =>
                 {
-                    b.HasOne("Graveyard_Backend.Models.Customer", "customer")
+                    b.HasOne("Graveyard_Backend.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("customer");
-                });
-
-            modelBuilder.Entity("Graveyard_Backend.Models.Burried", b =>
-                {
-                    b.Navigation("BurriedGraves");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.Customer", b =>
-                {
-                    b.Navigation("carts");
-                });
-
-            modelBuilder.Entity("Graveyard_Backend.Models.Grave", b =>
-                {
-                    b.Navigation("BurriedGraves");
-
-                    b.Navigation("Carts");
-                });
-
-            modelBuilder.Entity("Graveyard_Backend.Models.Item", b =>
                 {
                     b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("Graveyard_Backend.Models.PurchaseHistory", b =>
                 {
-                    b.Navigation("cart");
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

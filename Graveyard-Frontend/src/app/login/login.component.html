@@ -1,0 +1,32 @@
+<section>
+    <h2>E - Graveyard</h2>
+    <fa-icon class="logo" icon="church"></fa-icon>
+    <div class="form-box">
+        <div class="form-value">
+    
+            <form (ngSubmit)="login()">
+            <h2>Logowanie</h2>
+    
+            <div class="inputbox">
+                <fa-icon icon="envelope"></fa-icon>
+                <input type="text" id="email" [(ngModel)]="email" name="email" required>
+                <label for="email">Email</label>
+            </div>
+    
+            <div class="inputbox">
+                <fa-icon icon="lock"></fa-icon>
+                <input type="password" id="password" [(ngModel)]="password" name="password" required>
+                <label for="password">Hasło</label>
+            </div>
+    
+            <button type="submit">Zaloguj</button>
+    
+            <div class="register">
+                <button (click)="switchLoginRegister()">Utwórz konto</button>
+            </div>
+    
+            </form>
+    
+        </div>
+    </div>
+</section>

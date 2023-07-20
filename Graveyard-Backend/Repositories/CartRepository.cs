@@ -43,6 +43,6 @@ public class CartRepository : CRUDRepository<Cart>, ICartRepository
 
     public async Task<List<Cart>> showCart(int CustomerId)
     {
-        return await _contextModel.Carts.Where(x => x.CustomerId == CustomerId).ToListAsync();
+        return await _contextModel.Carts.Where(x => x.CustomerId == CustomerId && x.PurchaseHistoryShopHistoryId == null).Include(x=>x.Items).Include(x=>x.Grave).Include(x=>x.Customer).ToListAsync();
     }
 }

@@ -26,7 +26,7 @@ public class ItemController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> getItem(int id)
     {
-        return Ok(await _itemService.getItems(id));
+        return Ok(await _itemService.getItemById(id));
     }
 
     [HttpDelete("{id}")]

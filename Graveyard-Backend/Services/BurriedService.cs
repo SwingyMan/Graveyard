@@ -15,7 +15,7 @@ public class BurriedService : IBurriedService
 
     public async Task<Burried> addBurried(DTOs.Burried burried)
     {
-        var dead = new Burried(burried.name, burried.lastname, burried.date_of_birth, burried.date_of_death);
+        var dead = new Burried(burried.name, burried.lastname, burried.date_of_birth, burried.date_of_death, burried.burialDate);
         await _burriedRepository.add(dead);
         return dead;
     }
@@ -37,7 +37,12 @@ public class BurriedService : IBurriedService
 
     public async Task<Burried> editById(int BurriedId, DTOs.Burried burried)
     {
-        var dead = new Burried(burried.name, burried.lastname, burried.date_of_birth, burried.date_of_death);
-        return await _burriedRepository.updateByID(BurriedId, dead);
+        var dead = new Burried(burried.name, burried.lastname, burried.date_of_birth, burried.date_of_death,burried.burialDate);
+        return await _burriedRepository.UpdateById(BurriedId, dead);
+    }
+
+    public async Task<List<Burried>> GetToBeBurried()
+    {
+        return await _burriedRepository.GetToBeBurried();
     }
 }

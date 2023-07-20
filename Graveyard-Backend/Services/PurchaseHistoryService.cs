@@ -27,10 +27,9 @@ public class PurchaseHistoryService : IPurchaseHistoryService
             var item = await _itemRepository.getByID(cart.ItemId);
             if (item.Quantity < cart.Items.Quantity) return null;
 
-            await _itemRepository.ChangeQuantity(item.Quantity - cart.Items.Quantity, cart.ItemId);
+            await _itemRepository.ChangeQuantity(item.Quantity - cart.Quantity, cart.ItemId);
             totalprice += item.Price * cart.Quantity;
         }
-
         return await _purchaseHistoryRepository.addNewPurchaseHistory(carts, CustomerId, totalprice);
     }
 

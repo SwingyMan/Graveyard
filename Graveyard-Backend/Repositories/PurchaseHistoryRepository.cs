@@ -15,7 +15,7 @@ public class PurchaseHistoryRepository : CRUDRepository<PurchaseHistory>, IPurch
 
     public async Task<List<PurchaseHistory>> showHistory(int CustomerId)
     {
-        return await _contextModel.PurchaseHistory.Where(x => x.CustomerId == CustomerId).ToListAsync();
+        return await _contextModel.PurchaseHistory.Where(x => x.CustomerId == CustomerId).Include(x=>x.Cart).ToListAsync();
     }
 
     public async Task<PurchaseHistory> addNewPurchaseHistory(List<Cart> carts, int customerid, decimal totalPrice)
