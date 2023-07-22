@@ -4,11 +4,12 @@ import { User } from "./user";
 
 export interface Cart {
     cartId: number;
-    customerId: number;
-    itemId:number;
-    graveId:number;
-    quantity:number;
     customer:User;
-    items:Item[];
+    customerId: number;
     grave:Grave;
+    graveId:number;
+    itemId:number;
+    items:Item;
+    purchaseHistoryShopHistoryId:number
+    quantity:number;
 }

@@ -6,8 +6,10 @@
     </div>
     <div class="form-space" [ngSwitch]="pageToShowShop">
         <div class="form-box" *ngSwitchCase="0">
-            <h2>Wybierz przedmiot do kupna</h2>
-            <form>
+        <form (ngSubmit)="addItemToCart()">
+            <div class="item-list" *ngIf="itemPickPart==1">
+            <h2>1. Wybierz przedmiot do kupna</h2>
+            
             <table>
             <tr class="item-box" *ngFor="let item of itemList;let i=index">
                 <th><b>{{item.name}}</b></th>
@@ -18,28 +20,51 @@
                 <th><input type="radio" [(ngModel)]="selectedItemToCart" [ngModelOptions]="{standalone: true}" value="{{i}}"/></th>
             </tr>
             </table>
-            <button class="add-item-button" type="submit" (click)="addItemToCart()">Dodaj do koszyka</button>
+            <button  (click)="changeItemPickPart()">Wybierz przedmiot</button>
+            
+            </div>
+            <div class="grave-choice" *ngIf="itemPickPart==2">
+                <h2>2. Wybierz grób dla przedmiotu {{itemList[selectedItemToCart].name}}</h2>
+                    <div class="grave-list">
+                        <div class="graveChoice" *ngFor="let grave of grave_list;let i=index;">
+                            <input id="input{{i}}" type="radio" (click)="radioButtonClick(i)" [(ngModel)]="selectedGraveToAddItem" [ngModelOptions]="{standalone: true}" value="{{i}}">
+                            <label for="input{{i}}">{{"Nr: "+grave.graveId+": x: "+grave.x+" y: "+grave.y}}</label>
+                        </div>
+                    </div>
+                    <button class="add-item-button" type="submit">Dodaj do koszyka</button>
+            </div>
         </form>
         </div>
         <div class="form-box" *ngSwitchCase="1">
             <h2>Koszyk</h2>
             <form>
-            <div class="no-items-in-cart" *ngIf="currentCart==undefined || currentCart.items==null">0 produktów wybranych</div>
-            <div class="cart-items" *ngIf="currentCart!=undefined && currentCart.items!=null">
+            <div class="no-items-in-cart" *ngIf="currentCart==undefined || currentCart==null">0 produktów wybranych</div>
+            <div class="cart-items" *ngIf="currentCart!=undefined && currentCart!=null">
                 <table>
-                    <tr class="item-box" *ngFor="let item of currentCart.items;let i=index">
-                        <th><b>{{i}}.</b></th>  
-                        <th><b>{{item.name}}</b></th>  
-                        <th>Price: {{item.price}}</th>
+                    <tr>
+                        <th>Np.</th>
+                        <th>Przedmiot</th>
+                        <th>Grób</th>
+                        <th>Cena</th>
+                        <th>Guzik do usunięcia</th>
+                    </tr>
+                    <tr class="item-box" *ngFor="let item of currentCart;let i=index">
+                        <th><b>{{i+1}}.</b></th>  
+                        <th><b>{{item.items.name}}</b></th>
+                        <th><b>{{item.graveId}}</b></th>
+                        <th>{{item.items.price}} zł</th>
+                        <th><button (click)="deleteItemFromCart(i)">Usuń przedmiot</button></th>
                     </tr>
                     </table>
+                    <b>Łączna cena:  {{totalPrice}} zł</b>
             </div>
-            <button (click)="showPurchaseSummary()">Podsumowanie zakupów</button>
+            <button (click)="showPurchaseSummary()">Zatwierdź zakup</button>
             </form>
         </div>
     
         <div class="form-box" *ngSwitchCase="2">
             <h2>Podsumowanie zakupów</h2>
+            
         </div>
         <div class="form-box" *ngSwitchCase="3">
             <h2>Historia zakupów</h2>
