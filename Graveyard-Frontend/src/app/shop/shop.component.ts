@@ -15,31 +15,39 @@ import { Grave } from '../grave';
 })
 export class ShopComponent {
   getJsonValue:any;
+
   parentComponent:AppComponent;
+
   pageToShowShop:number=0;
   itemPickPart=1;
+
   itemList:Item[]=[];
   currentCart?:Cart[];
-  selectedItemToCart:number=0;
-
-  totalPrice:number=0;
   grave_list:Grave[]=[]
+
+  selectedItemToCart:number=0;
   selectedGraveToAddItem:number=0;
+  
+  totalPrice:number=0;
+
   public constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService){
     this.parentComponent=appComponent;
     this.getItemList();
     this.getGraveList();
   }
-  public changeItemPickPart(){
+
+  //changing subsites
+
+  public changeItemPickPart(){ 
     this.itemPickPart+=1;
     if(this.itemPickPart>2){
       this.itemPickPart=1;
     }
   }
-  public showItemPick(){
+  public showItemPick(){  
     this.pageToShowShop=0;
   }
-  public showCart(){
+  public showCart(){ 
     this.pageToShowShop=1;
     this.getCart();
     console.log(this.currentCart);
@@ -48,10 +56,13 @@ export class ShopComponent {
   public showPurchaseSummary(){
     this.pageToShowShop=2;
   }
-  public showPurchaseHistory(){
+  public showPurchaseHistory(){ 
     this.pageToShowShop=3;
   }
-  public getItemList(){
+
+  //getting data from/to endpoints
+
+  public getItemList(){ //getting list of items
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.parentComponent.auth_token}`,
@@ -79,14 +90,14 @@ export class ShopComponent {
       }
     );
   }
-  public getGraveList() {
+  public getGraveList() { 
     let i:number=0
     for(i=0;i<10;i++){
      this.fetchGraveListFromEndpoint(i);
     }
   }
 
-  public fetchGraveListFromEndpoint(i:number){
+  public fetchGraveListFromEndpoint(i:number){ //getting list of graves from single endpoint
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.parentComponent.auth_token}`,
@@ -100,7 +111,7 @@ export class ShopComponent {
       }
     );
   }
-  public addItemToCart(){
+  public addItemToCart(){ //adding item to cart
     var itemID=this.itemList[this.selectedItemToCart].itemId;
     var graveID=this.grave_list[this.selectedGraveToAddItem].graveId; 
     const httpOptions={
@@ -125,10 +136,12 @@ export class ShopComponent {
     console.log(this.itemList[this.selectedItemToCart].name+" na grób nr "+this.grave_list[this.selectedGraveToAddItem].graveId);
     this.changeItemPickPart();
   }
+
   public radioButtonClick(i:number){
-    console.log(i);
+    console.log(i); 
   }
-  public calculateTotalSum(){
+
+  public calculateTotalSum(){ 
     this.totalPrice=0;
     if(this.currentCart!=undefined){
     for(let i=0;i<this.currentCart.length;i++){
@@ -138,7 +151,8 @@ export class ShopComponent {
     }
     
   }
-  public deleteItemFromCart(i:number){
+
+  public deleteItemFromCart(i:number){ 
     if(this.currentCart!=undefined){
       var graveID=this.currentCart[i].graveId;
       var itemID=this.currentCart[i].itemId;
@@ -154,7 +168,7 @@ export class ShopComponent {
         noError=false;
         console.error('Wystąpił błąd:', error);
         this.toastr.error('Wystąpił błąd','Błąd usunięcia przedmiotu z koszyka');
-        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+        return of(null); //Returning null value to handle the error
       })).subscribe(
         (data)=>{
             console.log(data);

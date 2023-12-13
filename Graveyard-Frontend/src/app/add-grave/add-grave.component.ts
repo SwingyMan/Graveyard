@@ -11,16 +11,20 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./add-grave.component.css']
 })
 export class AddGraveComponent {
-  parentComponent: AppComponent;
-  showComponent:boolean=true;
-  x: number;
-  y: number;
-  pageToShowGraves:number=0;
-  selectedGraveToEdit:number=0;
-  selectedGraveToDelete:number=0;
-  deletedGraveId:number=0
   public getJsonValue: any;
   public postJsonValue: any;
+
+  parentComponent: AppComponent;
+  showComponent:boolean=true;
+  pageToShowGraves:number=0;
+
+  x: number;
+  y: number;
+  
+  selectedGraveToEdit:number=0;
+  selectedGraveToDelete:number=0;
+
+  deletedGraveId:number=0
 
   editedGrave: Grave = {
     graveId: 0,
@@ -38,7 +42,7 @@ export class AddGraveComponent {
     this.y = 0;
     this.getGraveList();
   }
-
+//changing subsites
   public showAddGrave(){
     this.pageToShowGraves=0;
   }
@@ -48,10 +52,8 @@ export class AddGraveComponent {
   public showDeleteGrave(){
     this.pageToShowGraves=2;
   }
-  public fetchGraveList(){
 
-  }
-
+  //getting data from/to endpoints
   public getGraveList() {
     let i:number=0
     for(i=0;i<10;i++){
@@ -203,11 +205,12 @@ export class AddGraveComponent {
     )
     this.reload()
   }
-
+  //reloading subsite with list of graves
   public reload(){
     this.showComponent = false;
     setTimeout(() => this.showComponent = true);
     this.grave_list=[];
     this.getGraveList();
   }
+
 }

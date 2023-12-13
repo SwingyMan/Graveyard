@@ -71,7 +71,7 @@ export class AddBurriedComponent {
 
   }
 
-  public test(i:number){console.log(i)}
+  //changing subsites
   public showAddBurried(){
     this.pageToShowBurried=0;
   }
@@ -102,6 +102,7 @@ export class AddBurriedComponent {
     if(this.assigningPart>2){this.assigningPart=1;}
     this.fetchBurriedFromAGrave(this.grave_list[this.selectedGraveToUnassign].graveId);
   }
+  //getting data from/to endpoints
   public fetchBurriedFromAGrave(i:number){
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -184,7 +185,7 @@ export class AddBurriedComponent {
     if(this.name==""||this.lastname==""||this.birthdate.toString()==""||this.deathdate.toString()==""||this.burialDate.toString()==""){
       this.toastr.error('Niepoprawne dane','Puste pole');
       return false
-    } //zwraca error podczas konwersji pustego Date ale działa
+    }
     return true;
   }
   public checkEditBurried(){
@@ -195,7 +196,7 @@ export class AddBurriedComponent {
     if(this.editedName==""||this.editedLastname==""||this.editedBirthdate.toString()==""||this.editedDeathdate.toString()==""){
       this.toastr.error('Niepoprawne dane','Puste pole');
       return false
-    } //zwraca error podczas konwersji pustego Date ale działa
+    }
     return true;
   }
   public checkAddBurriedToGrave(){
@@ -226,7 +227,7 @@ export class AddBurriedComponent {
           return check;
         }
       );
-    }//nie działa
+    }
     return "Error"
   }
   public addBurried() {
@@ -316,7 +317,7 @@ export class AddBurriedComponent {
     if(this.deletedBurriedID<1){
       this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
       return;
-    }//jeszcze po endpoincie sprawdzić czy pochowany o ID wgl istnieje
+    }
     else{
       this.http.delete('https://graveyard.azurewebsites.net/api/Burried/deleteByID/'+this.deletedBurriedID,httpOptions).pipe(
       catchError((error) => {
@@ -378,7 +379,7 @@ export class AddBurriedComponent {
     else{if(this.selectedGraveToAssign<0||this.selectedBurriedToUnassign<0){
       console.log()
       return;
-    }//jeszcze po endpoincie sprawdzić czy pochowany o ID wgl istnieje
+    }
     else{
       var burried=this.listFromGrave[this.selectedBurriedToUnassign].burriedId;
       var grave=this.grave_list[this.selectedGraveToUnassign].graveId;

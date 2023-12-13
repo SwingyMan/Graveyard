@@ -11,11 +11,11 @@ import { User } from '../user';
   styleUrls: ['./delete-accounts.component.css']
 })
 export class DeleteAccountsComponent {
+  getJsonValue:any;
   parentComponent:AppComponent;
   pageToShowAccounts:number=0;
-  account_list:User[]=[];
 
-  getJsonValue:any;
+  account_list:User[]=[];
 
   selectedAccountToEdit:number=0
   editedName:string='';
@@ -26,6 +26,7 @@ export class DeleteAccountsComponent {
 
   deletedAccountID:number=0;
   selectedAccountToDelete:number=0;
+
   constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService) {
     this.parentComponent = appComponent;
     this.getAccountList();

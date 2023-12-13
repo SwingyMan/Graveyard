@@ -6,7 +6,6 @@
 
         <div class="grave" [ngClass]="e? 'grave1' : 'grave2'" *ngFor="let grave of grave_list; let e=even; let o=odd;" >
             <p><b>ID:</b> {{grave.graveId}}</p>
-            <!--<p>{{e ? "even" : "odd"}}</p>-->
             <p><b>x:</b> {{grave.x}}</p>
             <p><b>y:</b> {{grave.y}}</p>
             <p><b>Stan:</b> {{grave.status == '1' ? "Opłacony" : "Nieopłacony"}}</p>

@@ -38,7 +38,7 @@ export class SideMenuComponent {
       catchError((error) => {
         console.error('Wystąpił błąd:', error);
         this.toastr.error('Skontaktuj się z administratorem','Wystąpił błąd');
-        return of(null); // Zwracamy wartość null, aby obsłużyć błąd
+        return of(null); //Returning null value to handle the error
       })
     ).subscribe(
       (data) => {
@@ -61,6 +61,7 @@ export class SideMenuComponent {
   showShop() {
     this.parentComponent.page_in_menu = 1;
   }
+
   showPlannedBurials(){
     this.parentComponent.page_in_menu=2;
   }
@@ -72,6 +73,7 @@ export class SideMenuComponent {
   showAddGrave() {
     this.parentComponent.page_in_menu = 4;
   }
+
   showAddGravedigger(){
     this.parentComponent.page_in_menu=5;
   }

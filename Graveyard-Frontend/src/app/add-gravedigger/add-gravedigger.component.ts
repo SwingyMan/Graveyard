@@ -29,9 +29,7 @@ export class AddGravediggerComponent {
     this.parentComponent = appComponent;
     this.getGravediggerList();
   }
-  public ngOnChanges(){
-    console.log("On Changes test"); //not used in final version
-  }
+  
   public showAddGravedigger(){
     this.pageToShowGravedigger=0;
   }
@@ -127,7 +125,7 @@ public editGravedigger(){
   if(this.editedGravediggerID<1){
     this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
     return;
-  }//jeszcze po endpoincie sprawdzić czy grabarz o ID wgl istnieje
+  }
   else{
     this.http.patch('https://graveyard.azurewebsites.net/api/Gravedigger/editGravedigger/'+this.editedGravediggerID,body,httpOptions).pipe(
     catchError((error) => {
@@ -160,7 +158,7 @@ public editGravedigger(){
   if(this.deletedGravediggerID<1){
     this.toastr.error('Niepoprawne dane','ID musi być większe od 0');
     return;
-  }//jeszcze po endpoincie sprawdzić czy grabarz o ID wgl istnieje
+  }
   else{
     this.http.delete('https://graveyard.azurewebsites.net/api/Gravedigger/removeGravedigger/'+this.deletedGravediggerID,httpOptions).pipe(
     catchError((error) => {
@@ -184,7 +182,6 @@ public editGravedigger(){
     this.deletedGravediggerID=this.gravedigger_list[this.selectedGravediggerToDelete].gravediggerId;
     console.log(this.gravedigger_list[this.selectedGravediggerToDelete].gravediggerId);
     this.deleteGravedigger();
-    //działa ale trzeba guzik kliknąć 2 razy idk why
   }
   public reload(){
     this.showComponent = false;

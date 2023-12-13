@@ -13,7 +13,9 @@ import { Burried } from '../burried';
 export class PlannedBurrialsListComponent {
   getJsonValue:any;
   parentComponent:AppComponent;
+  
   plannedToBeBurried?:Burried[]
+
   public constructor(private appComponent: AppComponent, private http: HttpClient, private toastr: ToastrService){
     this.parentComponent = appComponent;
     this.getPlannedBurials();
